@@ -50,6 +50,7 @@ public:
 protected:
 private:
 double distortionAmountMix = 0.0; 
+double bypassValue         = 0.0; 
 };
 
 //------------------------------------------------------------------------

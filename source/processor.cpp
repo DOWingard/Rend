@@ -134,8 +134,10 @@ tresult PLUGIN_API SwellProcessor::process(Vst::ProcessData& data)
 					int32 sampleOffset;
 					if (paramQueue->getPoint(numPoints - 1, sampleOffset, value) == kResultTrue)
 					{
-						if (id == 10) {
+						if        (id == 10) {
 							distortionAmountMix = value;
+						} else if (id == 0) {              // PARAMSSSSSSSSSSSSS for each
+							bypassValue = value;
 						}
 					}
 				}
@@ -143,7 +145,8 @@ tresult PLUGIN_API SwellProcessor::process(Vst::ProcessData& data)
 		}
 	}
 
-float mix = static_cast<float>(distortionAmountMix);
+float mix    = static_cast<float>(distortionAmountMix);
+float bypass = static_cast<float>(bypassValue);
 if (data.numSamples > 0)
     {
         int32 minBus = std::min (data.numInputs, data.numOutputs);
@@ -157,9 +160,9 @@ if (data.numSamples > 0)
 
                 for (int32 s = 0; s < data.numSamples; s++)
                 {
-
-                    //float distorted = std::tanh(clean * 50.0f); // simple tanh curve
-                    out[s] = in[s] * (1.0f - mix) + std::tanh( in[s] * 50.0f) * mix;
+					if (bypass == 1.0) { out[s] = in[s]; } else {
+                    	out[s] = in[s] * (1.0f - mix) + std::tanh( in[s] * 50.0f) * mix;
+					}
 
                 }
             }
@@ -210,28 +213,29 @@ tresult PLUGIN_API SwellProcessor::canProcessSampleSize (int32 symbolicSampleSiz
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API SwellProcessor::setState (IBStream* state)
+tresult PLUGIN_API SwellProcessor::setState(IBStream* state)
 {
-	// called when we load a preset, the model has to be reloaded
-	IBStreamer streamer (state, kLittleEndian);
+    IBStreamer streamer(state, kLittleEndian);
+    double val = 0.0;
 
-	double savedMix_ = 0.0; 
-
-	if (streamer.readDouble(savedMix_) == false)
+    if (!streamer.readDouble(val))
         return kResultFalse;
+    distortionAmountMix = val;
 
-    distortionAmountMix = savedMix_;
-	
-	return kResultOk;
+    if (!streamer.readDouble(val))    //  
+        return kResultFalse;          //  add these blocks for each param
+    bypassValue = val;                //
+
+    return kResultOk;
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API SwellProcessor::getState (IBStream* state)
+tresult PLUGIN_API SwellProcessor::getState(IBStream* state)
 {
-	// here we need to save the model
-	IBStreamer streamer (state, kLittleEndian);
-	streamer.writeDouble(distortionAmountMix);
-	return kResultOk;
+    IBStreamer streamer(state, kLittleEndian);
+    streamer.writeDouble(distortionAmountMix);
+    streamer.writeDouble(bypassValue);    // just add lines for param
+    return kResultOk;
 }
 
 //------------------------------------------------------------------------

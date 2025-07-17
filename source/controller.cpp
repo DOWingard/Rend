@@ -44,6 +44,19 @@ tresult PLUGIN_API SwellController::initialize (FUnknown* context)
 	10                // a unique parameter ID (uint32)
     );
 
+
+
+
+	// ----------- Bypass ---------------------------------
+	parameters.addParameter(
+    STR16("Bypass"),                  // parameter title/name
+    nullptr,                         // units (nullptr if none)
+    2,                              // step count: 2 (Off/On)
+    0.0,                            // default normalized value (0 = Off)
+    Vst::ParameterInfo::kCanAutomate,// flags (can automate)
+    0                               // unique parameter ID (uint32)
+	);
+
 	
 
 	return result;
@@ -74,9 +87,16 @@ tresult PLUGIN_API SwellController::setState (IBStream* state)
 	// Here you get the state of the controller
     Steinberg::IBStreamer s(state, kLittleEndian);
     double val = 0.0;
-    if (s.readDouble(val))
-        distortionAmountMix = val;
-	return kResultTrue;
+    if (!s.readDouble(val))
+        return kResultFalse;
+    distortionAmountMix = val;
+
+    if (!s.readDouble(val))
+        return kResultFalse;
+    bypassValue = val;
+
+    return kResultOk;
+        
 }
 
 //------------------------------------------------------------------------
@@ -86,7 +106,8 @@ tresult PLUGIN_API SwellController::getState (IBStream* state)
 	// Note: the real state of your plug-in is saved in the processor
 	Steinberg::IBStreamer s(state, kLittleEndian);
     s.writeDouble(distortionAmountMix); 
-	return kResultTrue;
+	s.writeDouble(bypassValue); 
+	return kResultOk;
 }
 
 //------------------------------------------------------------------------
@@ -124,6 +145,25 @@ tresult PLUGIN_API SwellController::setParamNormalized(Steinberg::Vst::ParamID p
                 // Notify the host and the processor that the parameter changed
                 // This sends the change to the processor's process() via inputParameterChanges
                 performEdit(pID, distortionAmountMix);
+            }
+            break;
+        }
+		case 0: // Distortion Amount param
+        {
+            // Clamp value to [0..1] just to be safe
+            if (value < 0.0)
+                value = 0.0;
+            else if (value > 1.0)
+                value = 1.0;
+
+            // Only update if the value actually changed to avoid redundant notifications
+            if (bypassValue != value)
+            {
+                bypassValue = value;
+
+                // Notify the host and the processor that the parameter changed
+                // This sends the change to the processor's process() via inputParameterChanges
+                performEdit(pID, bypassValue);
             }
             break;
         }
