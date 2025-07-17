@@ -6,6 +6,8 @@
 
 #include "public.sdk/source/vst/vstaudioeffect.h"
 
+#include <cmath>
+#include <numbers>
 namespace VOID {
 
 //------------------------------------------------------------------------
@@ -53,12 +55,15 @@ public:
 	Steinberg::tresult PLUGIN_API getState (Steinberg::IBStream* state) SMTG_OVERRIDE;
 
 
-	void setDistortionAmount(double value);
-
 
 //------------------------------------------------------------------------
 protected:
+
+
+//------------------------------------------------------------------------
+
 private:
+static constexpr float inv_pi = 0.31830988618379067154f;
 double distortionAmountMix = 0.0; 
 double bypassValue         = 0.0; 
 double driveAmountMix      = 0.0;

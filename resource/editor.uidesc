@@ -47,7 +47,7 @@
 					"mouse-enabled": "true",
 					"opacity": "1",
 					"origin": "0, 0",
-					"size": "300, 300",
+					"size": "650, 400",
 					"transparent": "false",
 					"wants-focus": "false"
 				},

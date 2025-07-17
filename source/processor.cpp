@@ -8,7 +8,7 @@
 #include "base/source/fstreamer.h"
 #include "pluginterfaces/vst/ivstparameterchanges.h"
 
-#include <cmath>
+
 
 using namespace Steinberg;
 
@@ -167,8 +167,16 @@ if (data.numSamples > 0)
                 for (int32 s = 0; s < data.numSamples; s++)
                 {
 					if (bypass >= 0.5f) { out[s] = in[s]; } else {
-                    	out[s] = in[s] * (1.0f - mix) + std::tanh( in[s] * (5.0f + drive * 50.0f)) * mix;
-					}
+					/*
+					 *	-------- Main Process Logic ----------------
+					 */
+
+
+                    	out[s] = in[s] * (1.0f - mix) + mix *  ( 0.7f * std::tanh( in[s] * (1.0f + drive * 30.0f)) +
+									  			0.3f * (2.0f * SwellProcessor::inv_pi)  * std::atan((1.0f + drive * 30.0f)) ); //  (0.7 * tanh + 0.3 * atan)
+					
+					
+											}
 
                 }
             }
