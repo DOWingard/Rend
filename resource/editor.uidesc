@@ -5,7 +5,10 @@
 		"fonts": {},
 		"colors": {},
 		"control-tags": {
-			"distortionAmount": "10"
+			"Bypass": "0",
+			"distortionAmount": "10",
+			"driveAmount": "11",
+			"extraParam": "12"
 		},
 		"custom": {
 			"FocusDrawing": {},
@@ -20,19 +23,19 @@
 			},
 			"UIEditController": {
 				"EditViewScale": "1",
-				"EditorSize": "0, 0, 500, 545",
+				"EditorSize": "0, 0, 547, 545",
 				"SplitViewSize_0_0": "0.7495183044315992804129678006574977189302",
 				"SplitViewSize_0_1": "0.2119460500963391003104163701209472492337",
 				"SplitViewSize_1_0": "0.4797687861271676124097496085596503689885",
 				"SplitViewSize_1_1": "0.5105973025048169411377330106915906071663",
-				"SplitViewSize_2_0": "0.6400000000000000133226762955018784850836",
-				"SplitViewSize_2_1": "0.3499999999999999777955395074968691915274",
+				"SplitViewSize_2_0": "0.6709323583180987204954703884141054004431",
+				"SplitViewSize_2_1": "0.3199268738574040371602791310579050332308",
 				"TabSwitchValue": "0",
 				"Version": "1"
 			},
 			"UIAttributesController": {},
 			"UIViewCreatorDataSource": {
-				"SelectedRow": "8"
+				"SelectedRow": "3"
 			}
 		},
 		"templates": {
@@ -71,7 +74,7 @@
 							"handle-shadow-color": "~ RedCColor",
 							"knob-range": "200",
 							"opacity": "1",
-							"origin": "60, 60",
+							"origin": "40, 60",
 							"size": "210, 220",
 							"skip-handle-drawing": "true",
 							"transparent": "false",
@@ -79,6 +82,60 @@
 							"wants-focus": "true",
 							"wheel-inc-value": "0.1",
 							"zoom-factor": "1.5"
+						}
+					},
+					"CKnob": {
+						"attributes": {
+							"angle-range": "270",
+							"angle-start": "135",
+							"circle-drawing": "false",
+							"class": "CKnob",
+							"control-tag": "driveAmount",
+							"corona-color": "~ RedCColor",
+							"corona-dash-dot": "true",
+							"corona-dash-dot-lengths": "1.26,0.1",
+							"corona-drawing": "true",
+							"corona-from-center": "false",
+							"corona-inset": "12",
+							"corona-inverted": "false",
+							"corona-line-cap-butt": "true",
+							"corona-outline": "true",
+							"corona-outline-width-add": "2",
+							"handle-color": "~ WhiteCColor",
+							"handle-line-width": "8",
+							"handle-shadow-color": "~ BlueCColor",
+							"knob-range": "200",
+							"opacity": "1",
+							"origin": "210, 10",
+							"size": "70, 70",
+							"skip-handle-drawing": "true",
+							"transparent": "false",
+							"value-inset": "3",
+							"wants-focus": "true",
+							"wheel-inc-value": "0.1",
+							"zoom-factor": "1.5"
+						}
+					},
+					"CCheckBox": {
+						"attributes": {
+							"autosize-to-fit": "false",
+							"boxfill-color": "~ WhiteCColor",
+							"boxframe-color": "~ BlackCColor",
+							"checkmark-color": "~ RedCColor",
+							"class": "CCheckBox",
+							"control-tag": "Bypass",
+							"draw-crossbox": "false",
+							"font": "~ SystemFont",
+							"font-color": "~ WhiteCColor",
+							"frame-width": "1",
+							"opacity": "1",
+							"origin": "20, 270",
+							"round-rect-radius": "0",
+							"size": "100, 20",
+							"title": "Bypass",
+							"transparent": "false",
+							"wants-focus": "true",
+							"wheel-inc-value": "0.1"
 						}
 					}
 				}

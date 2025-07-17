@@ -44,17 +44,35 @@ tresult PLUGIN_API SwellController::initialize (FUnknown* context)
 	10                // a unique parameter ID (uint32)
     );
 
+	parameters.addParameter(
+	STR16("driveAmount"),         // parameter title/name
+	nullptr,                 // units (nullptr if none)
+	0,                       // no step count (continuous)
+	0.0,                     // default normalized value (0.5)
+	Vst::ParameterInfo::kCanAutomate,  // flags (can automate)
+	11                // a unique parameter ID (uint32)
+    );
+
+	parameters.addParameter(
+	STR16("extraParam"),         // parameter title/name
+	nullptr,                 // units (nullptr if none)
+	0,                       // no step count (continuous)
+	0.0,                     // default normalized value (0.5)
+	Vst::ParameterInfo::kCanAutomate,  // flags (can automate)
+	12                // a unique parameter ID (uint32)
+    );
+
 
 
 
 	// ----------- Bypass ---------------------------------
 	parameters.addParameter(
-    STR16("Bypass"),                  // parameter title/name
+    STR16("Bypass"),                 // parameter title/name
     nullptr,                         // units (nullptr if none)
-    2,                              // step count: 2 (Off/On)
-    0.0,                            // default normalized value (0 = Off)
+    2,                               // step count: 2 (Off/On)
+    0.0,                             // default normalized value (0 = Off)
     Vst::ParameterInfo::kCanAutomate,// flags (can automate)
-    0                               // unique parameter ID (uint32)
+    0                                // unique parameter ID (uint32)
 	);
 
 	
@@ -89,8 +107,19 @@ tresult PLUGIN_API SwellController::setState (IBStream* state)
     double val = 0.0;
     if (!s.readDouble(val))
         return kResultFalse;
-    distortionAmountMix = val;
+    distortionAmountMix = val;       // keep adding for params
 
+	if (!s.readDouble(val))
+        return kResultFalse;
+    driveAmountMix = val; 
+
+	if (!s.readDouble(val))
+        return kResultFalse;
+    extraParamAmountMix = val; 
+
+
+
+	// bypass
     if (!s.readDouble(val))
         return kResultFalse;
     bypassValue = val;
@@ -106,6 +135,10 @@ tresult PLUGIN_API SwellController::getState (IBStream* state)
 	// Note: the real state of your plug-in is saved in the processor
 	Steinberg::IBStreamer s(state, kLittleEndian);
     s.writeDouble(distortionAmountMix); 
+	s.writeDouble(driveAmountMix);
+	s.writeDouble(extraParamAmountMix);     // keep adding for params
+
+	// bypass
 	s.writeDouble(bypassValue); 
 	return kResultOk;
 }
@@ -126,52 +159,61 @@ IPlugView* PLUGIN_API SwellController::createView(FIDString name)
 //------------------------------------------------------------------------
 
 tresult PLUGIN_API SwellController::setParamNormalized(Steinberg::Vst::ParamID pID, Steinberg::Vst::ParamValue value)
-{
-    switch (pID)
-    {
-        case 10: // Distortion Amount param
-        {
-            // Clamp value to [0..1] just to be safe
-            if (value < 0.0)
-                value = 0.0;
-            else if (value > 1.0)
-                value = 1.0;
+	{
+	if (pID == 10) // Distortion Amount param
+	{
+		// clamp, check change, assign, notify
+		if (value < 0.0) value = 0.0;
+		else if (value > 1.0) value = 1.0;
 
-            // Only update if the value actually changed to avoid redundant notifications
-            if (distortionAmountMix != value)
-            {
-                distortionAmountMix = value;
+		if (distortionAmountMix != value)
+		{
+			distortionAmountMix = value;
+			performEdit(pID, distortionAmountMix);
+		}
+	}
 
-                // Notify the host and the processor that the parameter changed
-                // This sends the change to the processor's process() via inputParameterChanges
-                performEdit(pID, distortionAmountMix);
-            }
-            break;
-        }
-		case 0: // Distortion Amount param
-        {
-            // Clamp value to [0..1] just to be safe
-            if (value < 0.0)
-                value = 0.0;
-            else if (value > 1.0)
-                value = 1.0;
+	if (pID == 11) // Drive Amount param
+	{
+		if (value < 0.0) value = 0.0;
+		else if (value > 1.0) value = 1.0;
 
-            // Only update if the value actually changed to avoid redundant notifications
-            if (bypassValue != value)
-            {
-                bypassValue = value;
+		if (driveAmountMix != value)
+		{
+			driveAmountMix = value;
+			performEdit(pID, driveAmountMix);
+		}
+	}
 
-                // Notify the host and the processor that the parameter changed
-                // This sends the change to the processor's process() via inputParameterChanges
-                performEdit(pID, bypassValue);
-            }
-            break;
-        }
+	if (pID == 12) // Extra Param Amount param
+	{
+		if (value < 0.0) value = 0.0;
+		else if (value > 1.0) value = 1.0;
 
-        default:
-            // For any other parameters, pass it up the chain
-            return EditControllerEx1::setParamNormalized(pID, value);
-    }
+		if (extraParamAmountMix != value)
+		{
+			extraParamAmountMix = value;
+			performEdit(pID, extraParamAmountMix);
+		}
+	}
+
+	if (pID == 0) // Bypass param
+	{
+		if (value < 0.0) value = 0.0;
+		else if (value > 1.0) value = 1.0;
+
+		if (bypassValue != value)
+		{
+			bypassValue = value;
+			performEdit(pID, bypassValue);     // For any other parameters, pass it up the chain ADD MORE IF NEEDED 
+		}
+	}
+	else
+	{
+		
+		return EditControllerEx1::setParamNormalized(pID, value);
+	}
+
     return kResultOk;
 }
 
@@ -181,6 +223,15 @@ Steinberg::Vst::ParamValue PLUGIN_API SwellController::getParamNormalized(Steinb
     {
         case 10:
             return distortionAmountMix;
+		case 11:
+            return driveAmountMix;
+		case 12:
+            return extraParamAmountMix;  // add more params here
+
+
+		// bypass	
+		case 0:
+            return bypassValue;
 
         default:
             return EditControllerEx1::getParamNormalized(pID);

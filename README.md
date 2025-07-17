@@ -1,4 +1,5 @@
-# Distortion Plugin
-As of know, just a 1 knob distortion plugin, but should hopefully soon be the full:
+# VOID SWELL Prototype
 
-# VOID SWELL
+3 knob capabilities, 2 currently implimented + bypass switch
+
+Great foundation for any distortion plugin

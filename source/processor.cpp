@@ -136,8 +136,12 @@ tresult PLUGIN_API SwellProcessor::process(Vst::ProcessData& data)
 					{
 						if        (id == 10) {
 							distortionAmountMix = value;
+						} else if (id == 11) {
+							driveAmountMix      = value;
+						} else if (id == 12) {
+							extraParamAmountMix = value;
 						} else if (id == 0) {              // PARAMSSSSSSSSSSSSS for each
-							bypassValue = value;
+							bypassValue         = value;
 						}
 					}
 				}
@@ -145,8 +149,10 @@ tresult PLUGIN_API SwellProcessor::process(Vst::ProcessData& data)
 		}
 	}
 
-float mix    = static_cast<float>(distortionAmountMix);
-float bypass = static_cast<float>(bypassValue);
+float mix      = static_cast<float>(distortionAmountMix);
+float drive    = static_cast<float>(driveAmountMix);
+//float extra    = static_cast<float>(extraParamAmountMix);
+float bypass   = static_cast<float>(bypassValue);
 if (data.numSamples > 0)
     {
         int32 minBus = std::min (data.numInputs, data.numOutputs);
@@ -160,8 +166,8 @@ if (data.numSamples > 0)
 
                 for (int32 s = 0; s < data.numSamples; s++)
                 {
-					if (bypass == 1.0) { out[s] = in[s]; } else {
-                    	out[s] = in[s] * (1.0f - mix) + std::tanh( in[s] * 50.0f) * mix;
+					if (bypass >= 0.5f) { out[s] = in[s]; } else {
+                    	out[s] = in[s] * (1.0f - mix) + std::tanh( in[s] * (5.0f + drive * 50.0f)) * mix;
 					}
 
                 }
@@ -222,7 +228,19 @@ tresult PLUGIN_API SwellProcessor::setState(IBStream* state)
         return kResultFalse;
     distortionAmountMix = val;
 
-    if (!streamer.readDouble(val))    //  
+	if (!streamer.readDouble(val))
+	return kResultFalse;
+    driveAmountMix = val;
+
+    if (!streamer.readDouble(val))
+        return kResultFalse;
+    extraParamAmountMix = val;
+
+
+
+	// Bypass
+
+    if (!streamer.readDouble(val))    //  ^^^
         return kResultFalse;          //  add these blocks for each param
     bypassValue = val;                //
 
@@ -234,16 +252,15 @@ tresult PLUGIN_API SwellProcessor::getState(IBStream* state)
 {
     IBStreamer streamer(state, kLittleEndian);
     streamer.writeDouble(distortionAmountMix);
+	streamer.writeDouble(driveAmountMix);
+	streamer.writeDouble(extraParamAmountMix);
     streamer.writeDouble(bypassValue);    // just add lines for param
     return kResultOk;
 }
 
 //------------------------------------------------------------------------
 
-void SwellProcessor::setDistortionAmount(double value)
-{
-    distortionAmountMix = value;
-}
+
 } // namespace VOID
 
 
