@@ -140,6 +140,8 @@ tresult PLUGIN_API SwellProcessor::process(Vst::ProcessData& data)
 							driveAmountMix      = value;
 						} else if (id == 12) {
 							extraParamAmountMix = value;
+						} else if (id == 13) {
+							switchstate         = value;
 						} else if (id == 0) {              // PARAMSSSSSSSSSSSSS for each
 							bypassValue         = value;
 						}
@@ -170,13 +172,17 @@ if (data.numSamples > 0)
 					/*
 					 *	-------- Main Process Logic ----------------
 					 */
+					if (switchstate >= 0.5) {
 
-
-                    	out[s] = in[s] * (1.0f - mix) + mix *  ( 0.7f * std::tanh( in[s] * (1.0f + drive * 30.0f)) +
-									  			0.3f * (2.0f * SwellProcessor::inv_pi)  * std::atan((1.0f + drive * 30.0f)) ); //  (0.7 * tanh + 0.3 * atan)
+                    	out[s] = (1.0f) * (in[s] * (1.0f - mix) + mix *  ( std::sqrt(mix)* std::tanh( in[s] * (5.0f + drive * 12.0f)) +
+									  			(1.0f-std::sqrt(mix)) * (2.0f * SwellProcessor::inv_pi)  * std::atan((5.0f + drive * 12.0f))) ); //  ( sqrt.mix * tanh + (1-sqrt.mix) * atan)
 					
-					
-											}
+					} else if (switchstate < 0.5) {
+						float tastefulInclusion =  (1.0f) * (in[s] * (1.0f - mix) + mix *  ( std::sqrt(mix)* std::tanh( in[s] * (5.0f + drive * 12.0f)) +
+									  			(1.0f-std::sqrt(mix)) * (2.0f * SwellProcessor::inv_pi)  * std::atan((5.0f + drive * 12.0f))) ); //  ( sqrt.mix * tanh + (1-sqrt.mix) * atan)
+						out[s] =    SwellProcessor::clip( ((1 + 9.0f * mix  + 10 * drive) * in[s] * 0.85f + tastefulInclusion * 0.15f), 1 - 0.99 * drive);
+					}
+					}
 
                 }
             }
@@ -244,6 +250,9 @@ tresult PLUGIN_API SwellProcessor::setState(IBStream* state)
         return kResultFalse;
     extraParamAmountMix = val;
 
+	if (!streamer.readDouble(val))
+    return kResultFalse;
+    switchstate = val;
 
 
 	// Bypass
@@ -262,11 +271,19 @@ tresult PLUGIN_API SwellProcessor::getState(IBStream* state)
     streamer.writeDouble(distortionAmountMix);
 	streamer.writeDouble(driveAmountMix);
 	streamer.writeDouble(extraParamAmountMix);
+	streamer.writeDouble(switchstate);
     streamer.writeDouble(bypassValue);    // just add lines for param
     return kResultOk;
 }
 
 //------------------------------------------------------------------------
+/*
+ * Functions to be used in processing for effects
+ */
+
+float SwellProcessor::clip(float signal, float threshhold) {
+	return std::max(-threshhold, std::min(threshhold,signal)); 
+}
 
 
 } // namespace VOID

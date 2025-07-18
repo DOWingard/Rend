@@ -62,6 +62,14 @@ tresult PLUGIN_API SwellController::initialize (FUnknown* context)
 	12                // a unique parameter ID (uint32)
     );
 
+	parameters.addParameter(
+	STR16("switch"),         // parameter title/name
+	nullptr,                 // units (nullptr if none)
+	2,                       // no step count (continuous)
+	1.0,                     // default normalized value (0.5)
+	Vst::ParameterInfo::kCanAutomate,  // flags (can automate)
+	13                // a unique parameter ID (uint32)
+    );
 
 
 
@@ -117,6 +125,10 @@ tresult PLUGIN_API SwellController::setState (IBStream* state)
         return kResultFalse;
     extraParamAmountMix = val; 
 
+	if (!s.readDouble(val))
+    return kResultFalse;
+    switchstate = val; 
+
 
 
 	// bypass
@@ -137,6 +149,7 @@ tresult PLUGIN_API SwellController::getState (IBStream* state)
     s.writeDouble(distortionAmountMix); 
 	s.writeDouble(driveAmountMix);
 	s.writeDouble(extraParamAmountMix);     // keep adding for params
+	s.writeDouble(switchstate); 
 
 	// bypass
 	s.writeDouble(bypassValue); 
@@ -197,6 +210,18 @@ tresult PLUGIN_API SwellController::setParamNormalized(Steinberg::Vst::ParamID p
 		}
 	}
 
+	if (pID == 13) // Extra Param Amount param
+	{
+		if (value < 0.0) value = 0.0;
+		else if (value > 1.0) value = 1.0;
+
+		if (switchstate != value)
+		{
+			switchstate = value;
+			performEdit(pID, switchstate);
+		}
+	}
+
 	if (pID == 0) // Bypass param
 	{
 		if (value < 0.0) value = 0.0;
@@ -227,7 +252,8 @@ Steinberg::Vst::ParamValue PLUGIN_API SwellController::getParamNormalized(Steinb
             return driveAmountMix;
 		case 12:
             return extraParamAmountMix;  // add more params here
-
+		case 13:
+            return switchstate;
 
 		// bypass	
 		case 0:

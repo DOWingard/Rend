@@ -53,6 +53,7 @@ double distortionAmountMix = 0.0;
 double bypassValue         = 0.0; 
 double driveAmountMix      = 0.0;
 double extraParamAmountMix = 0.0;
+double switchstate         = 0.0;
 };
 
 //------------------------------------------------------------------------

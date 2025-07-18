@@ -1,10 +1,16 @@
 #include <windows.h>
 #include "../source/version.h"
 
+/////////////////////////////////////////////////////////////////////////////
+// Bitmaps (your custom UI images)
+/////////////////////////////////////////////////////////////////////////////
+IDB_BV              PNG "bv.png"
+IDB_SILVERKNOB      PNG "silverknob.png"
+
 #define APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Version
+// Version info
 /////////////////////////////////////////////////////////////////////////////
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION MAJOR_VERSION_INT,SUB_VERSION_INT,RELEASE_NUMBER_INT,BUILD_NUMBER_INT
@@ -32,9 +38,6 @@ BEGIN
             VALUE "CompanyName",      stringCompanyName"\0"
             VALUE "LegalCopyright",   stringLegalCopyright"\0"
             VALUE "LegalTrademarks",  stringLegalTrademarks"\0"
-            //VALUE "PrivateBuild",     " \0"
-            //VALUE "SpecialBuild",     " \0"
-            //VALUE "Comments",         " \0"
         END
     END
     BLOCK "VarFileInfo"
