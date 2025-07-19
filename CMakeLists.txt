@@ -59,6 +59,29 @@ smtg_target_add_plugin_snapshots (Swell
         resource/8E9537EDF9915C74B33300A75FBCE049_snapshot_2.0x.png
 )
 
+
+
+
+
+
+
+
+
+include_directories(
+    ../DSPFilters/shared/DSPFilters/include
+)
+
+file(GLOB DSPFILTERS_SOURCES
+    ../DSPFilters/shared/DSPFilters/source/*.cpp
+)
+
+target_sources(Swell PRIVATE ${DSPFILTERS_SOURCES})
+
+
+
+
+
+
 target_link_libraries(Swell
     PRIVATE
         sdk

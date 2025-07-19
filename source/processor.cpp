@@ -10,9 +10,12 @@
 
 
 
+
+
 using namespace Steinberg;
 
 namespace VOID {
+using namespace Dsp;
 //------------------------------------------------------------------------
 // SwellProcessor
 //------------------------------------------------------------------------
@@ -42,6 +45,7 @@ tresult PLUGIN_API SwellProcessor::initialize (FUnknown* context)
 
 
 
+	
 
 
 
@@ -55,6 +59,40 @@ tresult PLUGIN_API SwellProcessor::setBusArrangements (Steinberg::Vst::SpeakerAr
  * to handle the exact cases we need
  */
 {
+
+	// initialize filters Forst
+
+	// parameters for filters
+	int32 sampleRate = processSetup.sampleRate;
+	
+	int32 numChannels = 0;
+    if (numIns > 0)
+        numChannels = Vst::SpeakerArr::getChannelCount(inputs[0]);
+
+	
+
+
+	lowShelfFilter.setup (sampleRate,// sample rate
+						250, // cutoff frequency
+						5,  // gain
+						1);   // shelf slope
+
+
+	highShelfFilter.setup (sampleRate,// sample rate
+						3500, // cutoff frequency
+						10,  // gain
+						0.5);  // shelf slope
+
+	bandStopFilter.setup (sampleRate,// sample rate
+						120, // center frequency
+						30);   // bandwitch frequency
+
+
+
+	
+
+
+
     // Confirm proper format
     if (numIns == 2 && numOuts == 1) {
         int32 chin1  = Steinberg::Vst::SpeakerArr::getChannelCount (inputs[0]);
@@ -153,39 +191,88 @@ tresult PLUGIN_API SwellProcessor::process(Vst::ProcessData& data)
 
 float mix      = static_cast<float>(distortionAmountMix);
 float drive    = static_cast<float>(driveAmountMix);
-//float extra    = static_cast<float>(extraParamAmountMix);
+float extra    = static_cast<float>(extraParamAmountMix);
 float bypass   = static_cast<float>(bypassValue);
 if (data.numSamples > 0)
-    {
+    {			
         int32 minBus = std::min (data.numInputs, data.numOutputs);
         for (int32 i = 0; i < minBus; i++)
         {
-            int32 minChan = std::min (data.inputs[i].numChannels, data.outputs[i].numChannels);
+			int32 numSamples = data.numSamples;
+			int32 minChan = std::min (data.inputs[i].numChannels, data.outputs[i].numChannels);
+
+			filteredPtrs.resize(minChan);
+			filteredSignal.resize(minChan);
+			for (int ch = 0; ch < minChan; ++ch) {
+				filteredSignal[ch].resize(numSamples);  // allocate space for samples here
+			}
+			//std::vector<std::vector<float>> filteredSignal(minChan, std::vector<float>(numSamples));
+
+			// multichannel filter processing
+			//std::vector<float*> filteredPtrs(minChan);
+			// applyFilterFilter(filteredPtrs, filteredSignal, data.inputs[i].channelBuffers32, numSamples, minChan, lowShelfFilter);
+
+
+
+			// for (int ch = 0; ch < minChan; ++ch) {
+			// 	memcpy(filteredSignal[ch].data(), data.inputs[i].channelBuffers32[ch], numSamples * sizeof(float));
+			// }
+			
+			// for (int ch = 0; ch < minChan; ++ch) {
+			// 	filteredPtrs[ch] = filteredSignal[ch].data();
+			// }
+			// float** filteredSignalPtr = filteredPtrs.data();
+
+			// lowShelfFilter.process(numSamples, filteredSignalPtr);
+
+			SwellProcessor::applyFilter(filteredPtrs, filteredSignal, data.inputs[i].channelBuffers32, numSamples, minChan, highShelfFilter);
+			bandStopFilter.process(numSamples, filteredPtrs.data());
+			lowShelfFilter.process(numSamples, filteredPtrs.data());
+
+
+
+            
             for (int32 c = 0; c < minChan; c++)
             {
                 float* in  = data.inputs[i].channelBuffers32[c];
+				float* filtered = filteredPtrs[c];
                 float* out = data.outputs[i].channelBuffers32[c];
-
                 for (int32 s = 0; s < data.numSamples; s++)
-                {
+                { 
 					if (bypass >= 0.5f) { out[s] = in[s]; } else {
 					/*
 					 *	-------- Main Process Logic ----------------
 					 */
-					if (switchstate >= 0.5) {
 
-                    	out[s] = (1.0f) * (in[s] * (1.0f - mix) + mix *  ( std::sqrt(mix)* std::tanh( in[s] * (5.0f + drive * 12.0f)) +
-									  			(1.0f-std::sqrt(mix)) * (2.0f * SwellProcessor::inv_pi)  * std::atan((5.0f + drive * 12.0f))) ); //  ( sqrt.mix * tanh + (1-sqrt.mix) * atan)
+					float signal = (1 - extra) * in[s] + extra * filtered[s]; // add dry and filtered signal together
+					
+					if (switchstate >= 0.5) {
+					/* normal mode */
+
+                    	float normSignal = (1.0f) * (signal * (1.0f - mix) + mix *  ( std::sqrt(mix)* std::tanh( signal * (5.0f + drive * 8.0f + mix * 4.0f)) +
+									  			(1.0f-std::sqrt(mix)) * (2.0f * SwellProcessor::inv_pi)  * std::atan((5.0f + drive * 8.0f + mix * 4.0f))) ); //  ( sqrt.mix * tanh + (1-sqrt.mix) * atan)
+
+						out[s] = normSignal - extra * SwellProcessor::clip(0.5f * normSignal * normSignal * normSignal,std::abs(1-normSignal) );
+						
 					
 					} else if (switchstate < 0.5) {
-						float tastefulInclusion =  (1.0f) * (in[s] * (1.0f - mix) + mix *  ( std::sqrt(mix)* std::tanh( in[s] * (5.0f + drive * 12.0f)) +
-									  			(1.0f-std::sqrt(mix)) * (2.0f * SwellProcessor::inv_pi)  * std::atan((5.0f + drive * 12.0f))) ); //  ( sqrt.mix * tanh + (1-sqrt.mix) * atan)
-						out[s] =    SwellProcessor::clip( ((1 + 9.0f * mix  + 10 * drive) * in[s] * 0.85f + tastefulInclusion * 0.15f), 1 - 0.99 * drive);
+					/* BROKEN mode */
+
+						float tastefulInclusion =  (1.0f) * (signal * (1.0f - mix) + mix *  ( std::sqrt(mix)* std::tanh( signal * (5.0f + drive * 8.0f + mix * 4.0f)) +
+									  			(1.0f-std::sqrt(mix)) * (2.0f * SwellProcessor::inv_pi)  * std::atan((5.0f + drive * 8.0f + mix * 4.0f))) ); //  ( sqrt.mix * tanh + (1-sqrt.mix) * atan)
+
+						float normSignal =    SwellProcessor::clip( ((1 + 9.0f * mix  + 10 * drive) * signal * 0.85f + tastefulInclusion * 0.15f)+ extra*noiseAmount * ((rand() / (float)RAND_MAX) * 2.0f - 1.0f), 1 - 0.99 * drive);
+						out[s] = SwellProcessor::clip(normSignal - extra * (0.5f * normSignal * normSignal * normSignal  + 0.1f * filtered[s]),  1 - 0.99 * drive );
+						
 					}
 					}
+					
 
                 }
-            }
+            } // end of channel loop
+
+			
+
 
             data.outputs[i].silenceFlags = data.inputs[i].silenceFlags;
 
@@ -281,9 +368,18 @@ tresult PLUGIN_API SwellProcessor::getState(IBStream* state)
  * Functions to be used in processing for effects
  */
 
+// Hard Clip
 float SwellProcessor::clip(float signal, float threshhold) {
 	return std::max(-threshhold, std::min(threshhold,signal)); 
 }
+// bitcrush 
+float SwellProcessor::bitcrush(float signal, float mix) {
+	// mixes in bitcrush 0-1[00%]
+	int resolution = std::round(2048 * (1-mix * 0.998f)) ;
+	// Quantize the signal
+	return std::round(signal / resolution) * resolution;
+}
+// --------------- FILTERS -----------------
 
 
 } // namespace VOID

@@ -2,7 +2,7 @@
 
 3 knobs, 1 switch.
 
-Swell = main gain/max + brings in light distortion [**broken mode**: increased distortion]
+Swell = main gain/mix + brings in light distortion [**broken mode**: increased distortion]
 Sheer = distortion drive [**broken mode**: even more drive and hard clipping threshold]
 Mangle = Texture + filtering to be implimented [**broken mode**: fuck up the whole sound]
 ClickMe = switch to **broken mode**

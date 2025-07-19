@@ -5,14 +5,14 @@
 #pragma once
 
 #include "public.sdk/source/vst/vsteditcontroller.h"
-
+#include "vstgui\lib\controls\icontrollistener.h"
 
 namespace VOID {
 
 //------------------------------------------------------------------------
 //  SwellController
 //------------------------------------------------------------------------
-class SwellController : public Steinberg::Vst::EditControllerEx1
+class SwellController : public Steinberg::Vst::EditControllerEx1, public VSTGUI::IControlListener
 {
 public:
 //------------------------------------------------------------------------
@@ -39,6 +39,9 @@ public:
 	Steinberg::tresult PLUGIN_API setParamNormalized(Steinberg::Vst::ParamID pID, Steinberg::Vst::ParamValue value) SMTG_OVERRIDE;
 	Steinberg::Vst::ParamValue  PLUGIN_API getParamNormalized(Steinberg::Vst::ParamID pID) SMTG_OVERRIDE;
 
+	void valueChanged(VSTGUI::CControl* pControl) override; // for GUI listening
+
+
  	//---Interface---------
 	DEFINE_INTERFACES
 		// Here you can add more supported VST3 interfaces
@@ -53,7 +56,7 @@ double distortionAmountMix = 0.0;
 double bypassValue         = 0.0; 
 double driveAmountMix      = 0.0;
 double extraParamAmountMix = 0.0;
-double switchstate         = 0.0;
+double switchstate         = 1.0;
 };
 
 //------------------------------------------------------------------------

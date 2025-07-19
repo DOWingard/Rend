@@ -14,7 +14,7 @@ class viewFactory : public ViewCreatorAdapter {
         viewFactory () { UIViewFactory::registerViewCreator (*this); }
         
         // return a unique name
-        IdStringPtr getViewName () const override {return "Test UI";}
+        IdStringPtr getViewName () const override {return "REND UI";}
 
         // return the name here from where your custom view interits
         // your view automatically supports the attributes from it
@@ -25,7 +25,7 @@ class viewFactory : public ViewCreatorAdapter {
             // create your custom view
             //CRect size (CPoint (45,45), CPoint (400,150));
             //return new View(size);
-            return new View(CRect(0,0,100,100));
+            return new View(CRect(0,0,640,413));
         }
 };
 static viewFactory __gFactory;

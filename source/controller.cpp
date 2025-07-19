@@ -264,4 +264,23 @@ Steinberg::Vst::ParamValue PLUGIN_API SwellController::getParamNormalized(Steinb
     }
 }
 
+void SwellController::valueChanged(VSTGUI::CControl* pControl) {
+    if (pControl->getTag() == 13) {
+        float value = pControl->getValue(); // 1.0 = pressed, 0.0 = released
+
+        VSTGUI::CFrame* frame = pControl->getFrame();
+        if (frame) {
+            frame->forEachChild([=](VSTGUI::CView* view) {
+                auto* target = dynamic_cast<VSTGUI::CControl*>(view);
+                if (target && target->getTag() == 6969) {
+                    target->setValue(value);
+                    target->invalid();
+                    return false; // Stop once found
+                }
+                return true; // Continue search
+            });
+        }
+    }
+}
+
 } // namespace VOID

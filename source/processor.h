@@ -6,16 +6,22 @@
 
 #include "public.sdk/source/vst/vstaudioeffect.h"
 
+#include "DspFilters/RBJ.h"      // filters
+
+
 #include <cmath>
 #include <numbers>
 namespace VOID {
 
+
+
 //------------------------------------------------------------------------
 //  SwellProcessor
 //------------------------------------------------------------------------
-class SwellProcessor : public Steinberg::Vst::AudioEffect
-{
+class SwellProcessor : public Steinberg::Vst::AudioEffect {
+
 public:
+
 	SwellProcessor ();
 	~SwellProcessor () SMTG_OVERRIDE;
 
@@ -55,25 +61,60 @@ public:
 	Steinberg::tresult PLUGIN_API getState (Steinberg::IBStream* state) SMTG_OVERRIDE;
 
 
+	float clip(float signal, float threshhold);
+	float bitcrush(float signal, float mix);
+// helper template filter function
+	template <typename FilterType>
+	void applyFilter(
+		std::vector<float*>& filteredPtrs,
+		std::vector<std::vector<float>>& filteredSignal,
+		float** inputBuffers,
+		int numSamples,
+		int numChannels,
+		FilterType& filter) {
+   /***********************************************************************\
+	Applies given filter to a deep copy of the samples and returns the copy
+   \***********************************************************************/
+		for (int ch = 0; ch < numChannels; ++ch) {
+			memcpy(filteredSignal[ch].data(), inputBuffers[ch], numSamples * sizeof(float));
+		}
+		for (int ch = 0; ch < numChannels; ++ch) {
+			filteredPtrs[ch] = filteredSignal[ch].data();
+		}
+
+		filter.process(numSamples, filteredPtrs.data());
+
+	}
+	// filters
+	Dsp::SimpleFilter <Dsp::RBJ::LowShelf, 2>  lowShelfFilter;
+	Dsp::SimpleFilter <Dsp::RBJ::HighShelf, 1> highShelfFilter;
+	Dsp::SimpleFilter <Dsp::RBJ::BandStop, 1>  bandStopFilter;
 
 
 //------------------------------------------------------------------------
 protected:
 
 
+
 //------------------------------------------------------------------------
 
 private:
 static constexpr float inv_pi = 0.31830988618379067154f;
-double distortionAmountMix = 0.0; 
-double bypassValue         = 0.0; 
-double driveAmountMix      = 0.0;
-double extraParamAmountMix = 0.0;
-double switchstate         = 0.0;
+double distortionAmountMix    = 0.0; 
+double bypassValue            = 0.0; 
+double driveAmountMix         = 0.0;
+double extraParamAmountMix    = 0.0;
+double switchstate            = 1.0;
+float noiseAmount             = 0.0001f;
 
-// Processing functions
+std::vector<float*> filteredPtrs;
+std::vector<std::vector<float>> filteredSignal;
 
-float clip(float signal, float threshhold);
+
+
+
+
+
 
 
 };
