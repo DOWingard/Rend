@@ -1,4 +1,4 @@
-#VST3 to AUv3 pita
+# VST3 to AUv3 pita
 Alright this shit sucks kinda bad but here we go.
 
 We have to build an entire extra app, which is just a wrapper / compatibility layer. Additionally, even upon successful build of said AUv3 wrapper app, Logic Pro may still reject it if it is not signed properly.
