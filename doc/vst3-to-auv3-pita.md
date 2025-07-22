@@ -1,3 +1,4 @@
+#VST3 to AUv3 pita
 Alright this shit sucks kinda bad but here we go.
 
 We have to build an entire extra app, which is just a wrapper / compatibility layer. Additionally, even upon successful build of said AUv3 wrapper app, Logic Pro may still reject it if it is not signed properly.
@@ -12,16 +13,16 @@ Good idea to acquaint oneself with [Apple's AudioToolbox Framework](https://deve
 
 ```objective-c
 /*
- * componentType -- A 4-char code identifying the generic type of 
+ * componentType -- A 4-char code identifying the generic type of
  *                  an audio component.
- * componentSubType -- A 4-char code identifying the a specific 
- *                     individual component. 
- *                     type/subtype/manufacturer triples must be 
+ * componentSubType -- A 4-char code identifying the a specific
+ *                     individual component.
+ *                     type/subtype/manufacturer triples must be
  *                     globally unique.
  * componentManufacturer -- Vendor identification.
- * componentFlags -- Must be set to zero unless a known specific 
+ * componentFlags -- Must be set to zero unless a known specific
  *                   value is requested.
- * componentFlagsMask -- Must be set to zero unless a known 
+ * componentFlagsMask -- Must be set to zero unless a known
  *                       specific value is requested.
 */
 typedef struct AudioComponentDescription {
@@ -37,7 +38,7 @@ this struct is filled in `viewDidLoad()` by the values specified in `audiounitco
 >### [Subclassing Notes](https://developer.apple.com/documentation/coreaudiokit/auviewcontroller/#Subclassing-Notes)
 >If an audio unit provides a custom view controller, the UI Audio Unit extension must implement a subclass of `AUViewController` and implement the [`AUAudioUnitFactory`](https://developer.apple.com/documentation/AudioToolbox/AUAudioUnitFactory) protocol inside the subclass.
 
-who knows, maybe 
+who knows, maybe
 ```objective-c
 /*-----------------------------------*\
 	AUv3WrapperViewController          
