@@ -4,6 +4,7 @@
 
 #include "controller.h"
 #include "cids.h"
+
 #include "vstgui/plugin-bindings/vst3editor.h"
 #include "base/source/fstreamer.h"
 #include "public.sdk/source/vst/vstaudioeffect.h"
@@ -66,10 +67,13 @@ tresult PLUGIN_API SwellController::initialize (FUnknown* context)
 	STR16("switch"),         // parameter title/name
 	nullptr,                 // units (nullptr if none)
 	2,                       // no step count (continuous)
-	1.0,                     // default normalized value (0.5)
+	0.0,                     // default normalized value (0.5)
 	Vst::ParameterInfo::kCanAutomate,  // flags (can automate)
 	13                // a unique parameter ID (uint32)
     );
+
+
+
 
 
 
@@ -82,6 +86,16 @@ tresult PLUGIN_API SwellController::initialize (FUnknown* context)
     Vst::ParameterInfo::kCanAutomate,// flags (can automate)
     0                                // unique parameter ID (uint32)
 	);
+
+	// Mono Switch
+	parameters.addParameter(
+	STR16("mono"),         // parameter title/name
+	nullptr,                 // units (nullptr if none)
+	2,                       // no step count (continuous)
+	1.0,                     // default normalized value (0.5)
+	Vst::ParameterInfo::kCanAutomate,  // flags (can automate)
+	1                // a unique parameter ID (uint32)
+    );
 
 	
 
@@ -135,6 +149,10 @@ tresult PLUGIN_API SwellController::setState (IBStream* state)
     if (!s.readDouble(val))
         return kResultFalse;
     bypassValue = val;
+	
+	if (!s.readDouble(val))
+        return kResultFalse;
+    forceMono = val;
 
     return kResultOk;
         
@@ -153,6 +171,7 @@ tresult PLUGIN_API SwellController::getState (IBStream* state)
 
 	// bypass
 	s.writeDouble(bypassValue); 
+	s.writeDouble(forceMono);
 	return kResultOk;
 }
 
@@ -161,9 +180,12 @@ IPlugView* PLUGIN_API SwellController::createView(FIDString name)
 {
     if (FIDStringsEqual(name, Vst::ViewType::kEditor))
     {
-        // "view" is the template name in your .uidesc
-        // "editor.uidesc" should be your actual UI description file name
-        auto* view = new VSTGUI::VST3Editor(this, "view", "editor.uidesc");
+       // "view" is the template name in your .uidesc
+       // "editor.uidesc" should be your actual UI description file name
+
+
+        auto* view = new SwellEditor(this);
+
         return view;
     }
     return nullptr;
@@ -233,6 +255,18 @@ tresult PLUGIN_API SwellController::setParamNormalized(Steinberg::Vst::ParamID p
 			performEdit(pID, bypassValue);     // For any other parameters, pass it up the chain ADD MORE IF NEEDED 
 		}
 	}
+
+		if (pID == 1) // Mono param
+	{
+		if (value < 0.0) value = 0.0;
+		else if (value > 1.0) value = 1.0;
+
+		if (forceMono != value)
+		{
+			forceMono = value;
+			performEdit(pID, bypassValue);     // For any other parameters, pass it up the chain ADD MORE IF NEEDED 
+		}
+	}
 	else
 	{
 		
@@ -258,29 +292,14 @@ Steinberg::Vst::ParamValue PLUGIN_API SwellController::getParamNormalized(Steinb
 		// bypass	
 		case 0:
             return bypassValue;
-
+		
+		case 1:
+            return forceMono;
         default:
             return EditControllerEx1::getParamNormalized(pID);
     }
 }
 
-void SwellController::valueChanged(VSTGUI::CControl* pControl) {
-    if (pControl->getTag() == 13) {
-        float value = pControl->getValue(); // 1.0 = pressed, 0.0 = released
 
-        VSTGUI::CFrame* frame = pControl->getFrame();
-        if (frame) {
-            frame->forEachChild([=](VSTGUI::CView* view) {
-                auto* target = dynamic_cast<VSTGUI::CControl*>(view);
-                if (target && target->getTag() == 6969) {
-                    target->setValue(value);
-                    target->invalid();
-                    return false; // Stop once found
-                }
-                return true; // Continue search
-            });
-        }
-    }
-}
 
 } // namespace VOID

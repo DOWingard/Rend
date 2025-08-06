@@ -10,7 +10,7 @@
 
 
 #include <cmath>
-#include <numbers>
+// #include <numbers>
 namespace VOID {
 
 
@@ -106,6 +106,7 @@ double driveAmountMix         = 0.0;
 double extraParamAmountMix    = 0.0;
 double switchstate            = 1.0;
 float noiseAmount             = 0.0001f;
+float forceMono               = 0.0f;     // handle mono switch ,theres probably an easier way to do this
 
 std::vector<float*> filteredPtrs;
 std::vector<std::vector<float>> filteredSignal;

@@ -2,35 +2,29 @@
 	"vstgui-ui-description": {
 		"version": "1",
 		"bitmaps": {
-			"Dual_LED": {
-				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\Dual_LED.png"
+			"GuitarPoti_Volume_(black)": {
+				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\GuitarPoti_Volume_(black).png"
 			},
-			"EyeButton": {
-				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\EyeButton.png"
+			"GuitarPoti_Volume_(grey)": {
+				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\GuitarPoti_Volume_(grey).png"
 			},
-			"EyeButton3": {
-				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\EyeButton3.png"
+			"LittlePhatty(1)": {
+				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\LittlePhatty(1).png"
 			},
-			"Martial_0-10_v2_Gold_large_80x80": {
-				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\Martial_0-10_v2_Gold_large_80x80.png"
+			"bigredswitch_200x219.5 ": {
+				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\bigredswitch_200x219.5 .png"
 			},
-			"Vintage_amp_knob_2": {
-				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\Vintage_amp_knob_2.png"
+			"grey_textured_min-max": {
+				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\grey_textured_min-max.png"
 			},
-			"bigKnob": {
-				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\bigKnob.png"
+			"monoswitch_60x162 ": {
+				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\monoswitch_60x162 .png"
 			},
-			"bv": {
-				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\VOID_REND_BASE_c1.png"
+			"shell1_765x604": {
+				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell1_765x604.png"
 			},
-			"bv2": {
-				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\VOID_REND_ALT_c1.png"
-			},
-			"knob_69_black": {
-				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\knob_69_black.png"
-			},
-			"smallKnob": {
-				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\smallKnob.png"
+			"shell2_765x604": {
+				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell2_765x604.png"
 			}
 		},
 		"fonts": {},
@@ -41,6 +35,7 @@
 			"distortionAmount": "10",
 			"driveAmount": "11",
 			"extraParam": "12",
+			"mono": "1",
 			"switch": "13"
 		},
 		"custom": {
@@ -52,54 +47,44 @@
 				"Grids": "1x 1,5x 5,10x 10,12x 12,15x 15",
 				"Size": "12, 12"
 			},
+			"UIEditController": {
+				"EditViewScale": "0.5",
+				"EditorSize": "0, 0, 970, 804",
+				"SplitViewSize_0_0": "0.8329048843187660811082650980097241699696",
+				"SplitViewSize_0_1": "0.1413881748071979527203723137063207104802",
+				"SplitViewSize_1_0": "0.483290488431876608110826509800972416997",
+				"SplitViewSize_1_1": "0.5102827763496143864685450353135820478201",
+				"SplitViewSize_2_0": "0.8144329896907216426171771672670729458332",
+				"SplitViewSize_2_1": "0.1804123711340206159814414377251523546875",
+				"TabSwitchValue": "0",
+				"Version": "1"
+			},
 			"UITemplateController": {
 				"SelectedTemplate": "view"
-			},
-			"UIEditController": {
-				"EditViewScale": "1",
-				"EditorSize": "0, 0, 839, 599",
-				"SplitViewSize_0_0": "0.7731239092495636455737439973745495080948",
-				"SplitViewSize_0_1": "0.1919720767888307144666271142341429367661",
-				"SplitViewSize_1_0": "0.483420593368237339060300428172922693193",
-				"SplitViewSize_1_1": "0.5095986038394415551522342866519466042519",
-				"SplitViewSize_2_0": "0.7854588796185935084537277361960150301456",
-				"SplitViewSize_2_1": "0.2085816448152562618822969398024724796414",
-				"TabSwitchValue": "4",
-				"Version": "1"
 			},
 			"UIAttributesController": {},
 			"UIViewCreatorDataSource": {
 				"SelectedRow": "14"
 			},
 			"UIBitmapsDataSource": {
-				"SelectedRow": "0"
+				"SelectedRow": "5"
 			},
 			"UIGradientsDataSource": {
-				"SelectedRow": "-1"
-			},
-			"UITagsDataSource": {
-				"SelectedRow": "-1"
-			},
-			"UIColorsDataSource": {
-				"SelectedRow": "-1"
-			},
-			"UIFontsDataSource": {
 				"SelectedRow": "-1"
 			}
 		},
 		"templates": {
 			"view": {
 				"attributes": {
-					"autosize": "top ",
 					"background-color": "~ BlackCColor",
 					"background-color-draw-style": "filled and stroked",
-					"bitmap": "bv",
+					"bitmap": "shell1_765x604",
 					"class": "CViewContainer",
-					"disabled-bitmap": "bv",
+					"disabled-bitmap": "shell2_765x604",
 					"mouse-enabled": "true",
 					"opacity": "1",
 					"origin": "0, 0",
-					"size": "640, 413",
+					"size": "765, 605",
 					"transparent": "false",
 					"wants-focus": "false"
 				},
@@ -108,59 +93,16 @@
 						"attributes": {
 							"angle-range": "270",
 							"angle-start": "135",
-							"bitmap": "bv",
-							"class": "CAnimKnob",
-							"control-tag": "6969",
-							"disabled-bitmap": "bv2",
-							"height-of-one-image": "413",
-							"inverse-bitmap": "false",
-							"knob-range": "200",
-							"mouse-enabled": "false",
-							"opacity": "1",
-							"origin": "0, 0",
-							"size": "640, 413",
-							"sub-pixmaps": "2",
-							"transparent": "false",
-							"value-inset": "0",
-							"wants-focus": "false",
-							"wheel-inc-value": "0.1",
-							"zoom-factor": "1.5"
-						}
-					},
-					"CAnimKnob": {
-						"attributes": {
-							"angle-range": "270",
-							"angle-start": "135",
-							"bitmap": "Vintage_amp_knob_2",
-							"class": "CAnimKnob",
-							"control-tag": "extraParam",
-							"height-of-one-image": "50",
-							"inverse-bitmap": "false",
-							"knob-range": "200",
-							"opacity": "1",
-							"origin": "480, 108",
-							"size": "46, 46",
-							"sub-pixmaps": "100",
-							"transparent": "false",
-							"value-inset": "0",
-							"wants-focus": "false",
-							"wheel-inc-value": "0.1",
-							"zoom-factor": "1.5"
-						}
-					},
-					"CAnimKnob": {
-						"attributes": {
-							"angle-range": "270",
-							"angle-start": "135",
-							"bitmap": "Martial_0-10_v2_Gold_large_80x80",
+							"autosize": "left right top bottom ",
+							"bitmap": "grey_textured_min-max",
 							"class": "CAnimKnob",
 							"control-tag": "distortionAmount",
-							"height-of-one-image": "80",
+							"height-of-one-image": "128",
 							"inverse-bitmap": "false",
 							"knob-range": "200",
 							"opacity": "1",
-							"origin": "540, 240",
-							"size": "80, 80",
+							"origin": "480, 340",
+							"size": "137, 125",
 							"sub-pixmaps": "101",
 							"transparent": "false",
 							"value-inset": "0",
@@ -173,15 +115,15 @@
 						"attributes": {
 							"angle-range": "270",
 							"angle-start": "135",
-							"bitmap": "Vintage_amp_knob_2",
+							"bitmap": "GuitarPoti_Volume_(black)",
 							"class": "CAnimKnob",
-							"control-tag": "driveAmount",
-							"height-of-one-image": "50",
+							"control-tag": "extraParam",
+							"height-of-one-image": "70",
 							"inverse-bitmap": "false",
 							"knob-range": "200",
 							"opacity": "1",
-							"origin": "432, 252",
-							"size": "44, 44",
+							"origin": "480, 108",
+							"size": "68, 68",
 							"sub-pixmaps": "100",
 							"transparent": "false",
 							"value-inset": "0",
@@ -194,18 +136,16 @@
 						"attributes": {
 							"angle-range": "270",
 							"angle-start": "135",
+							"bitmap": "GuitarPoti_Volume_(grey)",
 							"class": "CAnimKnob",
-							"default-value": "0.5",
-							"height-of-one-image": "0",
+							"control-tag": "driveAmount",
+							"height-of-one-image": "70",
 							"inverse-bitmap": "false",
 							"knob-range": "200",
-							"max-value": "1",
-							"min-value": "0",
-							"mouse-enabled": "true",
 							"opacity": "1",
-							"origin": "420, 288",
-							"size": "44, 44",
-							"sub-pixmaps": "0",
+							"origin": "624, 180",
+							"size": "68, 68",
+							"sub-pixmaps": "100",
 							"transparent": "false",
 							"value-inset": "0",
 							"wants-focus": "false",
@@ -215,12 +155,25 @@
 					},
 					"COnOffButton": {
 						"attributes": {
-							"bitmap": "EyeButton3",
+							"bitmap": "monoswitch_60x162 ",
+							"class": "COnOffButton",
+							"control-tag": "mono",
+							"opacity": "1",
+							"origin": "672, 312",
+							"size": "68, 164",
+							"transparent": "false",
+							"wants-focus": "true",
+							"wheel-inc-value": "0.1"
+						}
+					},
+					"COnOffButton": {
+						"attributes": {
+							"bitmap": "bigredswitch_200x219.5 ",
 							"class": "COnOffButton",
 							"control-tag": "switch",
 							"opacity": "1",
-							"origin": "132, 48",
-							"size": "185, 185",
+							"origin": "204, 288",
+							"size": "200, 212",
 							"transparent": "false",
 							"wants-focus": "true",
 							"wheel-inc-value": "0.1"

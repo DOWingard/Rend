@@ -5,6 +5,7 @@ option(SMTG_ENABLE_VST3_HOSTING_EXAMPLES "Enable VST 3 Hosting Examples" OFF)
 
 set(CMAKE_OSX_DEPLOYMENT_TARGET 10.13 CACHE STRING "")
 
+
 set(vst3sdk_SOURCE_DIR "C:/Users/Derek Wingard/Desktop/Work/Plugins/VST_SDK/vst3sdk")
 if(NOT vst3sdk_SOURCE_DIR)
     message(FATAL_ERROR "Path to VST3 SDK is empty!")
@@ -26,14 +27,11 @@ smtg_enable_vst3_sdk()
 smtg_add_vst3plugin(Swell
     source/version.h
     source/cids.h
-    source/view.h
-    source/view.cpp
     source/processor.h
     source/processor.cpp
     source/controller.h
     source/controller.cpp
     source/factory.cpp
-    source/viewfactory.cpp
 )
 
 #- VSTGUI Wanted ----

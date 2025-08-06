@@ -8,7 +8,8 @@
 #include "version.h"
 #include "processor.h"
 #include "public.sdk/source/main/pluginfactory.h"
-#include "view.h"
+
+
 
 #define stringPluginName "Swell"
 

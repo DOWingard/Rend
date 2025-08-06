@@ -182,6 +182,8 @@ tresult PLUGIN_API SwellProcessor::process(Vst::ProcessData& data)
 							switchstate         = value;
 						} else if (id == 0) {              // PARAMSSSSSSSSSSSSS for each
 							bypassValue         = value;
+						} else if (id == 1) {              // PARAMSSSSSSSSSSSSS for each
+							forceMono           = value;
 						}
 					}
 				}
@@ -246,7 +248,7 @@ if (data.numSamples > 0)
 
 					float signal = (1 - extra) * in[s] + extra * filtered[s]; // add dry and filtered signal together
 					
-					if (switchstate >= 0.5) {
+					if (switchstate <= 0.5) {
 					/* normal mode */
 
                     	float normSignal = (1.0f) * (signal * (1.0f - mix) + mix *  ( std::sqrt(mix)* std::tanh( signal * (5.0f + drive * 8.0f + mix * 4.0f)) +
@@ -255,7 +257,7 @@ if (data.numSamples > 0)
 						out[s] = normSignal - extra * SwellProcessor::clip(0.5f * normSignal * normSignal * normSignal,std::abs(1-normSignal) );
 						
 					
-					} else if (switchstate < 0.5) {
+					} else if (switchstate > 0.5) {
 					/* BROKEN mode */
 
 						float tastefulInclusion =  (1.0f) * (signal * (1.0f - mix) + mix *  ( std::sqrt(mix)* std::tanh( signal * (5.0f + drive * 8.0f + mix * 4.0f)) +
@@ -272,7 +274,22 @@ if (data.numSamples > 0)
             } // end of channel loop
 
 			
+			    // Apply mono logic here if forceMono is true
+			if (forceMono && data.numOutputs > 0) {
+				Vst::AudioBusBuffers& output = data.outputs[0];
+				int32 numChannels = output.numChannels;
+				int32 numSamples = data.numSamples;
 
+				if (numChannels >= 2) {
+					float* left = output.channelBuffers32[0];
+					float* right = output.channelBuffers32[1];
+
+					for (int32 i = 0; i < numSamples; ++i) {
+						float mono = 0.5f * (left[i] + right[i]);
+						left[i] = right[i] = mono;
+					}
+				}
+			}
 
             data.outputs[i].silenceFlags = data.inputs[i].silenceFlags;
 
@@ -283,7 +300,7 @@ if (data.numSamples > 0)
                 data.outputs[i].silenceFlags |= ((uint64)1 << c);
             }
         }
-
+gi
         // clear the remaining output buses
         for (int32 i = minBus; i < data.numOutputs; i++)
         {
@@ -348,18 +365,26 @@ tresult PLUGIN_API SwellProcessor::setState(IBStream* state)
         return kResultFalse;          //  add these blocks for each param
     bypassValue = val;                //
 
+	// mono override
+	if (!streamer.readDouble(val))
+    return kResultFalse;
+    forceMono = val;
+
+
     return kResultOk;
 }
 
 //------------------------------------------------------------------------
 tresult PLUGIN_API SwellProcessor::getState(IBStream* state)
 {
-    IBStreamer streamer(state, kLittleEndian);
+    IBStreamer streamer(state, kLittleEndian);    // kLittleEndian is for OS agnostic functionality
     streamer.writeDouble(distortionAmountMix);
 	streamer.writeDouble(driveAmountMix);
 	streamer.writeDouble(extraParamAmountMix);
 	streamer.writeDouble(switchstate);
     streamer.writeDouble(bypassValue);    // just add lines for param
+	streamer.writeDouble(forceMono); 
+	
     return kResultOk;
 }
 
