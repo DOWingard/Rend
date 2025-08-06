@@ -300,7 +300,6 @@ if (data.numSamples > 0)
                 data.outputs[i].silenceFlags |= ((uint64)1 << c);
             }
         }
-gi
         // clear the remaining output buses
         for (int32 i = minBus; i < data.numOutputs; i++)
         {
