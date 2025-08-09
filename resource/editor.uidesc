@@ -11,6 +11,18 @@
 			"LittlePhatty(1)": {
 				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\LittlePhatty(1).png"
 			},
+			"Mangle!_210": {
+				"path": "E:\\Music E\\PhD Visual Stuff\\Blender\\knobs\\Rend_Mangle!\\Mangle!_210.png"
+			},
+			"MonoStereoSwitch_50x137": {
+				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\MonoStereoSwitch_50x137.png"
+			},
+			"Sheer_210": {
+				"path": "E:\\Music E\\PhD Visual Stuff\\Blender\\knobs\\Rend_Sheer\\Sheer_210.png"
+			},
+			"Swell_280": {
+				"path": "E:\\Music E\\PhD Visual Stuff\\Blender\\knobs\\Rend_Swell\\Swell_280.png"
+			},
 			"bigredswitch_200x219.5 ": {
 				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\bigredswitch_200x219.5 .png"
 			},
@@ -20,8 +32,14 @@
 			"monoswitch_60x162 ": {
 				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\monoswitch_60x162 .png"
 			},
+			"shell1": {
+				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell1.png"
+			},
 			"shell1_765x604": {
 				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell1_765x604.png"
+			},
+			"shell2": {
+				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell2.png"
 			},
 			"shell2_765x604": {
 				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell2_765x604.png"
@@ -49,14 +67,14 @@
 			},
 			"UIEditController": {
 				"EditViewScale": "0.5",
-				"EditorSize": "0, 0, 970, 804",
-				"SplitViewSize_0_0": "0.8329048843187660811082650980097241699696",
-				"SplitViewSize_0_1": "0.1413881748071979527203723137063207104802",
-				"SplitViewSize_1_0": "0.483290488431876608110826509800972416997",
-				"SplitViewSize_1_1": "0.5102827763496143864685450353135820478201",
-				"SplitViewSize_2_0": "0.8144329896907216426171771672670729458332",
-				"SplitViewSize_2_1": "0.1804123711340206159814414377251523546875",
-				"TabSwitchValue": "0",
+				"EditorSize": "0, 0, 1920, 1057",
+				"SplitViewSize_0_0": "0.8739088263821532809316749990102834999561",
+				"SplitViewSize_0_1": "0.1066925315227933990236408590135397389531",
+				"SplitViewSize_1_0": "0.4873908826382153391953977461525937542319",
+				"SplitViewSize_1_1": "0.5077594568380213724267946417967323213816",
+				"SplitViewSize_2_0": "0.90625",
+				"SplitViewSize_2_1": "0.09114583333333332870740406406184774823487",
+				"TabSwitchValue": "4",
 				"Version": "1"
 			},
 			"UITemplateController": {
@@ -67,7 +85,7 @@
 				"SelectedRow": "14"
 			},
 			"UIBitmapsDataSource": {
-				"SelectedRow": "5"
+				"SelectedRow": "4"
 			},
 			"UIGradientsDataSource": {
 				"SelectedRow": "-1"
@@ -78,9 +96,9 @@
 				"attributes": {
 					"background-color": "~ BlackCColor",
 					"background-color-draw-style": "filled and stroked",
-					"bitmap": "shell1_765x604",
+					"bitmap": "shell1",
 					"class": "CViewContainer",
-					"disabled-bitmap": "shell2_765x604",
+					"disabled-bitmap": "shell2",
 					"mouse-enabled": "true",
 					"opacity": "1",
 					"origin": "0, 0",
@@ -94,36 +112,15 @@
 							"angle-range": "270",
 							"angle-start": "135",
 							"autosize": "left right top bottom ",
-							"bitmap": "grey_textured_min-max",
+							"bitmap": "Swell_280",
 							"class": "CAnimKnob",
 							"control-tag": "distortionAmount",
-							"height-of-one-image": "128",
+							"height-of-one-image": "280",
 							"inverse-bitmap": "false",
 							"knob-range": "200",
 							"opacity": "1",
-							"origin": "480, 340",
-							"size": "137, 125",
-							"sub-pixmaps": "101",
-							"transparent": "false",
-							"value-inset": "0",
-							"wants-focus": "false",
-							"wheel-inc-value": "0.1",
-							"zoom-factor": "1.5"
-						}
-					},
-					"CAnimKnob": {
-						"attributes": {
-							"angle-range": "270",
-							"angle-start": "135",
-							"bitmap": "GuitarPoti_Volume_(black)",
-							"class": "CAnimKnob",
-							"control-tag": "extraParam",
-							"height-of-one-image": "70",
-							"inverse-bitmap": "false",
-							"knob-range": "200",
-							"opacity": "1",
-							"origin": "480, 108",
-							"size": "68, 68",
+							"origin": "408, 328",
+							"size": "305, 257",
 							"sub-pixmaps": "100",
 							"transparent": "false",
 							"value-inset": "0",
@@ -136,15 +133,36 @@
 						"attributes": {
 							"angle-range": "270",
 							"angle-start": "135",
-							"bitmap": "GuitarPoti_Volume_(grey)",
+							"bitmap": "Mangle!_210",
 							"class": "CAnimKnob",
-							"control-tag": "driveAmount",
-							"height-of-one-image": "70",
+							"control-tag": "extraParam",
+							"height-of-one-image": "210",
 							"inverse-bitmap": "false",
 							"knob-range": "200",
 							"opacity": "1",
-							"origin": "624, 180",
-							"size": "68, 68",
+							"origin": "264, 72",
+							"size": "200, 188",
+							"sub-pixmaps": "100",
+							"transparent": "false",
+							"value-inset": "0",
+							"wants-focus": "false",
+							"wheel-inc-value": "0.1",
+							"zoom-factor": "1.5"
+						}
+					},
+					"CAnimKnob": {
+						"attributes": {
+							"angle-range": "270",
+							"angle-start": "135",
+							"bitmap": "Sheer_210",
+							"class": "CAnimKnob",
+							"control-tag": "driveAmount",
+							"height-of-one-image": "210",
+							"inverse-bitmap": "false",
+							"knob-range": "200",
+							"opacity": "1",
+							"origin": "504, 36",
+							"size": "224, 188",
 							"sub-pixmaps": "100",
 							"transparent": "false",
 							"value-inset": "0",
@@ -172,8 +190,21 @@
 							"class": "COnOffButton",
 							"control-tag": "switch",
 							"opacity": "1",
-							"origin": "204, 288",
+							"origin": "192, 252",
 							"size": "200, 212",
+							"transparent": "false",
+							"wants-focus": "true",
+							"wheel-inc-value": "0.1"
+						}
+					},
+					"COnOffButton": {
+						"attributes": {
+							"bitmap": "MonoStereoSwitch_50x137",
+							"class": "COnOffButton",
+							"control-tag": "mono",
+							"opacity": "1",
+							"origin": "672, 241",
+							"size": "56, 140",
 							"transparent": "false",
 							"wants-focus": "true",
 							"wheel-inc-value": "0.1"
