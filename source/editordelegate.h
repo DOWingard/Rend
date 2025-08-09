@@ -84,11 +84,11 @@ void valueChanged(VSTGUI::CControl* pControl) override {
             // Get switch value (0.0 = off, 1.0 = on)
             float switchstate = pControl->getValue();
 			if (switchstate <= 0.5) {
-				VSTGUI::CBitmap* bitmap1 = createBitmapFromPath("C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell1_765x604.png");
+				VSTGUI::CBitmap* bitmap1 = createBitmapFromPath("C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell1.png");
 				myContainer->setBackground(bitmap1);
 				myContainer->invalid();
 			} else if (switchstate > 0.5) {
-				VSTGUI::CBitmap* bitmap2 = createBitmapFromPath("C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell2_765x604.png");
+				VSTGUI::CBitmap* bitmap2 = createBitmapFromPath("C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell2.png");
 				myContainer->setBackground(bitmap2);
 				myContainer->invalid();
                     }
