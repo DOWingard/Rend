@@ -52,18 +52,16 @@ void didOpen(VSTGUI::VST3Editor* editor) override
            
             // Method 1: Find by iterating through child views (if you know the index)
             VSTGUI::CViewContainer* myContainer = nullptr;
-            uint32_t numViews = editor->getFrame()->getNbViews();
             for (uint32_t i = 0; i < 1; i++) {
                 VSTGUI::CView* view = editor->getFrame()->getView(i);
                 myContainer = dynamic_cast<VSTGUI::CViewContainer*>(view);
-                VSTGUI::CCoord width = myContainer->getWidth();
                 if (myContainer && myContainer->getWidth() == 765) {
                     if (switchstate <= 0.5) {
-                        VSTGUI::CBitmap* bitmap1 = createBitmapFromPath("C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell1_765x604.png");
+                        VSTGUI::CBitmap* bitmap1 = createBitmapFromPath("C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell1.png");
                         myContainer->setBackground(bitmap1);
                         myContainer->invalid();
                     } else if (switchstate > 0.5) {
-                        VSTGUI::CBitmap* bitmap2 = createBitmapFromPath("C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell2_765x604.png");
+                        VSTGUI::CBitmap* bitmap2 = createBitmapFromPath("C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell2.png");
                         myContainer->setBackground(bitmap2);
                         myContainer->invalid();
                     }
