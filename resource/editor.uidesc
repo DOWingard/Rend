@@ -33,16 +33,10 @@
 				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\monoswitch_60x162 .png"
 			},
 			"shell1": {
-				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell1.png"
-			},
-			"shell1_765x604": {
-				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell1_765x604.png"
+				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell1.png"
 			},
 			"shell2": {
-				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell2.png"
-			},
-			"shell2_765x604": {
-				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell2_765x604.png"
+				"path": "C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell2.png"
 			}
 		},
 		"fonts": {},
@@ -67,15 +61,16 @@
 			},
 			"UIEditController": {
 				"EditViewScale": "0.5",
-				"EditorSize": "0, 0, 1920, 1057",
-				"SplitViewSize_0_0": "0.8739088263821532809316749990102834999561",
-				"SplitViewSize_0_1": "0.1066925315227933990236408590135397389531",
-				"SplitViewSize_1_0": "0.4873908826382153391953977461525937542319",
-				"SplitViewSize_1_1": "0.5077594568380213724267946417967323213816",
-				"SplitViewSize_2_0": "0.90625",
-				"SplitViewSize_2_1": "0.09114583333333332870740406406184774823487",
+				"EditorSize": "0, 0, 694, 493",
+				"SplitViewSize_0_0": "0.7216274089935760249758800455310847610235",
+				"SplitViewSize_0_1": "0.2355460385438972181759709201287478208542",
+				"SplitViewSize_1_0": "0.473233404710920790847694661351852118969",
+				"SplitViewSize_1_1": "0.5182012847965739021915965167863760143518",
+				"SplitViewSize_2_0": "0.7406340057636887630465594156703446060419",
+				"SplitViewSize_2_1": "0.2521613832853025760627474483044352382421",
 				"TabSwitchValue": "4",
-				"Version": "1"
+				"Version": "1",
+				"ViewBackground": "0"
 			},
 			"UITemplateController": {
 				"SelectedTemplate": "view"
@@ -85,7 +80,7 @@
 				"SelectedRow": "14"
 			},
 			"UIBitmapsDataSource": {
-				"SelectedRow": "4"
+				"SelectedRow": "11"
 			},
 			"UIGradientsDataSource": {
 				"SelectedRow": "-1"
@@ -102,7 +97,7 @@
 					"mouse-enabled": "true",
 					"opacity": "1",
 					"origin": "0, 0",
-					"size": "765, 605",
+					"size": "765, 604",
 					"transparent": "false",
 					"wants-focus": "false"
 				},
@@ -120,7 +115,7 @@
 							"knob-range": "200",
 							"opacity": "1",
 							"origin": "408, 328",
-							"size": "305, 257",
+							"size": "305, 256",
 							"sub-pixmaps": "100",
 							"transparent": "false",
 							"value-inset": "0",
@@ -161,7 +156,7 @@
 							"inverse-bitmap": "false",
 							"knob-range": "200",
 							"opacity": "1",
-							"origin": "504, 36",
+							"origin": "516, 36",
 							"size": "224, 188",
 							"sub-pixmaps": "100",
 							"transparent": "false",
