@@ -37,6 +37,8 @@ void didOpen(VSTGUI::VST3Editor* editor) override
     this->editor = editor;
     if (editor && editor->getFrame())
     {
+        
+
         auto controller = editor->getController();
         if (!controller) return;
         
@@ -60,10 +62,12 @@ void didOpen(VSTGUI::VST3Editor* editor) override
                         VSTGUI::CBitmap* bitmap1 = createBitmapFromPath("C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell1.png");
                         myContainer->setBackground(bitmap1);
                         myContainer->invalid();
+                        editor->getFrame()->setZoom(0.5);
                     } else if (switchstate > 0.5) {
                         VSTGUI::CBitmap* bitmap2 = createBitmapFromPath("C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell2.png");
                         myContainer->setBackground(bitmap2);
                         myContainer->invalid();
+                        editor->getFrame()->setZoom(0.5);
                     }
                 }
             }
@@ -87,10 +91,12 @@ void valueChanged(VSTGUI::CControl* pControl) override {
 				VSTGUI::CBitmap* bitmap1 = createBitmapFromPath("C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell1.png");
 				myContainer->setBackground(bitmap1);
 				myContainer->invalid();
+                editor->getFrame()->setZoom(0.5);
 			} else if (switchstate > 0.5) {
 				VSTGUI::CBitmap* bitmap2 = createBitmapFromPath("C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell2.png");
 				myContainer->setBackground(bitmap2);
 				myContainer->invalid();
+                editor->getFrame()->setZoom(0.5);
                     }
             //changeBackgroundImage(switchstate);
 	

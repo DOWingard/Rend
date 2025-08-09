@@ -22,12 +22,15 @@ public:
     {
         auto* delegate = new SwellEditorDelegate();
         setDelegate(delegate); 
+        setZoomFactor(0.5);
     }
 
     VSTGUI::IVST3EditorDelegate* SwellEditor::getDelegate() const
 {
     return delegate_.get();
 }
+
+
 
 protected:
     VSTGUI::VST3Editor* editor = nullptr;
