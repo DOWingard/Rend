@@ -7,9 +7,10 @@
 #include "public.sdk/source/vst/vstaudioeffect.h"
 
 #include "DspFilters/RBJ.h"      // filters
-
+#include "compression.h"
 
 #include <cmath>
+#include <optional>
 // #include <numbers>
 namespace VOID {
 
@@ -20,10 +21,14 @@ namespace VOID {
 //------------------------------------------------------------------------
 class SwellProcessor : public Steinberg::Vst::AudioEffect {
 
+
 public:
 
 	SwellProcessor ();
 	~SwellProcessor () SMTG_OVERRIDE;
+
+
+	
 
     // Create function
 	static Steinberg::FUnknown* createInstance (void* /*context*/) 
@@ -94,26 +99,25 @@ public:
 //------------------------------------------------------------------------
 protected:
 
-
+	
 
 //------------------------------------------------------------------------
 
 private:
-static constexpr float inv_pi = 0.31830988618379067154f;
-double distortionAmountMix    = 0.0; 
-double bypassValue            = 0.0; 
-double driveAmountMix         = 0.0;
-double extraParamAmountMix    = 0.0;
-double switchstate            = 1.0;
-float noiseAmount             = 0.0001f;
-float forceMono               = 0.0f;     // handle mono switch ,theres probably an easier way to do this
+	static constexpr float inv_pi = 0.31830988618379067154f;
+	double distortionAmountMix    = 0.0; 
+	double bypassValue            = 0.0; 
+	double driveAmountMix         = 0.0;
+	double extraParamAmountMix    = 0.0;
+	double switchstate            = 1.0;
+	float noiseAmount             = 0.0001f;
+	float forceMono               = 0.0f;     // handle mono switch ,theres probably an easier way to do this
+	float makeupGain;
 
-std::vector<float*> filteredPtrs;
-std::vector<std::vector<float>> filteredSignal;
+	std::vector<float*> filteredPtrs;
+	std::vector<std::vector<float>> filteredSignal;
 
-
-
-
+	std::optional<VOID::Compressor> compressor;
 
 
 

@@ -20,7 +20,7 @@ using namespace VOID;
 //  VST Plug-in Entry
 //------------------------------------------------------------------------
 
-BEGIN_FACTORY_DEF ("VOID AUDIO", 
+BEGIN_FACTORY_DEF ("VOID AUDIO - Seattle test", 
 			       "https://github.com/Void-Audio", 
 			       "mailto:fromthevoid.audio@gmail.com")
 

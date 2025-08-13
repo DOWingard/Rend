@@ -27,6 +27,8 @@ smtg_enable_vst3_sdk()
 smtg_add_vst3plugin(Swell
     source/version.h
     source/cids.h
+    source/compression.h
+    source/compression.cpp
     source/processor.h
     source/processor.cpp
     source/controller.h

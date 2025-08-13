@@ -5,6 +5,8 @@
 #include "processor.h"
 #include "cids.h"
 
+
+
 #include "base/source/fstreamer.h"
 #include "pluginterfaces/vst/ivstparameterchanges.h"
 
@@ -88,8 +90,8 @@ tresult PLUGIN_API SwellProcessor::setBusArrangements (Steinberg::Vst::SpeakerAr
 						30);   // bandwitch frequency
 
 
-
-	
+	compressor.emplace(sampleRate, 18.0f);
+	makeupGain = 2 * std::pow(10.0f, compressor.value().ratio / 20.0f);
 
 
 
@@ -253,9 +255,15 @@ if (data.numSamples > 0)
 
                     	float normSignal = (1.0f) * (signal * (1.0f - mix) + mix *  ( std::sqrt(mix)* std::tanh( signal * (5.0f + drive * 8.0f + mix * 4.0f)) +
 									  			(1.0f-std::sqrt(mix)) * (2.0f * SwellProcessor::inv_pi)  * std::atan((5.0f + drive * 8.0f + mix * 4.0f))) ); //  ( sqrt.mix * tanh + (1-sqrt.mix) * atan)
-
-						out[s] = normSignal - extra * SwellProcessor::clip(0.5f * normSignal * normSignal * normSignal,std::abs(1-normSignal) );
 						
+						float uncompressed = normSignal - extra * SwellProcessor::clip(0.5f * normSignal * normSignal * normSignal,std::abs(1-normSignal) );
+						if (compressor.has_value()) {
+							out[s] = (1-extra * 0.5f) * uncompressed + 0.5f * extra * makeupGain *  compressor->process(uncompressed);
+						} else {
+							out[s] = uncompressed; 
+						}
+						
+						//out[s]=uncompressed;
 					
 					} else if (switchstate > 0.5) {
 					/* BROKEN mode */
@@ -264,7 +272,14 @@ if (data.numSamples > 0)
 									  			(1.0f-std::sqrt(mix)) * (2.0f * SwellProcessor::inv_pi)  * std::atan((5.0f + drive * 8.0f + mix * 4.0f))) ); //  ( sqrt.mix * tanh + (1-sqrt.mix) * atan)
 
 						float normSignal =    SwellProcessor::clip( ((1 + 9.0f * mix  + 10 * drive) * signal * 0.85f + tastefulInclusion * 0.15f)+ extra*noiseAmount * ((rand() / (float)RAND_MAX) * 2.0f - 1.0f), 1 - 0.99 * drive);
-						out[s] = SwellProcessor::clip(normSignal - extra * (0.5f * normSignal * normSignal * normSignal  + 0.1f * filtered[s]),  1 - 0.99 * drive );
+						float uncompressed = SwellProcessor::clip(normSignal - extra * (0.5f * normSignal * normSignal * normSignal  + 0.1f * filtered[s]),  1.0f - 0.99f * drive );
+
+						if (compressor.has_value()) {
+							out[s] = (1.0f - 0.3f * extra) * uncompressed + 0.7f * extra * makeupGain * compressor->process(uncompressed);
+						} else {
+							out[s] = uncompressed; 
+						}
+						//out[s]=uncompressed;
 						
 					}
 					}
@@ -397,12 +412,12 @@ float SwellProcessor::clip(float signal, float threshhold) {
 	return std::max(-threshhold, std::min(threshhold,signal)); 
 }
 // bitcrush 
-float SwellProcessor::bitcrush(float signal, float mix) {
-	// mixes in bitcrush 0-1[00%]
-	int resolution = std::round(2048 * (1-mix * 0.998f)) ;
-	// Quantize the signal
-	return std::round(signal / resolution) * resolution;
-}
+// float SwellProcessor::bitcrush(float signal, float mix) {
+// 	// mixes in bitcrush 0-1[00%]
+// 	int resolution = std::round(2048 * (1-mix * 0.998f)) ;
+// 	// Quantize the signal
+// 	return std::round(signal / resolution) * resolution;
+// }
 // --------------- FILTERS -----------------
 
 
