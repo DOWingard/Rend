@@ -1,7 +1,6 @@
 //------------------------------------------------------------------------
-// Copyright(c) 2025 My Plug-in Company.
+// Copyright(c) 2025 Void Audio.
 //------------------------------------------------------------------------
-
 
 #include "controller.h"
 #include "cids.h"
@@ -20,7 +19,7 @@ using namespace VOID;
 //  VST Plug-in Entry
 //------------------------------------------------------------------------
 
-BEGIN_FACTORY_DEF ("VOID AUDIO - Seattle test", 
+BEGIN_FACTORY_DEF ("VOID AUDIO", 
 			       "https://github.com/Void-Audio", 
 			       "mailto:fromthevoid.audio@gmail.com")
 

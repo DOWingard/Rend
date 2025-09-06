@@ -1,0 +1,460 @@
+#ifndef LS_EXTENDED_OPTIONS_H
+#define LS_EXTENDED_OPTIONS_H
+
+#ifdef _MSC_VER
+#pragma once
+#pragma warning(push)
+#pragma warning(disable : 4251)
+#endif
+
+#include <vector>
+#include "APIDef.h"
+#include "CryptoProvider.h"
+#include "PODTypes.h"
+
+namespace LicenseSpring
+{
+/// \brief Class for storing a device's network information.
+/// \see The retrieval of some information can be disabled by using
+/// ExtendedOptions::collectNetworkInfo()
+class LS_API NetworkInfo
+{
+public:
+    /// \brief Constructor for networkInfo.
+    NetworkInfo() = default;
+
+    /// \brief Destructor for networkInfo.
+    ~NetworkInfo();
+
+    /// \brief Setter for IP address.
+    /// \param ip IP address
+    void setIp(const std::string &ip);
+
+    /// \brief Getter for IP address.
+    /// \return String of IP address.
+    const std::string &ip() const;
+
+    /// \brief Setter for MAC address.
+    /// \param mac MAC address
+    void setMac(const std::string &mac);
+
+    /// \brief Getter for MAC address.
+    /// \return String of MAC address.
+    const std::string &mac() const;
+
+    /// \brief Setter for host name.
+    /// \param hostName Host name
+    void setHostName(const std::string &hostName);
+
+    /// \brief Getter for host name.
+    /// \return UTF-8 encoded string of host name.
+    const std::string &hostName() const;
+
+private:
+    std::string m_localIP;
+    std::string m_hostName;
+    std::string m_macAddress;
+};
+
+/// \brief Class for storing settings when using a proxy server.
+class LS_API ProxySettings
+{
+public:
+    /// \brief Default constructor for proxy settings.
+    ProxySettings() = default;
+
+    /// \brief Constructor for proxy settings.
+    /// \param proxy String of proxy URI
+    /// \param user String of user
+    /// \param password String of password
+    ProxySettings(const std::string &proxy, const std::string &user, const std::string &password);
+
+    /// \brief Destructor for proxy settings.
+    ~ProxySettings();
+
+    /// \brief Automatically fetch proxy URI and credentials.
+    /// \details Usable only on Windows.\n
+    /// Tries to automatically fetch PAC file and proxy settings specific to the LicenseSpring API
+    /// URL. Otherwise fetches default WinHTTP proxy.\n Also tries to fetch credential data through
+    /// Windows Credential Manager.
+    /// \param serviceURL License API URL
+    /// \param credentialTarget Proxy credentials name in Windows Credential Manager
+    /// \param throwExceptions Indicates whether this method should throw exceptions
+    /// \throw LicenseSpringException If proxy is not set up or credentials don't exist
+    /// \return True if fetching proxy settings is successful and false otherwise.
+    bool fetchProxySettings(const std::string &serviceURL, const std::string &credentialTarget,
+        bool throwExceptions = false);
+
+    /// \brief Setter for proxy URI.
+    /// \param uri String of proxy URI
+    void setProxyUri(const std::string &uri);
+
+    /// \brief Getter for proxy URI.
+    /// \return String of proxy URI.
+    const std::string &getProxyUri() const;
+
+    /// \brief Setter for proxy user.
+    /// \param user String for proxy user
+    void setUser(const std::string &user);
+
+    /// \brief Getter for proxy user.
+    /// \return String of proxy user.
+    const std::string &getUser() const;
+
+    /// \brief Setter for password.
+    /// \param password String for password
+    void setPassword(const std::string &password);
+
+    /// \brief Getter for password.
+    /// \return String of password.
+    const std::string &getPassword() const;
+
+    /// \brief Checker for if proxy URI is specified (i.e. not empty).
+    /// \return True if specified, false if empty.
+    bool isValid() const;
+
+private:
+    std::string m_proxyUri; // e.g. "http://local.example.com:1080"
+    std::string m_user;
+    std::string m_password;
+};
+
+/// \brief Class for managing Hardware Key (YubiKey PIV) specific options.
+/// \details Allows discovering available keys, selecting a target key by serial,
+/// and setting the required PIN. This object should be configured and then
+/// passed to ExtendedOptions.
+class LS_API HardwareKeyOptions
+{
+public:
+    /// \brief Default constructor. Initializes empty target serial and PIN.
+    HardwareKeyOptions() = default;
+
+    /// \brief Default destructor.
+    ~HardwareKeyOptions() = default;
+
+    /// \brief Lists the serial numbers of all connected YubiKeys with PIV support.
+    /// \details This method performs necessary initialization and cleanup of the ykpiv library
+    /// internally.
+    /// \return A vector of strings, each containing a unique serial number.
+    /// Returns an empty vector if no devices are found or an error occurs during discovery.
+    static std::vector<std::string> ListAvailableKeys();
+
+    /// \brief Sets the serial number of the target YubiKey to be used for signing.
+    /// \details The serial number should match one returned by ListAvailableKeys().
+    /// \param serial The target YubiKey's serial number as a string.
+    void setTargetSerial(const std::string &serial);
+
+    /// \brief Gets the configured target YubiKey serial number.
+    /// \return The target serial string. Returns empty string if not set.
+    const std::string &getTargetSerial() const;
+
+    /// \brief Sets the PIN required to access the PIV functions on the target YubiKey.
+    /// \param pin The PIV application PIN.
+    void setPin(const std::string &pin);
+
+    /// \brief Gets the configured PIN for the YubiKey.
+    /// \return The PIN string. Returns empty string if not set.
+    const std::string &getPin() const;
+
+private:
+    std::string m_targetSerial;
+    std::string m_pin;
+};
+
+/// \brief Class for storing useful settings that the Configuration object will inherit.
+class LS_API ExtendedOptions
+{
+public:
+    /// \brief Default constructor for ExtendedOptions.
+    ExtendedOptions();
+
+    /// \brief Constructor for ExtendedOptions.
+    /// \param licenseFilePath Path to license file (obsolete, see setLicenseFilePath())
+    ExtendedOptions(const std::wstring &licenseFilePath);
+
+    /// \brief Constructor for ExtendedOptions.
+    /// \param licenseFilePath Path to license file (obsolete, see setLicenseFilePath())
+    /// \param hardwareID Hardware ID
+    /// \param proxy Proxy settings
+    ExtendedOptions(const std::wstring &licenseFilePath, const std::string &hardwareID,
+        const ProxySettings &proxy = ProxySettings());
+
+    /// \brief Destructor for ExtendedOptions.
+    ~ExtendedOptions();
+
+    /// \brief Set license file path.
+    /// \details This method is obsolete, use BaseManager::setDataLocation() or LicenseFileStorage
+    /// instead.
+    /// \param filePath Absolute or relative path to the license file
+    void setLicenseFilePath(const std::wstring &filePath);
+
+    /// \brief Get license file path.
+    /// \details This method is obsolete, see setLicenseFilePath().
+    /// \return String of license file path.
+    const std::wstring &getLicenseFilePath() const;
+
+    /// \brief Setter for hardware ID.
+    /// \param ID Hardware ID
+    void setHardwareID(const std::string &ID);
+
+    /// \brief Get hardware ID.
+    /// \return String of hardware ID.
+    const std::string &getHardwareID() const;
+
+    /// \brief Get device (hardware) id calculation algorithm.
+    /// \return Device id algorithm. By default it is DeviceIDAlgorithm::Default.
+    DeviceIDAlgorithm getDeviceIdAlgorithm() const;
+
+    /// \brief Allows to choose device (hardware) id calculation algorithm
+    /// \details By default it is DeviceIDAlgorithm::Default for backward compatibility.
+    /// \param algorithm Device id algorithm.
+    void setDeviceIdAlgorithm(DeviceIDAlgorithm algorithm);
+
+    /// \brief Collect network information.
+    /// \details When it's set, SDK collects info on MAC address, local IP, host name and sends this
+    /// info in the requests to the LicenseSpring platform.\n When not set, network collecting is
+    /// disabled by default.
+    /// \param collect True to collect info, false to not
+    void collectNetworkInfo(bool collect);
+
+    /// \brief Checker for whether collectNetworkInfo() is enabled.
+    /// \return True if enabled, false if not.
+    bool isCollectNetworkInfoEnabled() const;
+
+    /// \brief Enable logging
+    /// \details Enabling logging will create a text file: LicenseSpringLog in the same place your
+    /// local license file is stored (see BaseManager::setDataLocation).\n When not set, logging is
+    /// disabled by default.
+    /// \param enable True to enable logging, false to not
+    /// \warning It is for developers only so make sure it's disabled in your release builds. You
+    /// can check to see if it is off using\n Configuration::isLoggingEnabled.
+    void enableLogging(bool enable);
+
+    /// \brief Checker for whether enableLogging() is enabled.
+    /// \return True if enabled, false if not.
+    bool isLoggingEnabled() const;
+
+    /// \brief Enable guard file.
+    /// \details Guard files for protecting offline activation process.\n
+    /// When not set, guard file is enabled by default.
+    /// \param enable True to enable guard file, false to not
+    void enableGuardFile(bool enable);
+
+    /// \brief Checker for whether enableGuardFile() is enabled.
+    /// \return True if enabled, false if not.
+    bool isGuardFileEnabled() const;
+
+    /// \brief Enable VM detection.
+    /// \details Control (enable or disable) detection of Virtual machines.\n
+    /// When not set, VM detection is disabled by default.
+    /// \param enable True to enable VM detection, false to not
+    void enableVMDetection(bool enable);
+
+    /// \brief Checker for whether enableVMDetection() is enabled.
+    /// \return True if enabled, false if not.
+    bool isVMDetectionEnabled() const;
+
+    /// \brief Enable or disable SSL certificate verification.
+    /// \details By default SSL certificate verification is enabled and we strongly discaraging
+    /// disabling this option.\n For more details see
+    /// https://curl.se/libcurl/c/CURLOPT_SSL_VERIFYPEER.html
+    /// \param enable True to enable SSL certificate verification, false to not
+    void enableSSLCheck(bool enable);
+
+    /// \brief Checker for whether SSL certificate verification is enabled.
+    /// \return True if enabled, false if not.
+    bool isSSLCheckEnabled() const;
+
+    /// \brief Enable or disable native TLS for curl.
+    /// \details For Windows it is Schannel, for macOS Secure Transport.\n
+    /// Before changing SDK default setting know what you are doing. Refer to curl documentation:\n
+    /// https://curl.se/docs/ssl-compared.html \n
+    /// https://curl.se/docs/sslcerts.html \n
+    /// \param value True to use native TLS, false to use OpenSSL
+    void setUseNativeTLS(bool value);
+
+    /// \brief Checker for whether native TLS for curl enabled or not.
+    /// \details By default it is enabled for macOS, and disabled for Linux, Windows.
+    /// \return True if enabled, false if not.
+    bool isNativeTLSEnabled() const;
+
+    /// \brief Enable or disable encrypted license data corruption checking.
+    /// \details To prevent writing garbage data to the local license file, this flag decrypts the
+    /// string and compares it to original data.\n This introduces an additional decryption overhead
+    /// on every license file write.
+    /// \param enable True to enable encrypted license data corruption checking, false to not
+    void enableLicenseCorruptionCheck(bool enable);
+
+    /// \brief Checker for whether encrypted license data corruption checking is enabled.
+    /// \details By default it is disabled.
+    /// \return True if enabled, false if not.
+    bool isLicenseCorruptionCheckEnabled() const;
+
+    /// \brief Enable or disable sending requests with a hardware key signature.
+    /// \details If enabled, the SDK will add a header to each request, containing a signature
+    /// signed by a Yubikey provisioned through the LicenseSpring platform.
+    /// \param enable True to enable, false to disable
+    void enableHardwareKey(bool enable);
+
+    /// \brief Checker for whether requests should be sent with a hardware key signature.
+    /// \details It is disabled by default.
+    /// \return True if enabled, false if not.
+    bool isHardwareKeyEnabled() const;
+
+    /// \brief Setter for grace period.
+    /// \details If not set, then default will be 48 hours. Set 0 to disable grace period.
+    /// For cloud floating licenses grace period on license check is enabled if more than an hour of
+    /// floating period remains.
+    /// \param value Unsigned int for grace period in hours
+    void setGracePeriod(uint32_t value);
+
+    /// \brief Getter for grace period.
+    /// \return Unsigned int for grace period in hours
+    uint32_t getGracePeriod() const;
+
+    /// \brief Setter for network timeout.
+    /// \details If not set, then default timeout will be 5 seconds.
+    /// \param timeout Long for timeout
+    void setNetworkTimeout(long timeout);
+
+    /// \brief Getter for network timeout.
+    /// \return long of timeout.
+    long getNetworkTimeout() const;
+
+    /// \brief Setter for connect timeout, used for CURLOPT_CONNECTTIMEOUT option.
+    /// \details If not set, then default timeout will be 7 seconds.
+    /// \param timeout Long for timeout
+    void setConnectTimeout(long timeout);
+
+    /// \brief Getter for connect timeout, used for CURLOPT_CONNECTTIMEOUT option.
+    /// \return long of timeout.
+    long getConnectTimeout() const;
+
+    /// \brief Setter for proxy settings.
+    /// \details If not set, then proxy servers are not used, by default.
+    /// \param settings ProxySettings object
+    void setProxySettings(const ProxySettings &settings);
+
+    /// \brief Getter for proxy settings.
+    /// \return ProxySettings object.
+    const ProxySettings &getProxySettings() const;
+
+    /// \brief Setter for NetworkInfo.
+    /// \param networkInfo NetworkInfo object
+    void overrideNetworkInfo(const NetworkInfo &networkInfo);
+
+    /// \brief Getter for network info.
+    /// \return NetworkInfo object.
+    const NetworkInfo &getNetworkInfo() const;
+
+    /// \brief Setter for CryptoProvider.
+    /// \details If not set, then default CryptoProvider will be used.
+    /// \param cryptoProvider CryptoProvider object
+    void overrideCryptoProvider(CryptoProvider::ptr_t cryptoProvider);
+
+    /// \brief Getter for CryptoProvider.
+    /// \return CryptoProvider object.
+    CryptoProvider::ptr_t getCryptoProvider();
+
+    /// \brief This method can be used if you are planning to deploy self-hosted server.
+    /// \details In most cases should be left blank.\n
+    /// In order to connect to the LS FloatingServer set its address, for example
+    /// "http://localhost:8080"
+    /// \param URL Alternate License API URL
+    void setAlternateServiceURL(const std::string &URL);
+
+    /// \brief Getter for alternate License API URL.
+    /// \return Alternate License API URL.
+    const std::string &getAlternateServiceURL() const;
+
+    /// \brief Set alternate public key. This method can be used if you are planning to deploy
+    /// self-hosted server.
+    /// \details Key should be in format "-----BEGIN PUBLIC KEY-----\n.....key body...\n-----END
+    /// PUBLIC KEY-----"
+    /// \param key Public key for verification
+    void setAlternateKey(const std::string &key);
+
+    /// \brief Set alternate public key.
+    /// \details Overloaded method, reserved for internal use.
+    /// \param key Public key for verification
+    void setAlternateKey(const std::vector<int32_t> &key);
+
+    /// \brief Set alternate public key.
+    /// \details Overloaded method, reserved for internal use.
+    /// \param key Public key for verification
+    /// \param size Size of key to create vector from
+    void setAlternateKey(const int32_t *key, std::size_t size);
+
+    /// \brief Getter for alternate License API URL.
+    /// \return Alternate License API URL.
+    const std::string &getAlternateKey() const;
+
+    /// \brief Set certificate chain used for verifying LicenseSpring response signatures.
+    /// This method can be used if you are planning to deploy a self-hosted LicenseSpring instance
+    /// or a Floating server.
+    /// \details Cert chain should contain a newlines for parsing, and be formatted as
+    /// -----BEGIN CERTIFICATE-----
+    /// <Leaf Certificate>
+    /// -----END CERTIFICATE-----
+    /// -----BEGIN CERTIFICATE-----
+    /// <Intermediate Certificate>
+    /// -----END CERTIFICATE-----
+    /// -----BEGIN CERTIFICATE-----
+    /// <Root Certificate>
+    /// -----END CERTIFICATE-----
+    /// \param certificateChain Certificate chain used for signature verification
+    void setCertificateChain(const std::string &certificateChain);
+
+    /// \brief Set certificate chain used for verifying LicenseSpring response signatures.
+    /// This method can be used if you are planning to deploy a self-hosted LicenseSpring instance
+    /// or a Floating server.
+    /// \param filePath Absolute or relative path to the certificate chain file.
+    /// \param throwExceptions Indicates whether this method should throw exceptions.
+    /// \throw LicenseSpringException If not able to open or parse the certificate chain file.
+    /// \return True if loading successful, and false otherwise.
+    bool setCertificateChainFromFile(const std::string &filePath, bool throwExceptions = false);
+
+    /// \brief Getter for certificate chain used for verifying LicenseSpring response signatures.
+    /// \return Certificate chain used for verifying LicenseSpring response signatures.
+    const std::string &getCertificateChain() const;
+
+    /// \brief Sets the hardware key (YubiKey PIV) specific options.
+    /// \param options A configured HardwareKeyOptions object.
+    /// \details If the target serial is non-empty, this function automatically sets the hardware ID
+    /// to the YubiKey serial number, and enables the m_enableHardwareKey flag.
+    void setHardwareKeyOptions(const HardwareKeyOptions &options);
+
+    /// \brief Gets the configured hardware key (YubiKey PIV) options.
+    /// \return Const reference to the HardwareKeyOptions object.
+    const HardwareKeyOptions &getHardwareKeyOptions() const;
+
+private:
+    std::wstring m_licenseFilePath;
+    std::string m_hardwareID;
+    std::string m_serviceURL;
+    std::string m_key;
+    std::string m_certificateChain;
+    bool m_collectNetworkInfo;           // false by default
+    bool m_enableVMDetection;            // false by default
+    bool m_enableGuardFile;              // true by default
+    bool m_enableSSLCheck;               // false by default
+    bool m_useNativeTLS;                 // see isNativeTLSEnabled
+    bool m_enableLicenseCorruptionCheck; // false by default
+    bool m_enableHardwareKey;            // false by default
+    uint32_t m_gracePeriod;              // in hours, default value is 48
+    long m_networkTimeout;               // in seconds, default is 5 seconds
+    long m_connectTimeout;               // in seconds, default is 7 seconds
+    ProxySettings m_proxySettings;       // by default doesn't use any proxy
+    NetworkInfo m_networkInfo;
+    DeviceIDAlgorithm m_deviceIDAlgorithm;
+    CryptoProvider::ptr_t m_cryptoProvider;
+    HardwareKeyOptions m_hardwareKeyOptions;
+};
+
+} // namespace LicenseSpring
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
+
+#endif // LS_EXTENDED_OPTIONS_H

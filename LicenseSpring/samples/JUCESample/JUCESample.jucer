@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="ADXJWW" name="JUCESample" projectType="guiapp" useAppConfig="1"
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
+  <MAINGROUP id="NtV2qv" name="JUCESample">
+    <GROUP id="{F697604E-8121-4192-6075-E1E2246A09CE}" name="Source">
+      <FILE id="iIleRg" name="AppConfig.cpp" compile="1" resource="0" file="../AppConfig.cpp"/>
+      <FILE id="w60Geg" name="AppConfig.h" compile="0" resource="0" file="../AppConfig.h"/>
+      <FILE id="ctJ88d" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="zq90Yb" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
+      <FILE id="Foml5u" name="MainComponent.cpp" compile="1" resource="0"
+            file="Source/MainComponent.cpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
+  <EXPORTFORMATS>
+    <VS2019 targetFolder="Builds/VisualStudio2019" externalLibraries="${LIB_NAME}.lib">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="JUCESample" headerPath="..\..\..\..\include\"
+                       libraryPath="..\..\..\..\bin\$(PlatformShortName)\dynamic\" postbuildCommand="call ..\..\copy_libs.bat debug $(PlatformShortName)"
+                       defines="LIB_NAME=LicenseSpringD"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="JUCESample" libraryPath="..\..\..\..\bin\$(PlatformShortName)\dynamic\"
+                       headerPath="..\..\..\..\include\" postbuildCommand="call ..\..\copy_libs.bat release $(PlatformShortName)"
+                       defines="LIB_NAME=LicenseSpring"/>
+        <CONFIGURATION isDebug="1" name="Debug" headerPath="..\..\..\..\include\" libraryPath="..\..\..\..\bin\$(PlatformShortName)\dynamic\"
+                       defines="LIB_NAME=LicenseSpringD" winArchitecture="Win32" optimisation="1"
+                       postbuildCommand="call ..\..\copy_libs.bat debug $(PlatformShortName)"/>
+        <CONFIGURATION isDebug="0" name="Release" headerPath="..\..\..\..\include\"
+                       libraryPath="..\..\..\..\bin\$(PlatformShortName)\dynamic\" defines="LIB_NAME=LicenseSpring"
+                       postbuildCommand="call ..\..\copy_libs.bat release $(PlatformShortName)"
+                       winArchitecture="Win32"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../../../../Downloads/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../../Downloads/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../../Downloads/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../../Downloads/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../../../Downloads/JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2019>
+    <XCODE_MAC targetFolder="Builds/MacOSX" externalLibraries="LicenseSpring&#10;crypto.3&#10;curl.4&#10;crypto&#10;curl&#10;ssl.3&#10;ssl"
+               postbuildCommand="bash ../../copy_libs.sh">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" headerPath="../../../../include" libraryPath="../../../../bin/shared/Debug/"/>
+        <CONFIGURATION isDebug="0" name="Release" headerPath="../../../../include" libraryPath="../../../../bin/shared/Release"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_basics" path="../../../../../../Downloads/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../../../Downloads/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../../../Downloads/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../../../Downloads/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../../../../Downloads/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+  </MODULES>
+  <LIVE_SETTINGS>
+    <WINDOWS/>
+  </LIVE_SETTINGS>
+</JUCERPROJECT>

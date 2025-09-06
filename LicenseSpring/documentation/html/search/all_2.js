@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['basemanager_0',['basemanager',['../class_license_spring_1_1_base_manager.html',1,'LicenseSpring::BaseManager'],['../class_license_spring_1_1_base_manager.html#adb4f66e08bec1c3f03abf142dba6438a',1,'LicenseSpring::BaseManager::BaseManager(Configuration::ptr_t config, LicenseStorage::ptr_t storage=nullptr)'],['../class_license_spring_1_1_base_manager.html#a8990e4455d5de21584f7e764d91a05a5',1,'LicenseSpring::BaseManager::BaseManager(const BaseManager &amp;)=delete']]],
+  ['basemanager_2eh_1',['BaseManager.h',['../_base_manager_8h.html',1,'']]],
+  ['beta_2',['beta',['../namespace_license_spring.html#a41540130e367b9361bdab9908b0771bda987bcab01b929eb2c07877b224215c92',1,'LicenseSpring']]],
+  ['boost_3',['boost',['../namespaceboost.html',1,'']]],
+  ['boost_3a_3ainterprocess_4',['interprocess',['../namespaceboost_1_1interprocess.html',1,'boost']]],
+  ['borrow_5',['borrow',['../class_license_spring_1_1_license.html#a1413d15ee0a4c07a16d4aa0a4f3fb150',1,'LicenseSpring::License::borrow(uint32_t hours, uint32_t days=0, const std::string &amp;password=std::string())=0'],['../class_license_spring_1_1_license.html#aded78e9d8db7d45b5b81dd4d5721f56b',1,'LicenseSpring::License::borrow(const std::string &amp;borrowEndDateTime=std::string(), const std::string &amp;password=std::string())=0']]],
+  ['borrowfloatinglicense_6',['borrowfloatinglicense',['../struct_l_s_license_handler.html#ab744d2cae0bf16f62d3ce6dcbc3cf1c8',1,'LSLicenseHandler::borrowFloatingLicense'],['../class_license_spring_1_1_license_handler.html#a3ccd022395d28152b1591ac5dd5a9f31',1,'LicenseSpring::LicenseHandler::borrowFloatingLicense(uint32_t hours, uint32_t days=0, const std::string &amp;password=std::string())'],['../class_license_spring_1_1_license_handler.html#a315436ab32a9b39b3775001dd7faba98',1,'LicenseSpring::LicenseHandler::borrowFloatingLicense(const std::string &amp;borrowEndDateTime=std::string(), const std::string &amp;password=std::string())']]],
+  ['borrowfloatinglicensetill_7',['borrowFloatingLicenseTill',['../struct_l_s_license_handler.html#a560d46915aa46149de254423207a48c7',1,'LSLicenseHandler']]],
+  ['borrowfloatinglicensetillwithpassword_8',['borrowFloatingLicenseTillWithPassword',['../struct_l_s_license_handler.html#ae353d78b04a23f2f45be0e2add6b9202',1,'LSLicenseHandler']]],
+  ['borrowfloatinglicensewithpassword_9',['borrowFloatingLicenseWithPassword',['../struct_l_s_license_handler.html#ac2d80d186bbc9334af7d050cb60ea9b6',1,'LSLicenseHandler']]],
+  ['borrowlicense_10',['borrowLicense',['../class_license_spring_1_1_floating_client.html#a2d7dfc9700f278a27d7c8ae4f2c5adbb',1,'LicenseSpring::FloatingClient']]],
+  ['borrowlicenseexception_11',['borrowlicenseexception',['../class_license_spring_1_1_borrow_license_exception.html',1,'LicenseSpring::BorrowLicenseException'],['../class_license_spring_1_1_borrow_license_exception.html#aef012f1d4278c7c2b5c82d95f0a7b96c',1,'LicenseSpring::BorrowLicenseException::BorrowLicenseException()']]],
+  ['buildmetadata_12',['buildMetadata',['../class_license_spring_1_1_version_ex.html#a58ad1808bff528bfb5a25c2cea6d579e',1,'LicenseSpring::VersionEx']]],
+  ['buildversion_13',['buildversion',['../class_license_spring_1_1_version.html#a9eaea0f9a4246aa611cc3d4697930b72',1,'LicenseSpring::Version::buildVersion()'],['../class_license_spring_1_1_m_s_version.html#a6c72a6aa79a1a339dae1231588c82c33',1,'LicenseSpring::MSVersion::buildVersion()']]],
+  ['bundlemanager_14',['bundlemanager',['../class_license_spring_1_1_bundle_manager.html',1,'LicenseSpring::BundleManager'],['../class_license_spring_1_1_bundle_manager.html#aeb7f6aca22dfe942e9b5517491e8b9b7',1,'LicenseSpring::BundleManager::BundleManager()']]],
+  ['bundlemanager_2eh_15',['BundleManager.h',['../_bundle_manager_8h.html',1,'']]],
+  ['bundlemismatchexception_16',['bundlemismatchexception',['../class_license_spring_1_1_bundle_mismatch_exception.html',1,'LicenseSpring::BundleMismatchException'],['../class_license_spring_1_1_bundle_mismatch_exception.html#a35e6d70de9e130ab880d58394f4f0efc',1,'LicenseSpring::BundleMismatchException::BundleMismatchException()']]]
+];

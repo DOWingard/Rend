@@ -1,0 +1,135 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35913.81 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CppSample", "CppSample\CppSample.vcxproj", "{38475959-CA0D-4DA0-98EA-40AC11AB73AB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CSample", "CSample\CSample.vcxproj", "{643815A9-05FA-470F-90F1-9A07B4298658}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinSample", "WinSample\src\WinSample.vcxproj", "{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		DebugDll_HardwareKey|x64 = DebugDll_HardwareKey|x64
+		DebugDll_HardwareKey|x86 = DebugDll_HardwareKey|x86
+		DebugDll|x64 = DebugDll|x64
+		DebugDll|x86 = DebugDll|x86
+		DebugLibMD|x64 = DebugLibMD|x64
+		DebugLibMD|x86 = DebugLibMD|x86
+		DebugLibMT|x64 = DebugLibMT|x64
+		DebugLibMT|x86 = DebugLibMT|x86
+		ReleaseDll_HardwareKey|x64 = ReleaseDll_HardwareKey|x64
+		ReleaseDll_HardwareKey|x86 = ReleaseDll_HardwareKey|x86
+		ReleaseDll|x64 = ReleaseDll|x64
+		ReleaseDll|x86 = ReleaseDll|x86
+		ReleaseLibMD|x64 = ReleaseLibMD|x64
+		ReleaseLibMD|x86 = ReleaseLibMD|x86
+		ReleaseLibMT|x64 = ReleaseLibMT|x64
+		ReleaseLibMT|x86 = ReleaseLibMT|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.DebugDll_HardwareKey|x64.ActiveCfg = DebugDll_HardwareKey|x64
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.DebugDll_HardwareKey|x64.Build.0 = DebugDll_HardwareKey|x64
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.DebugDll_HardwareKey|x86.ActiveCfg = DebugDll_HardwareKey|Win32
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.DebugDll_HardwareKey|x86.Build.0 = DebugDll_HardwareKey|Win32
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.DebugDll|x64.ActiveCfg = DebugDll|x64
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.DebugDll|x64.Build.0 = DebugDll|x64
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.DebugDll|x86.ActiveCfg = DebugDll|Win32
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.DebugDll|x86.Build.0 = DebugDll|Win32
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.DebugLibMD|x64.ActiveCfg = DebugLibMD|x64
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.DebugLibMD|x64.Build.0 = DebugLibMD|x64
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.DebugLibMD|x86.ActiveCfg = DebugLibMD|Win32
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.DebugLibMD|x86.Build.0 = DebugLibMD|Win32
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.DebugLibMT|x64.ActiveCfg = DebugLibMT|x64
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.DebugLibMT|x64.Build.0 = DebugLibMT|x64
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.DebugLibMT|x86.ActiveCfg = DebugLibMT|Win32
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.DebugLibMT|x86.Build.0 = DebugLibMT|Win32
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.ReleaseDll_HardwareKey|x64.ActiveCfg = ReleaseDll_HardwareKey|x64
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.ReleaseDll_HardwareKey|x64.Build.0 = ReleaseDll_HardwareKey|x64
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.ReleaseDll_HardwareKey|x86.ActiveCfg = ReleaseDll_HardwareKey|Win32
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.ReleaseDll_HardwareKey|x86.Build.0 = ReleaseDll_HardwareKey|Win32
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.ReleaseDll|x64.ActiveCfg = ReleaseDll|x64
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.ReleaseDll|x64.Build.0 = ReleaseDll|x64
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.ReleaseDll|x86.ActiveCfg = ReleaseDll|Win32
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.ReleaseDll|x86.Build.0 = ReleaseDll|Win32
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.ReleaseLibMD|x64.ActiveCfg = ReleaseLibMD|x64
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.ReleaseLibMD|x64.Build.0 = ReleaseLibMD|x64
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.ReleaseLibMD|x86.ActiveCfg = ReleaseLibMD|Win32
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.ReleaseLibMD|x86.Build.0 = ReleaseLibMD|Win32
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.ReleaseLibMT|x64.ActiveCfg = ReleaseLibMT|x64
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.ReleaseLibMT|x64.Build.0 = ReleaseLibMT|x64
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.ReleaseLibMT|x86.ActiveCfg = ReleaseLibMT|Win32
+		{38475959-CA0D-4DA0-98EA-40AC11AB73AB}.ReleaseLibMT|x86.Build.0 = ReleaseLibMT|Win32
+		{643815A9-05FA-470F-90F1-9A07B4298658}.DebugDll_HardwareKey|x64.ActiveCfg = DebugDll_HardwareKey|x64
+		{643815A9-05FA-470F-90F1-9A07B4298658}.DebugDll_HardwareKey|x64.Build.0 = DebugDll_HardwareKey|x64
+		{643815A9-05FA-470F-90F1-9A07B4298658}.DebugDll_HardwareKey|x86.ActiveCfg = DebugDll_HardwareKey|Win32
+		{643815A9-05FA-470F-90F1-9A07B4298658}.DebugDll_HardwareKey|x86.Build.0 = DebugDll_HardwareKey|Win32
+		{643815A9-05FA-470F-90F1-9A07B4298658}.DebugDll|x64.ActiveCfg = DebugDll|x64
+		{643815A9-05FA-470F-90F1-9A07B4298658}.DebugDll|x64.Build.0 = DebugDll|x64
+		{643815A9-05FA-470F-90F1-9A07B4298658}.DebugDll|x86.ActiveCfg = DebugDll|Win32
+		{643815A9-05FA-470F-90F1-9A07B4298658}.DebugDll|x86.Build.0 = DebugDll|Win32
+		{643815A9-05FA-470F-90F1-9A07B4298658}.DebugLibMD|x64.ActiveCfg = DebugLibMD|x64
+		{643815A9-05FA-470F-90F1-9A07B4298658}.DebugLibMD|x64.Build.0 = DebugLibMD|x64
+		{643815A9-05FA-470F-90F1-9A07B4298658}.DebugLibMD|x86.ActiveCfg = DebugLibMD|Win32
+		{643815A9-05FA-470F-90F1-9A07B4298658}.DebugLibMD|x86.Build.0 = DebugLibMD|Win32
+		{643815A9-05FA-470F-90F1-9A07B4298658}.DebugLibMT|x64.ActiveCfg = DebugLibMT|x64
+		{643815A9-05FA-470F-90F1-9A07B4298658}.DebugLibMT|x64.Build.0 = DebugLibMT|x64
+		{643815A9-05FA-470F-90F1-9A07B4298658}.DebugLibMT|x86.ActiveCfg = DebugLibMT|Win32
+		{643815A9-05FA-470F-90F1-9A07B4298658}.DebugLibMT|x86.Build.0 = DebugLibMT|Win32
+		{643815A9-05FA-470F-90F1-9A07B4298658}.ReleaseDll_HardwareKey|x64.ActiveCfg = ReleaseDll_HardwareKey|x64
+		{643815A9-05FA-470F-90F1-9A07B4298658}.ReleaseDll_HardwareKey|x64.Build.0 = ReleaseDll_HardwareKey|x64
+		{643815A9-05FA-470F-90F1-9A07B4298658}.ReleaseDll_HardwareKey|x86.ActiveCfg = ReleaseDll_HardwareKey|Win32
+		{643815A9-05FA-470F-90F1-9A07B4298658}.ReleaseDll_HardwareKey|x86.Build.0 = ReleaseDll_HardwareKey|Win32
+		{643815A9-05FA-470F-90F1-9A07B4298658}.ReleaseDll|x64.ActiveCfg = ReleaseDll|x64
+		{643815A9-05FA-470F-90F1-9A07B4298658}.ReleaseDll|x64.Build.0 = ReleaseDll|x64
+		{643815A9-05FA-470F-90F1-9A07B4298658}.ReleaseDll|x86.ActiveCfg = ReleaseDll|Win32
+		{643815A9-05FA-470F-90F1-9A07B4298658}.ReleaseDll|x86.Build.0 = ReleaseDll|Win32
+		{643815A9-05FA-470F-90F1-9A07B4298658}.ReleaseLibMD|x64.ActiveCfg = ReleaseLibMD|x64
+		{643815A9-05FA-470F-90F1-9A07B4298658}.ReleaseLibMD|x64.Build.0 = ReleaseLibMD|x64
+		{643815A9-05FA-470F-90F1-9A07B4298658}.ReleaseLibMD|x86.ActiveCfg = ReleaseLibMD|Win32
+		{643815A9-05FA-470F-90F1-9A07B4298658}.ReleaseLibMD|x86.Build.0 = ReleaseLibMD|Win32
+		{643815A9-05FA-470F-90F1-9A07B4298658}.ReleaseLibMT|x64.ActiveCfg = ReleaseLibMT|x64
+		{643815A9-05FA-470F-90F1-9A07B4298658}.ReleaseLibMT|x64.Build.0 = ReleaseLibMT|x64
+		{643815A9-05FA-470F-90F1-9A07B4298658}.ReleaseLibMT|x86.ActiveCfg = ReleaseLibMT|Win32
+		{643815A9-05FA-470F-90F1-9A07B4298658}.ReleaseLibMT|x86.Build.0 = ReleaseLibMT|Win32
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.DebugDll_HardwareKey|x64.ActiveCfg = DebugDll_HardwareKey|x64
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.DebugDll_HardwareKey|x64.Build.0 = DebugDll_HardwareKey|x64
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.DebugDll_HardwareKey|x86.ActiveCfg = DebugDll_HardwareKey|Win32
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.DebugDll_HardwareKey|x86.Build.0 = DebugDll_HardwareKey|Win32
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.DebugDll|x64.ActiveCfg = DebugDll|x64
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.DebugDll|x64.Build.0 = DebugDll|x64
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.DebugDll|x86.ActiveCfg = DebugDll|Win32
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.DebugDll|x86.Build.0 = DebugDll|Win32
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.DebugLibMD|x64.ActiveCfg = DebugLibMD|x64
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.DebugLibMD|x64.Build.0 = DebugLibMD|x64
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.DebugLibMD|x86.ActiveCfg = DebugLibMD|Win32
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.DebugLibMD|x86.Build.0 = DebugLibMD|Win32
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.DebugLibMT|x64.ActiveCfg = DebugLibMT|x64
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.DebugLibMT|x64.Build.0 = DebugLibMT|x64
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.DebugLibMT|x86.ActiveCfg = DebugLibMT|Win32
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.DebugLibMT|x86.Build.0 = DebugLibMT|Win32
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.ReleaseDll_HardwareKey|x64.ActiveCfg = ReleaseDll_HardwareKey|x64
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.ReleaseDll_HardwareKey|x64.Build.0 = ReleaseDll_HardwareKey|x64
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.ReleaseDll_HardwareKey|x86.ActiveCfg = ReleaseDll_HardwareKey|Win32
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.ReleaseDll_HardwareKey|x86.Build.0 = ReleaseDll_HardwareKey|Win32
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.ReleaseDll|x64.ActiveCfg = ReleaseDll|x64
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.ReleaseDll|x64.Build.0 = ReleaseDll|x64
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.ReleaseDll|x86.ActiveCfg = ReleaseDll|Win32
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.ReleaseDll|x86.Build.0 = ReleaseDll|Win32
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.ReleaseLibMD|x64.ActiveCfg = ReleaseLibMD|x64
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.ReleaseLibMD|x64.Build.0 = ReleaseLibMD|x64
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.ReleaseLibMD|x86.ActiveCfg = ReleaseLibMD|Win32
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.ReleaseLibMD|x86.Build.0 = ReleaseLibMD|Win32
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.ReleaseLibMT|x64.ActiveCfg = ReleaseLibMT|x64
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.ReleaseLibMT|x64.Build.0 = ReleaseLibMT|x64
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.ReleaseLibMT|x86.ActiveCfg = ReleaseLibMT|Win32
+		{002D2140-EA38-46B9-A0C4-E5D82DD82FE5}.ReleaseLibMT|x86.Build.0 = ReleaseLibMT|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7F93A486-A9C1-4091-BBDC-B62AE9139D92}
+	EndGlobalSection
+EndGlobal

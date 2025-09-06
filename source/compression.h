@@ -39,11 +39,11 @@ public:
     
 private:
 
-    void toDb();        // convnert to dB
+    void toDb();       // convnert to dB
     void dbToLinear(); // dB to linear gain
     void setCoeff();   // sets coeffs for compressor process
     void smooth();     // smooths the input signal
-    void softKnee();// soft knee function 
+    void softKnee();   // soft knee function 
 
 
 protected:

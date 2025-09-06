@@ -1,8 +1,10 @@
 //------------------------------------------------------------------------
-// Copyright(c) 2025 My Plug-in Company.
+// Copyright(c) 2025 Void Audio.
 //------------------------------------------------------------------------
 
 #pragma once
+
+
 
 #include "vstgui\plugin-bindings\vst3editor.h"
 #include "editordelegate.h"
@@ -38,8 +40,6 @@ protected:
 
 private:
     std::unique_ptr<SwellEditorDelegate> delegate_;
-    VSTGUI::CBitmap* background1 = nullptr;
-    VSTGUI::CBitmap* background2 = nullptr;
 };
 
 

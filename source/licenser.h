@@ -1,0 +1,144 @@
+//------------------------------------------------------------------------
+// Copyright(c) 2025 Void Audio.
+//------------------------------------------------------------------------
+#pragma once
+
+#include "LicenseSpring/Configuration.h"
+#include "LicenseSpring/EncryptString.h"
+#include "LicenseSpring/LicenseManager.h"
+#include "LicenseSpring/Exceptions.h"
+#include "LicenseSpring/LicenseID.h"
+
+#include <iostream>
+#include <thread>
+#include <functional>
+#include <memory>
+#include <string>
+
+
+
+using namespace VSTGUI;
+using namespace LicenseSpring;
+
+class LicenseOverlayView : public CViewContainer, public IControlListener 
+{
+public:
+    using ActivationCallback = std::function<void()>;
+
+    LicenseOverlayView(const CRect& size)
+        : CViewContainer(size)
+    {
+        // setTransparency(false);
+        // setupUI();
+        // setupLicenseSpring();
+    }
+
+    void setOnActivatedCallback(ActivationCallback callback)
+    {
+        onActivated = std::move(callback);
+    }
+
+    void valueChanged(CControl* pControl) override
+    {
+        if (pControl == submitButton)
+        {
+            // std::string key = licenseInput->getText().data();
+            // activateWithKey(key);
+        }
+    }
+    // void setupUI()
+    // {
+    //     const float padding = 20.f;
+    //     const float width = getViewSize().getWidth();
+    //     const float height = getViewSize().getHeight();
+
+    //     CRect inputRect(padding, padding, width - padding, padding + 20);
+    //     CRect buttonRect(padding, padding + 30, width - padding, padding + 55);
+    //     CRect labelRect(padding, padding + 65, width - padding, padding + 85);
+
+    //     messageLabel = new CTextLabel(labelRect, "Unshackle:");
+    //     licenseInput = new CTextEdit(inputRect, this, 123456,"Enter License Key");
+    //     submitButton = new CTextButton(buttonRect, this, -1, "Activate");
+        
+
+
+    //     addView(licenseInput);
+    //     addView(submitButton);
+    //     addView(messageLabel);
+    // }
+
+    // void setupLicenseSpring()
+    // {
+    //     std::string appName = "Rend";
+    //     std::string appVersion = "0.1.0.0";
+
+    //     ExtendedOptions options;
+    //     options.collectNetworkInfo(true);
+
+    //     // auto config = Configuration::Create(
+    //     //     //EncryptStr("a2337e2f-a073-43c1-9605-7bd364a1277c"),   // API Key
+    //     //     EncryptStr("a2337e2f-a073-43c1-9605-7bd364a1xxxx"),   // API Key
+    //     //     EncryptStr("mOdY5mU0PKsRm-MZd1aNLHd5IrVKJhUz2inFN0y-6R4"), // Shared Key
+    //     //     EncryptStr("42069"), // Product code
+    //     //     appName, appVersion, options
+    //     // );
+
+    //     // licenseManager = LicenseManager::create(config);
+
+    //     // try {
+    //     //     licenseManager->getProductDetails();
+    //     // } catch (...) {
+    //     //     updateMessage("Failed to fetch product details.");
+    //     // }
+
+    //     // try {
+    //     //     license = licenseManager->getCurrentLicense();
+    //     //     if (license && license->isActive() && !license->isTrial()) {
+    //     //         updateMessage("License already active.");
+    //     //         if (onActivated) onActivated();
+    //     //     }
+    //     // } catch (...) {
+    //     //     updateMessage("No existing license found.");
+    //     // }
+    // }
+
+    // void activateWithKey(const std::string& key)
+    // {
+    //     try {
+    //         licenseId = LicenseID::fromKey(key);
+    //         license = licenseManager->activateLicense(licenseId);
+
+    //         if (license && license->isActive()) {
+    //             updateMessage("License activated successfully.");
+    //             if (onActivated) onActivated();
+    //         } else {
+    //             updateMessage("Activation failed. Invalid license state.");
+    //         }
+    //     } catch (LicenseNotFoundException) {
+    //         updateMessage("License not found. Please check your key.");
+    //     } catch (LicenseNoAvailableActivationsException) {
+    //         updateMessage("No activations available. Deactivate another device.");
+    //     } catch (LicenseStateException) {
+    //         updateMessage("License invalid or expired.");
+    //     } catch (...) {
+    //         updateMessage("Unknown error during activation.");
+    //     }
+    // }
+
+    void updateMessage(const std::string& msg)
+    {
+        if (messageLabel)
+            messageLabel->setText(msg.c_str());
+    }
+
+private:
+    CTextEdit* licenseInput = nullptr;
+    CTextButton* submitButton = nullptr;
+    CTextLabel* messageLabel = nullptr;
+
+    ActivationCallback onActivated;
+
+    // LicenseManager::ptr_t licenseManager = nullptr;
+    // License::ptr_t license = nullptr;
+    // LicenseID licenseId;
+};

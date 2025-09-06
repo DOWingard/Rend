@@ -112,6 +112,14 @@ private:
 	double switchstate            = 1.0;
 	float noiseAmount             = 0.0001f;
 	float forceMono               = 0.0f;     // handle mono switch ,theres probably an easier way to do this
+
+
+	float mix;
+	float drive;
+	float extra;
+	float bypass;
+
+
 	float makeupGain;
 
 	std::vector<float*> filteredPtrs;

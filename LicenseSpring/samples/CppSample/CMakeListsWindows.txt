@@ -1,0 +1,79 @@
+cmake_minimum_required(VERSION 3.10)
+
+project(CppSample)
+
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
+# Set the configuration options from the build script
+set(BUILD_TYPE "$ENV{build_type}")
+set(LIB_TYPE "$ENV{libs_type}")
+set(ARCHITECTURE "$ENV{architecture}")
+
+if (${LIB_TYPE} STREQUAL "shared")
+    set(LIB_TYPE "dynamic")
+endif ()
+
+if (${LIB_TYPE} STREQUAL "staticMD")
+    add_definitions(-DLS_STATIC)
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MD")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MDd")
+elseif (${LIB_TYPE} STREQUAL "staticMT")
+    add_definitions(-DLS_STATIC)
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+endif ()
+
+option(LS_HARDWARE_KEY "Enable LicenseSpring hardware key support" OFF)
+set(HARDWARE_KEY_SUFFIX "")
+if(LS_HARDWARE_KEY)
+  set(HARDWARE_KEY_SUFFIX "_HardwareKey")
+endif()
+
+add_executable(${PROJECT_NAME}
+  BaseSample.h
+  BaseSample.cpp
+  LicenseSample.h
+  LicenseSample.cpp
+  BundleSample.h
+  BundleSample.cpp
+  main.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/../AppConfig.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/../AppConfig.cpp
+)
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../../include/)
+
+if (${BUILD_TYPE} STREQUAL "Debug")
+    set(CMAKE_BUILD_TYPE "Debug")
+    target_link_libraries(${PROJECT_NAME} PUBLIC debug ${CMAKE_CURRENT_SOURCE_DIR}/../../bin/${ARCHITECTURE}/${LIB_TYPE}${HARDWARE_KEY_SUFFIX}/LicenseSpringD.lib)
+    if (${LIB_TYPE} STREQUAL "dynamic")
+        target_compile_definitions(${PROJECT_NAME} PRIVATE WIN32 _DEBUG _CONSOLE )
+    else()
+        target_compile_definitions(${PROJECT_NAME} PRIVATE WIN32 _DEBUG _CONSOLE LS_STATIC )
+    endif()
+else ()
+    set(CMAKE_BUILD_TYPE "Release")
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../bin/${ARCHITECTURE}/${LIB_TYPE}${HARDWARE_KEY_SUFFIX}/LicenseSpring.lib)
+    if (${LIB_TYPE} STREQUAL "dynamic")
+        target_compile_definitions(${PROJECT_NAME} PRIVATE WIN32 NDEBUG _CONSOLE )
+    else()
+        target_compile_definitions(${PROJECT_NAME} PRIVATE WIN32 NDEBUG _CONSOLE LS_STATIC )
+    endif()
+endif ()
+
+target_link_options(${PROJECT_NAME} PRIVATE "/ignore:4099" )
+if (${BUILD_TYPE} STREQUAL "Debug")
+    target_link_options(${PROJECT_NAME} PRIVATE "/NODEFAULTLIB:libcmt.lib")
+endif()
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    CXX_STANDARD_REQUIRED YES
+    CXX_EXTENSIONS NO
+)
+
+set(OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/${ARCHITECTURE}/${LIB_TYPE}")
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIRECTORY}
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG ${OUTPUT_DIRECTORY}
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE ${OUTPUT_DIRECTORY}
+)

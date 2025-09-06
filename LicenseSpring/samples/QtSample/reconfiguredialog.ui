@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ReconfigureDialog</class>
+ <widget class="QDialog" name="ReconfigureDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>499</width>
+    <height>383</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Reconfigure</string>
+  </property>
+  <widget class="QDialogButtonBox" name="reconfigureDialogButtonBox">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>330</y>
+     <width>341</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Orientation::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
+   </property>
+  </widget>
+  <widget class="QWidget" name="formLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>20</y>
+     <width>441</width>
+     <height>291</height>
+    </rect>
+   </property>
+   <layout class="QFormLayout" name="formLayout_2">
+    <item row="0" column="0">
+     <widget class="QLabel" name="apiKeyLabel">
+      <property name="text">
+       <string>API key</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="apiKeyLineEdit"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="sharedKeyLabel">
+      <property name="text">
+       <string>Shared key</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="sharedKeyLineEdit"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="clientIdLabel">
+      <property name="text">
+       <string>Client ID</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="clientIdLineEdit"/>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="clientSecretLabel">
+      <property name="text">
+       <string>Client secret</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QLineEdit" name="clientSecretLineEdit"/>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="productCodeLabel">
+      <property name="text">
+       <string>Product code</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="appNameLabel">
+      <property name="text">
+       <string>App name</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="appVersionLabel">
+      <property name="text">
+       <string>App version</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="hardwareKeySerialLabel">
+      <property name="text">
+       <string>YubiKey serial</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="hardwareKeyPinLabel">
+      <property name="text">
+       <string>YubiKey PIN</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLineEdit" name="productCodeLineEdit"/>
+    </item>
+    <item row="5" column="1">
+     <widget class="QLineEdit" name="appNameLineEdit"/>
+    </item>
+    <item row="6" column="1">
+     <widget class="QLineEdit" name="appVersionLineEdit"/>
+    </item>
+    <item row="7" column="1">
+     <widget class="QLineEdit" name="hardwareKeySerialLineEdit"/>
+    </item>
+    <item row="8" column="1">
+     <widget class="QLineEdit" name="hardwareKeyPinLineEdit"/>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>reconfigureDialogButtonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>ReconfigureDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>reconfigureDialogButtonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>ReconfigureDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Activation window -->
+    <ScrollView
+        android:id="@+id/activate_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Header logo and title -->
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="183dp"
+                android:layout_height="110dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/logo_description"
+                android:src="@drawable/licensespring_logo"
+                tools:ignore="ImageContrastCheck" />
+
+            <TextView
+                android:id="@+id/tvHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="24dp"
+                android:text="@string/sample_title" />
+
+            <!-- Key-based activation -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_key_based" />
+
+                    <EditText
+                        android:id="@+id/etKey"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:hint="@string/hint_license_key"
+                        android:inputType="text"
+                        android:importantForAutofill="no"
+                        android:autofillHints="none"
+                        android:minHeight="48dp"
+                        android:padding="8dp" />
+
+                    <Button
+                        android:id="@+id/btnActivateKey"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/btn_activate"
+                        tools:ignore="DuplicateSpeakableTextCheck" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- User-based activation -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_user_based" />
+
+                    <EditText
+                        android:id="@+id/etUser"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:hint="@string/hint_username"
+                        android:inputType="textEmailAddress"
+                        android:autofillHints="username"
+                        android:minHeight="48dp"
+                        android:padding="8dp" />
+
+                    <EditText
+                        android:id="@+id/etPass"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:hint="@string/hint_password"
+                        android:inputType="textPassword"
+                        android:autofillHints="password"
+                        android:minHeight="48dp"
+                        android:padding="8dp" />
+
+                    <Button
+                        android:id="@+id/btnActivateUser"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/btn_activate" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Trial activation -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_trial" />
+
+                    <EditText
+                        android:id="@+id/etEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:hint="@string/hint_email"
+                        android:inputType="textEmailAddress"
+                        android:autofillHints="emailAddress"
+                        android:minHeight="48dp"
+                        android:padding="8dp" />
+
+                    <Button
+                        android:id="@+id/btnGetTrial"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/btn_get_trial" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- License view -->
+    <ScrollView
+        android:id="@+id/info_view"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivLogoLicenseView"
+                android:layout_width="183dp"
+                android:layout_height="110dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/logo_description"
+                android:src="@drawable/licensespring_logo"
+                tools:ignore="ImageContrastCheck" />
+
+            <!-- Action buttons -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btnProductDetails"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_product_details" />
+
+            </LinearLayout>
+
+            <!-- License info table -->
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="1"
+                android:layout_marginTop="16dp">
+
+                <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_key" />
+                    <TextView
+                        android:id="@+id/tvKey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_user" />
+                    <TextView
+                        android:id="@+id/tvUser"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_status" />
+                    <TextView
+                        android:id="@+id/tvStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_is_offline_activated" />
+                    <TextView
+                        android:id="@+id/tvIsOfflineActivated"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_is_trial" />
+                    <TextView
+                        android:id="@+id/tvIsTrial"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_is_floating" />
+                    <TextView
+                        android:id="@+id/tvIsFloating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_floating_timeout" />
+                    <TextView
+                        android:id="@+id/tvFloatingTimeout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_validity_period" />
+                    <TextView
+                        android:id="@+id/tvValidityPeriod"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_maintenance_period" />
+                    <TextView
+                        android:id="@+id/tvMaintenancePeriod"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_last_checked" />
+                    <TextView
+                        android:id="@+id/tvLastChecked"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_total_consumptions" />
+                    <TextView
+                        android:id="@+id/tvTotalConsumptions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_max_consumptions" />
+                    <TextView
+                        android:id="@+id/tvMaxConsumptions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+            </TableLayout>
+
+            <!-- License features -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/label_license_features" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvFeatures"
+                android:layout_width="match_parent"
+                android:layout_height="120dp" />
+
+            <!-- License consumption controls -->
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <EditText
+                        android:id="@+id/etConsumption"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:hint="@string/hint_consumption"
+                        android:inputType="number"
+                        android:minHeight="48dp"
+                        android:padding="8dp" />
+
+                    <Button
+                        android:id="@+id/btnUpdateConsumption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/btn_update_consumption" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnSyncConsumption"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="@string/btn_sync_consumption" />
+            </LinearLayout>
+
+            <!-- Check and deactivate -->
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <Button
+                    android:id="@+id/btnCheckLicense"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_check_license" />
+
+                <Button
+                    android:id="@+id/btnDeactivate"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_deactivate_license" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

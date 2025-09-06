@@ -6,8 +6,6 @@
             "type": "cppvsdbg",
             "request": "attach",
             "processId": "${command:pickProcess}",
-            "program": "E:\Music E\New Folder\Program\Ableton Live 11 Standard.exe",
-            "stopAtEntry": false,
             "logging": {
                 "engineLogging": true
             }

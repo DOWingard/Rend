@@ -13,7 +13,6 @@
 
 
 
-
 using namespace Steinberg;
 
 namespace VOID {
@@ -91,7 +90,7 @@ tresult PLUGIN_API SwellProcessor::setBusArrangements (Steinberg::Vst::SpeakerAr
 
 
 	compressor.emplace(sampleRate, 18.0f);
-	makeupGain = 2 * std::pow(10.0f, compressor.value().ratio / 20.0f);
+	makeupGain = std::pow(10.0f, compressor.value().ratio / 20.0f);
 
 
 
@@ -193,10 +192,10 @@ tresult PLUGIN_API SwellProcessor::process(Vst::ProcessData& data)
 		}
 	}
 
-float mix      = static_cast<float>(distortionAmountMix);
-float drive    = static_cast<float>(driveAmountMix);
-float extra    = static_cast<float>(extraParamAmountMix);
-float bypass   = static_cast<float>(bypassValue);
+mix      = static_cast<float>(distortionAmountMix);
+drive    = static_cast<float>(driveAmountMix);
+extra    = static_cast<float>(extraParamAmountMix);
+bypass   = static_cast<float>(bypassValue);
 if (data.numSamples > 0)
     {			
         int32 minBus = std::min (data.numInputs, data.numOutputs);
@@ -241,6 +240,8 @@ if (data.numSamples > 0)
                 float* in  = data.inputs[i].channelBuffers32[c];
 				float* filtered = filteredPtrs[c];
                 float* out = data.outputs[i].channelBuffers32[c];
+
+				
                 for (int32 s = 0; s < data.numSamples; s++)
                 { 
 					if (bypass >= 0.5f) { out[s] = in[s]; } else {
@@ -253,8 +254,8 @@ if (data.numSamples > 0)
 					if (switchstate <= 0.5) {
 					/* normal mode */
 
-                    	float normSignal = (1.0f) * (signal * (1.0f - mix) + mix *  ( std::sqrt(mix)* std::tanh( signal * (5.0f + drive * 8.0f + mix * 4.0f)) +
-									  			(1.0f-std::sqrt(mix)) * (2.0f * SwellProcessor::inv_pi)  * std::atan((5.0f + drive * 8.0f + mix * 4.0f))) ); //  ( sqrt.mix * tanh + (1-sqrt.mix) * atan)
+                    	float normSignal = (1.0f) * (signal * (1.0f - mix) + mix *  ( std::sqrt(mix)* std::tanh( signal * (5.0f + drive * 8.0f )) +
+									  			(1.0f-std::sqrt(mix)) * (2.0f * SwellProcessor::inv_pi)  * std::atan((5.0f + drive * 8.0f ))) ); //  ( sqrt.mix * tanh + (1-sqrt.mix) * atan)
 						
 						float uncompressed = normSignal - extra * SwellProcessor::clip(0.5f * normSignal * normSignal * normSignal,std::abs(1-normSignal) );
 						if (compressor.has_value()) {
@@ -268,10 +269,10 @@ if (data.numSamples > 0)
 					} else if (switchstate > 0.5) {
 					/* BROKEN mode */
 
-						float tastefulInclusion =  (1.0f) * (signal * (1.0f - mix) + mix *  ( std::sqrt(mix)* std::tanh( signal * (5.0f + drive * 8.0f + mix * 4.0f)) +
-									  			(1.0f-std::sqrt(mix)) * (2.0f * SwellProcessor::inv_pi)  * std::atan((5.0f + drive * 8.0f + mix * 4.0f))) ); //  ( sqrt.mix * tanh + (1-sqrt.mix) * atan)
+						float tastefulInclusion =  (1.0f) * (signal * (1.0f - mix) + mix *  ( std::sqrt(mix)* std::tanh( signal * (5.0f + drive * 8.0f )) +
+									  			(1.0f-std::sqrt(mix)) * (2.0f * SwellProcessor::inv_pi)  * std::atan((5.0f + drive * 8.0f ))) ); //  ( sqrt.mix * tanh + (1-sqrt.mix) * atan)
 
-						float normSignal =    SwellProcessor::clip( ((1 + 9.0f * mix  + 10 * drive) * signal * 0.85f + tastefulInclusion * 0.15f)+ extra*noiseAmount * ((rand() / (float)RAND_MAX) * 2.0f - 1.0f), 1 - 0.99 * drive);
+						float normSignal =    SwellProcessor::clip( ((1 + 2.0f * mix  + 10 * drive) * signal * 0.85f + tastefulInclusion * 0.15f)+ extra*noiseAmount * ((rand() / (float)RAND_MAX) * 2.0f - 1.0f), 1 - 0.99 * drive);
 						float uncompressed = SwellProcessor::clip(normSignal - extra * (0.5f * normSignal * normSignal * normSignal  + 0.1f * filtered[s]),  1.0f - 0.99f * drive );
 
 						if (compressor.has_value()) {

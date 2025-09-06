@@ -1,0 +1,35 @@
+<resources>
+<string name="app_name">Android NDK Sample</string>
+<string name="logo_description">LicenseSpring logo</string>
+<string name="sample_title">LicenseSpring Android Sample</string>
+<string name="title_key_based">Key-based licensing</string>
+<string name="hint_license_key">License key</string>
+<string name="title_user_based">User-based licensing</string>
+<string name="hint_username">Username</string>
+<string name="hint_password">Password</string>
+<string name="btn_activate">Activate license</string>
+<string name="btn_create_request_file">Create offline request file</string>
+<string name="hint_email">Email</string>
+<string name="title_trial">Trial</string>
+<string name="btn_get_trial">Activate trial license</string>
+<string name="btn_product_details">Product details</string>
+<string name="btn_send_device_data">Send device data</string>
+<string name="label_key">Key:</string>
+<string name="label_user">User:</string>
+<string name="label_status">Status:</string>
+<string name="label_is_offline_activated">Is offline activated:</string>
+<string name="label_is_trial">Is trial:</string>
+<string name="label_is_floating">Is floating:</string>
+<string name="label_floating_timeout">Floating timeout:</string>
+<string name="label_validity_period">Validity period:</string>
+<string name="label_maintenance_period">Maintenance period:</string>
+<string name="label_last_checked">Last check date:</string>
+<string name="label_total_consumptions">Total license consumptions:</string>
+<string name="label_max_consumptions">Maximum license consumptions:</string>
+<string name="label_license_features">License features</string>
+<string name="btn_sync_consumption">Sync consumption</string>
+<string name="hint_consumption">Consumption</string>
+<string name="btn_update_consumption">Add consumption</string>
+<string name="btn_check_license">Check license</string>
+<string name="btn_deactivate_license">Deactivate license</string>
+</resources>
