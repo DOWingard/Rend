@@ -8,6 +8,7 @@
 #include "LicenseSpring/LicenseManager.h"
 #include "LicenseSpring/Exceptions.h"
 #include "LicenseSpring/LicenseID.h"
+#include "LicenseSpring/ExtendedOptions.h"
 
 #include <iostream>
 #include <thread>
@@ -28,9 +29,9 @@ public:
     LicenseOverlayView(const CRect& size)
         : CViewContainer(size)
     {
-        // setTransparency(false);
-        // setupUI();
-        // setupLicenseSpring();
+        setTransparency(false);
+        setupUI();
+        setupLicenseSpring();
     }
 
     void setOnActivatedCallback(ActivationCallback callback)
@@ -46,61 +47,79 @@ public:
             // activateWithKey(key);
         }
     }
-    // void setupUI()
-    // {
-    //     const float padding = 20.f;
-    //     const float width = getViewSize().getWidth();
-    //     const float height = getViewSize().getHeight();
 
-    //     CRect inputRect(padding, padding, width - padding, padding + 20);
-    //     CRect buttonRect(padding, padding + 30, width - padding, padding + 55);
-    //     CRect labelRect(padding, padding + 65, width - padding, padding + 85);
+    void setupUI()
+    {
+        const float padding = 20.f;
+        const float width = getViewSize().getWidth();
+        const float height = getViewSize().getHeight();
 
-    //     messageLabel = new CTextLabel(labelRect, "Unshackle:");
-    //     licenseInput = new CTextEdit(inputRect, this, 123456,"Enter License Key");
-    //     submitButton = new CTextButton(buttonRect, this, -1, "Activate");
+        const float inputHeight = 30.f;   
+        const float buttonHeight = 35.f;
+        const float labelHeight = 30.f;
+        const float spacing = 15.f;
+
+        const float totalHeight = labelHeight + spacing + inputHeight + spacing + buttonHeight;
+        const float startY = (height - totalHeight) / 2;
+        const float elementWidth = width - 2 * padding;
+
+
+        CRect labelRect(padding, startY, padding + elementWidth, startY + labelHeight);
+        CRect inputRect(padding, labelRect.bottom + spacing, padding + elementWidth, labelRect.bottom + spacing + inputHeight);
+        CRect buttonRect(padding, inputRect.bottom + spacing, padding + elementWidth, inputRect.bottom + spacing + buttonHeight);
+
+        messageLabel = new CTextLabel(labelRect, "Unshackle:");
+        licenseInput = new CTextEdit(inputRect, this, 123456, "Enter License Key");
+        submitButton = new CTextButton(buttonRect, this, 234567, "Activate");
+
+        licenseInput->setBackColor(kWhiteCColor);
+        licenseInput->setFontColor(kBlackCColor);
+
+        submitButton->setTextAlignment(kCenterText);
+
+        submitButton->setTextColor(kRedCColor);
+        submitButton->setFrameColor(kRedCColor);
+
+        addView(messageLabel);
+        addView(licenseInput);
+        addView(submitButton);
+    }
+
+
+    void setupLicenseSpring()
+    {
+        std::string appName = "Rend";
+        std::string appVersion = "0.1.0.0";
+
         
+        //options.collectNetworkInfo(true);
 
+        // auto config = Configuration::Create(
+        //     //EncryptStr("a2337e2f-a073-43c1-9605-7bd364a1277c"),   // API Key
+        //     EncryptStr("a2337e2f-a073-43c1-9605-7bd364a1xxxx"),   // API Key
+        //     EncryptStr("mOdY5mU0PKsRm-MZd1aNLHd5IrVKJhUz2inFN0y-6R4"), // Shared Key
+        //     EncryptStr("42069"), // Product code
+        //     appName, appVersion, options
+        // );
 
-    //     addView(licenseInput);
-    //     addView(submitButton);
-    //     addView(messageLabel);
-    // }
+        // licenseManager = LicenseManager::create(config);
 
-    // void setupLicenseSpring()
-    // {
-    //     std::string appName = "Rend";
-    //     std::string appVersion = "0.1.0.0";
+        // try {
+        //     licenseManager->getProductDetails();
+        // } catch (...) {
+        //     updateMessage("Failed to fetch product details.");
+        // }
 
-    //     ExtendedOptions options;
-    //     options.collectNetworkInfo(true);
-
-    //     // auto config = Configuration::Create(
-    //     //     //EncryptStr("a2337e2f-a073-43c1-9605-7bd364a1277c"),   // API Key
-    //     //     EncryptStr("a2337e2f-a073-43c1-9605-7bd364a1xxxx"),   // API Key
-    //     //     EncryptStr("mOdY5mU0PKsRm-MZd1aNLHd5IrVKJhUz2inFN0y-6R4"), // Shared Key
-    //     //     EncryptStr("42069"), // Product code
-    //     //     appName, appVersion, options
-    //     // );
-
-    //     // licenseManager = LicenseManager::create(config);
-
-    //     // try {
-    //     //     licenseManager->getProductDetails();
-    //     // } catch (...) {
-    //     //     updateMessage("Failed to fetch product details.");
-    //     // }
-
-    //     // try {
-    //     //     license = licenseManager->getCurrentLicense();
-    //     //     if (license && license->isActive() && !license->isTrial()) {
-    //     //         updateMessage("License already active.");
-    //     //         if (onActivated) onActivated();
-    //     //     }
-    //     // } catch (...) {
-    //     //     updateMessage("No existing license found.");
-    //     // }
-    // }
+        // try {
+        //     license = licenseManager->getCurrentLicense();
+        //     if (license && license->isActive() && !license->isTrial()) {
+        //         updateMessage("License already active.");
+        //         if (onActivated) onActivated();
+        //     }
+        // } catch (...) {
+        //     updateMessage("No existing license found.");
+        // }
+    }
 
     // void activateWithKey(const std::string& key)
     // {
@@ -136,9 +155,12 @@ private:
     CTextButton* submitButton = nullptr;
     CTextLabel* messageLabel = nullptr;
 
+    
     ActivationCallback onActivated;
 
-    // LicenseManager::ptr_t licenseManager = nullptr;
-    // License::ptr_t license = nullptr;
-    // LicenseID licenseId;
+    LicenseManager::ptr_t licenseManager = nullptr;
+    License::ptr_t license = nullptr;
+
+    //ExtendedOptions options;
+    //LicenseID licenseId;
 };

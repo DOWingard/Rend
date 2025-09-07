@@ -82,10 +82,7 @@ void didOpen(VSTGUI::VST3Editor* editor) override
     // --- Inject license overlay ---
     // LicenseOverlayView will check license state internally in its constructor
 
-    CRect overlaySize = mainContainer->getViewSize();
-    licenseOverlay = new LicenseOverlayView(overlaySize);
-    //licenseOverlay->setOnActivatedCallback([=] { onLicenseActivated(); });
-    //mainContainer->addView(licenseOverlay);
+   
 
 
     // --- Set background based on switch state ---
@@ -94,6 +91,14 @@ void didOpen(VSTGUI::VST3Editor* editor) override
     } else {
         mainContainer->setBackground(bitmap2);
     }
+    
+    
+
+    CRect overlaySize = mainContainer->getViewSize();
+    licenseOverlay = new LicenseOverlayView(overlaySize);
+    //licenseOverlay->setOnActivatedCallback([=] { onLicenseActivated(); });
+    mainContainer->addView(licenseOverlay);
+    
     mainContainer->invalid();
     frame->setZoom(0.5);
 
