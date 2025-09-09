@@ -15,9 +15,9 @@ using namespace Steinberg;
 namespace VOID {
 
 //------------------------------------------------------------------------
-// SwellController Implementation
+// RendController Implementation
 //------------------------------------------------------------------------
-tresult PLUGIN_API SwellController::initialize (FUnknown* context)
+tresult PLUGIN_API RendController::initialize (FUnknown* context)
 {
 	// Here the Plug-in will be instantiated
 
@@ -149,7 +149,7 @@ tresult PLUGIN_API SwellController::initialize (FUnknown* context)
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API SwellController::terminate ()
+tresult PLUGIN_API RendController::terminate ()
 {
 	// Here the Plug-in will be de-instantiated, last possibility to remove some memory!
 
@@ -158,7 +158,7 @@ tresult PLUGIN_API SwellController::terminate ()
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API SwellController::setComponentState (IBStream* state)
+tresult PLUGIN_API RendController::setComponentState (IBStream* state)
 {
 	// Here you get the state of the component (Processor part)
 	if (!state)
@@ -168,7 +168,7 @@ tresult PLUGIN_API SwellController::setComponentState (IBStream* state)
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API SwellController::setState (IBStream* state)
+tresult PLUGIN_API RendController::setState (IBStream* state)
 {
 	// Here you get the state of the controller
     Steinberg::IBStreamer s(state, kLittleEndian);
@@ -205,7 +205,7 @@ tresult PLUGIN_API SwellController::setState (IBStream* state)
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API SwellController::getState (IBStream* state)
+tresult PLUGIN_API RendController::getState (IBStream* state)
 {
 	// Here you are asked to deliver the state of the controller (if needed)
 	// Note: the real state of your plug-in is saved in the processor
@@ -222,7 +222,7 @@ tresult PLUGIN_API SwellController::getState (IBStream* state)
 }
 
 //------------------------------------------------------------------------
-IPlugView* PLUGIN_API SwellController::createView(FIDString name)
+IPlugView* PLUGIN_API RendController::createView(FIDString name)
 {
     if (FIDStringsEqual(name, Vst::ViewType::kEditor))
     {
@@ -230,7 +230,7 @@ IPlugView* PLUGIN_API SwellController::createView(FIDString name)
        // "editor.uidesc" should be your actual UI description file name
 
 		
-        auto* view = new SwellEditor(this);
+        auto* view = new RendEditor(this);
 		
 
         return view;
@@ -240,7 +240,7 @@ IPlugView* PLUGIN_API SwellController::createView(FIDString name)
 
 //------------------------------------------------------------------------
 
-tresult PLUGIN_API SwellController::setParamNormalized(Steinberg::Vst::ParamID pID, Steinberg::Vst::ParamValue value)
+tresult PLUGIN_API RendController::setParamNormalized(Steinberg::Vst::ParamID pID, Steinberg::Vst::ParamValue value)
 	{
 	if (pID == 10) // Distortion Amount param
 	{
@@ -323,7 +323,7 @@ tresult PLUGIN_API SwellController::setParamNormalized(Steinberg::Vst::ParamID p
     return kResultOk;
 }
 
-Steinberg::Vst::ParamValue PLUGIN_API SwellController::getParamNormalized(Steinberg::Vst::ParamID pID)
+Steinberg::Vst::ParamValue PLUGIN_API RendController::getParamNormalized(Steinberg::Vst::ParamID pID)
 {
     switch (pID)
     {
@@ -347,11 +347,11 @@ Steinberg::Vst::ParamValue PLUGIN_API SwellController::getParamNormalized(Steinb
     }
 }
 
-void SwellController::onLicenseActivated() {
+void RendController::onLicenseActivated() {
 	GlobalLicenseState.isLicenseUnlocked.store(1.0f);
 }
 
-void SwellController::onLicenseDeactivated() {
+void RendController::onLicenseDeactivated() {
 	GlobalLicenseState.isLicenseUnlocked.store(0.0f);
 }
 

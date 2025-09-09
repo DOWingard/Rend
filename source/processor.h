@@ -18,15 +18,15 @@ namespace VOID {
 
 
 //------------------------------------------------------------------------
-//  SwellProcessor
+//  RendProcessor
 //------------------------------------------------------------------------
-class SwellProcessor : public Steinberg::Vst::AudioEffect {
+class RendProcessor : public Steinberg::Vst::AudioEffect {
 
 
 public:
 
-	SwellProcessor ();
-	~SwellProcessor () SMTG_OVERRIDE;
+	RendProcessor ();
+	~RendProcessor () SMTG_OVERRIDE;
 
 
 	
@@ -34,7 +34,7 @@ public:
     // Create function
 	static Steinberg::FUnknown* createInstance (void* /*context*/) 
 	{ 
-		return (Steinberg::Vst::IAudioProcessor*)new SwellProcessor; 
+		return (Steinberg::Vst::IAudioProcessor*)new RendProcessor; 
 	}
 	 
 	//--- ---------------------------------------------------------------------

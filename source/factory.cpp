@@ -10,7 +10,7 @@
 
 
 
-#define stringPluginName "Swell"
+#define stringPluginName "Rend"
 
 using namespace Steinberg::Vst;
 using namespace VOID;
@@ -25,18 +25,18 @@ BEGIN_FACTORY_DEF ("VOID AUDIO",
 
 	//---First Plug-in included in this factory-------
 	// its kVstAudioEffectClass component
-	DEF_CLASS2 (INLINE_UID_FROM_FUID(kSwellProcessorUID),
+	DEF_CLASS2 (INLINE_UID_FROM_FUID(kRendProcessorUID),
 				PClassInfo::kManyInstances,	// cardinality
 				kVstAudioEffectClass,	// the component category (do not changed this)
 				stringPluginName,		// here the Plug-in name (to be changed)
 				Vst::kDistributable,	// means that component and controller could be distributed on different computers
-				SwellVST3Category,    // Subcategory for this Plug-in (to be changed)
+				RendVST3Category,    // Subcategory for this Plug-in (to be changed)
 				FULL_VERSION_STR,		// Plug-in version (to be changed)
 				kVstVersionString,		// the VST 3 SDK version (do not changed this, use always this define)
-				SwellProcessor::createInstance)	// function pointer called when this component should be instantiated
+				RendProcessor::createInstance)	// function pointer called when this component should be instantiated
 
 	// its kVstComponentControllerClass component
-	DEF_CLASS2 (INLINE_UID_FROM_FUID (kSwellControllerUID),
+	DEF_CLASS2 (INLINE_UID_FROM_FUID (kRendControllerUID),
 				PClassInfo::kManyInstances, // cardinality
 				kVstComponentControllerClass,// the Controller category (do not changed this)
 				stringPluginName "Controller",	// controller name (could be the same than component name)
@@ -44,7 +44,7 @@ BEGIN_FACTORY_DEF ("VOID AUDIO",
 				"",						// not used here
 				FULL_VERSION_STR,		// Plug-in version (to be changed)
 				kVstVersionString,		// the VST 3 SDK version (do not changed this, use always this define)
-				SwellController::createInstance)// function pointer called when this component should be instantiated
+				RendController::createInstance)// function pointer called when this component should be instantiated
 
 	//----for others Plug-ins contained in this factory, put like for the first Plug-in different DEF_CLASS2---
 

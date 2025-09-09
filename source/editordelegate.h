@@ -13,12 +13,12 @@
 namespace VOID {
 
 
-class SwellEditorDelegate : public  VSTGUI::VST3EditorDelegate, public VSTGUI::IControlListener
+class RendEditorDelegate : public  VSTGUI::VST3EditorDelegate, public VSTGUI::IControlListener
 {
 
 protected:
-    VSTGUI::CBitmap* bitmap1 = createBitmapFromPath("C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell1.png");
-    VSTGUI::CBitmap* bitmap2 = createBitmapFromPath("C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Swell\\resource\\shell\\shell2.png");
+    VSTGUI::CBitmap* bitmap1 = createBitmapFromPath("C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Rend\\resource\\shell\\shell1.png");
+    VSTGUI::CBitmap* bitmap2 = createBitmapFromPath("C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Rend\\resource\\shell\\shell2.png");
     VSTGUI::CBitmap* bitmap3 = createBitmapFromPath("C:/Users/Derek Wingard/Downloads/image1.png");
    
     

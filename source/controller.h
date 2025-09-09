@@ -18,19 +18,19 @@
 namespace VOID {
 
 //------------------------------------------------------------------------
-//  SwellController
+//  RendController
 //------------------------------------------------------------------------
-class SwellController : public Steinberg::Vst::EditControllerEx1
+class RendController : public Steinberg::Vst::EditControllerEx1
 {
 public:
 //------------------------------------------------------------------------
-	SwellController () = default;
-	~SwellController () SMTG_OVERRIDE = default;
+	RendController () = default;
+	~RendController () SMTG_OVERRIDE = default;
 
     // Create function
 	static Steinberg::FUnknown* createInstance (void* /*context*/)
 	{
-		return (Steinberg::Vst::IEditController*)new SwellController;
+		return (Steinberg::Vst::IEditController*)new RendController;
 	}
 
 	//--- from IPluginBase -----------------------------------------------

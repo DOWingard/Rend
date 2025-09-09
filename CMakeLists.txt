@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(Swell VERSION 1.0.0.0 DESCRIPTION "Swell VST 3 Plug-in")
+project(Rend VERSION 1.0.0.0 DESCRIPTION "Rend VST 3 Plug-in")
 
 # === Options ===
 option(SMTG_ENABLE_VST3_PLUGIN_EXAMPLES "Enable VST 3 Plug-in Examples" OFF)
@@ -12,14 +12,14 @@ if(NOT EXISTS "${vst3sdk_SOURCE_DIR}")
     message(FATAL_ERROR "VST3 SDK not found at: ${vst3sdk_SOURCE_DIR}")
 endif()
 
-set(SWELL_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/VST3/$<CONFIG>/Swell.vst3/Contents/x86_64-win")
+set(REND_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/VST3/$<CONFIG>/Rend.vst3/Contents/x86_64-win")
 
 set(SMTG_VSTGUI_ROOT "${vst3sdk_SOURCE_DIR}")
 add_subdirectory(${vst3sdk_SOURCE_DIR} ${PROJECT_BINARY_DIR}/vst3sdk)
 smtg_enable_vst3_sdk()
 
 # === Plugin Source ===
-smtg_add_vst3plugin(Swell
+smtg_add_vst3plugin(Rend
     source/version.h
     source/cids.h
     source/validity.h
@@ -37,27 +37,27 @@ smtg_add_vst3plugin(Swell
 )
 
 # === Optional GUI Support ===
-target_sources(Swell PRIVATE resource/editor.uidesc)
-target_link_libraries(Swell PRIVATE vstgui_support)
+target_sources(Rend PRIVATE resource/editor.uidesc)
+target_link_libraries(Rend PRIVATE vstgui_support)
 
-smtg_target_add_plugin_resources(Swell
+smtg_target_add_plugin_resources(Rend
     RESOURCES "resource/editor.uidesc"
 )
 
-smtg_target_add_plugin_snapshots(Swell
+smtg_target_add_plugin_snapshots(Rend
     RESOURCES
         resource/8E9537EDF9915C74B33300A75FBCE049_snapshot.png
         resource/8E9537EDF9915C74B33300A75FBCE049_snapshot_2.0x.png
 )
 
 # === External DSPFilters ===
-target_include_directories(Swell PRIVATE
+target_include_directories(Rend PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/../DSPFilters/shared/DSPFilters/include
 )
 file(GLOB DSPFILTERS_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/../DSPFilters/shared/DSPFilters/source/*.cpp
 )
-target_sources(Swell PRIVATE ${DSPFILTERS_SOURCES})
+target_sources(Rend PRIVATE ${DSPFILTERS_SOURCES})
 
 
 # === STATIC ===
@@ -66,14 +66,14 @@ target_sources(Swell PRIVATE ${DSPFILTERS_SOURCES})
 set(LICENSESPRING_INCLUDE_PATH "${CMAKE_SOURCE_DIR}/LicenseSpring/include")
 set(LICENSESPRING_LIB_PATH "${CMAKE_SOURCE_DIR}/LicenseSpring/bin/x64/staticMD")
 
-target_include_directories(Swell PRIVATE ${LICENSESPRING_INCLUDE_PATH})
+target_include_directories(Rend PRIVATE ${LICENSESPRING_INCLUDE_PATH})
 
 # Define LS_STATIC to disable __declspec(dllimport) for static linking
-target_compile_definitions(Swell PRIVATE LS_STATIC CURL_STATICLIB)
+target_compile_definitions(Rend PRIVATE LS_STATIC CURL_STATICLIB)
 
 
 # Link against static LicenseSpring lib (adjust lib names & configs as needed)
-target_link_libraries(Swell PRIVATE
+target_link_libraries(Rend PRIVATE
     $<$<CONFIG:Debug>:${LICENSESPRING_LIB_PATH}/LicenseSpringD.lib>
     $<$<CONFIG:Release>:${LICENSESPRING_LIB_PATH}/LicenseSpring.lib>
     $<$<CONFIG:RelWithDebInfo>:${LICENSESPRING_LIB_PATH}/LicenseSpring.lib>
@@ -99,13 +99,13 @@ target_link_libraries(Swell PRIVATE
 # set(LICENSESPRING_LIB_PATH "${CMAKE_SOURCE_DIR}/LicenseSpring/bin/x64/dynamic")  
 # set(LICENSESPRING_DLL_PATH "${LICENSESPRING_LIB_PATH}/LicenseSpring.dll")        
 
-# target_include_directories(Swell PRIVATE ${LICENSESPRING_INCLUDE_PATH})
+# target_include_directories(Rend PRIVATE ${LICENSESPRING_INCLUDE_PATH})
 
 # # Remove LS_STATIC to enable __declspec(dllimport) for dynamic linking
 # # (This macro must NOT be defined when using dynamic linking)
 
 # # Link against LicenseSpring import library (.lib for the DLL)
-# target_link_libraries(Swell PRIVATE
+# target_link_libraries(Rend PRIVATE
 #     $<$<CONFIG:Debug>:${LICENSESPRING_LIB_PATH}/LicenseSpringD.lib>
 #     $<$<CONFIG:Release>:${LICENSESPRING_LIB_PATH}/LicenseSpring.lib>
 #     $<$<CONFIG:RelWithDebInfo>:${LICENSESPRING_LIB_PATH}/LicenseSpring.lib>
@@ -113,7 +113,7 @@ target_link_libraries(Swell PRIVATE
 # )
 
 # # Copy LicenseSpring.dll to plugin output directory after build
-# add_custom_command(TARGET Swell POST_BUILD
+# add_custom_command(TARGET Rend POST_BUILD
 #     COMMAND ${CMAKE_COMMAND} -E copy_if_different
 #         ${LICENSESPRING_DLL_PATH}
 #         ${SWELL_OUTPUT_DIR}
@@ -122,31 +122,31 @@ target_link_libraries(Swell PRIVATE
 
 
 # === Steinberg VST SDK Dependencies ===
-target_link_libraries(Swell PRIVATE
+target_link_libraries(Rend PRIVATE
     sdk
     base
     pluginterfaces
 )
 
 # === Version Info ===
-smtg_target_configure_version_file(Swell)
+smtg_target_configure_version_file(Rend)
 
 # === Platform-specific ===
 if(SMTG_MAC)
-    smtg_target_set_bundle(Swell
+    smtg_target_set_bundle(Rend
         BUNDLE_IDENTIFIER fromtheVOID
         COMPANY_NAME "Void Audio"
     )
-    smtg_target_set_debug_executable(Swell
+    smtg_target_set_debug_executable(Rend
         "/Applications/VST3PluginTestHost.app"
         "--pluginfolder;$(BUILT_PRODUCTS_DIR)"
     )
 elseif(SMTG_WIN)
-    target_sources(Swell PRIVATE resource/win32resource.rc)
+    target_sources(Rend PRIVATE resource/win32resource.rc)
 
     if(MSVC)
-        set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Swell)
-        smtg_target_set_debug_executable(Swell
+        set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Rend)
+        smtg_target_set_debug_executable(Rend
             "$ENV{ProgramW6432}/Steinberg/VST3PluginTestHost/VST3PluginTestHost.exe"
             "--pluginfolder \"$(OutDir)/\""
         )

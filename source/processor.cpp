@@ -18,20 +18,20 @@ using namespace Steinberg;
 namespace VOID {
 using namespace Dsp;
 //------------------------------------------------------------------------
-// SwellProcessor
+// RendProcessor
 //------------------------------------------------------------------------
-SwellProcessor::SwellProcessor ()
+RendProcessor::RendProcessor ()
 {
 	//--- set the wanted controller for our processor
-	setControllerClass (kSwellControllerUID);
+	setControllerClass (kRendControllerUID);
 }
 
 //------------------------------------------------------------------------
-SwellProcessor::~SwellProcessor ()
+RendProcessor::~RendProcessor ()
 {}
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API SwellProcessor::initialize (FUnknown* context)
+tresult PLUGIN_API RendProcessor::initialize (FUnknown* context)
 {
 /*
  * The host initiates this then resets with setBusArrangements() if necessary
@@ -47,7 +47,7 @@ tresult PLUGIN_API SwellProcessor::initialize (FUnknown* context)
     return kResultOk;
 }
 
-tresult PLUGIN_API SwellProcessor::setBusArrangements (Steinberg::Vst::SpeakerArrangement* inputs, Steinberg::int32 numIns,
+tresult PLUGIN_API RendProcessor::setBusArrangements (Steinberg::Vst::SpeakerArrangement* inputs, Steinberg::int32 numIns,
                                                             Steinberg::Vst::SpeakerArrangement* outputs, Steinberg::int32 numOuts)
 /*
  * The host automatically calls setBusArrangement() from the base class, so we can override it
@@ -132,7 +132,7 @@ tresult PLUGIN_API SwellProcessor::setBusArrangements (Steinberg::Vst::SpeakerAr
 
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API SwellProcessor::terminate ()
+tresult PLUGIN_API RendProcessor::terminate ()
 {
 	// Here the Plug-in will be de-instantiated, last possibility to remove some memory!
 	
@@ -141,14 +141,14 @@ tresult PLUGIN_API SwellProcessor::terminate ()
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API SwellProcessor::setActive (TBool state)
+tresult PLUGIN_API RendProcessor::setActive (TBool state)
 {
 	//--- called when the Plug-in is enable/disable (On/Off) -----
 	return AudioEffect::setActive (state);
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API SwellProcessor::process(Vst::ProcessData& data) 
+tresult PLUGIN_API RendProcessor::process(Vst::ProcessData& data) 
 {
 	
 	isLicenseValid = GlobalLicenseState.isLicenseUnlocked.load();    // secure to check at runtime
@@ -225,7 +225,7 @@ if (data.numSamples > 0)
 
 			// lowShelfFilter.process(numSamples, filteredSignalPtr);
 
-			SwellProcessor::applyFilter(filteredPtrs, filteredSignal, data.inputs[i].channelBuffers32, numSamples, minChan, highShelfFilter);
+			RendProcessor::applyFilter(filteredPtrs, filteredSignal, data.inputs[i].channelBuffers32, numSamples, minChan, highShelfFilter);
 			bandStopFilter.process(numSamples, filteredPtrs.data());
 			lowShelfFilter.process(numSamples, filteredPtrs.data());
 
@@ -256,9 +256,9 @@ if (data.numSamples > 0)
 						/* normal mode */
 
 							float normSignal = (1.0f) * (signal * (1.0f - mix) + mix *  ( std::sqrt(mix)* std::tanh( signal * (5.0f + drive * 8.0f )) +
-													(1.0f-std::sqrt(mix)) * (2.0f * SwellProcessor::inv_pi)  * std::atan((5.0f + drive * 8.0f ))) ); //  ( sqrt.mix * tanh + (1-sqrt.mix) * atan)
+													(1.0f-std::sqrt(mix)) * (2.0f * RendProcessor::inv_pi)  * std::atan((5.0f + drive * 8.0f ))) ); //  ( sqrt.mix * tanh + (1-sqrt.mix) * atan)
 							
-							float uncompressed = normSignal - extra * SwellProcessor::clip(0.5f * normSignal * normSignal * normSignal,std::abs(1-normSignal) );
+							float uncompressed = normSignal - extra * RendProcessor::clip(0.5f * normSignal * normSignal * normSignal,std::abs(1-normSignal) );
 							if (compressor.has_value()) {
 								out[s] = (1-extra * 0.5f) * uncompressed + 0.5f * extra * makeupGain *  compressor->process(uncompressed);
 							} else {
@@ -271,10 +271,10 @@ if (data.numSamples > 0)
 						/* BROKEN mode */
 
 							float tastefulInclusion =  (1.0f) * (signal * (1.0f - mix) + mix *  ( std::sqrt(mix)* std::tanh( signal * (5.0f + drive * 8.0f )) +
-													(1.0f-std::sqrt(mix)) * (2.0f * SwellProcessor::inv_pi)  * std::atan((5.0f + drive * 8.0f ))) ); //  ( sqrt.mix * tanh + (1-sqrt.mix) * atan)
+													(1.0f-std::sqrt(mix)) * (2.0f * RendProcessor::inv_pi)  * std::atan((5.0f + drive * 8.0f ))) ); //  ( sqrt.mix * tanh + (1-sqrt.mix) * atan)
 
-							float normSignal =    SwellProcessor::clip( ((1 + 2.0f * mix  + 10 * drive) * signal * 0.85f + tastefulInclusion * 0.15f)+ extra*noiseAmount * ((rand() / (float)RAND_MAX) * 2.0f - 1.0f), 1 - 0.99 * drive);
-							float uncompressed = SwellProcessor::clip(normSignal - extra * (0.5f * normSignal * normSignal * normSignal  + 0.1f * filtered[s]),  1.0f - 0.99f * drive );
+							float normSignal =    RendProcessor::clip( ((1 + 2.0f * mix  + 10 * drive) * signal * 0.85f + tastefulInclusion * 0.15f)+ extra*noiseAmount * ((rand() / (float)RAND_MAX) * 2.0f - 1.0f), 1 - 0.99 * drive);
+							float uncompressed = RendProcessor::clip(normSignal - extra * (0.5f * normSignal * normSignal * normSignal  + 0.1f * filtered[s]),  1.0f - 0.99f * drive );
 
 							if (compressor.has_value()) {
 								out[s] = (1.0f - 0.3f * extra) * uncompressed + 0.7f * extra * makeupGain * compressor->process(uncompressed);
@@ -333,14 +333,14 @@ if (data.numSamples > 0)
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API SwellProcessor::setupProcessing (Vst::ProcessSetup& newSetup)
+tresult PLUGIN_API RendProcessor::setupProcessing (Vst::ProcessSetup& newSetup)
 {
 	//--- called before any processing ----
 	return AudioEffect::setupProcessing (newSetup);
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API SwellProcessor::canProcessSampleSize (int32 symbolicSampleSize)
+tresult PLUGIN_API RendProcessor::canProcessSampleSize (int32 symbolicSampleSize)
 {
 	// by default kSample32 is supported
 	if (symbolicSampleSize == Vst::kSample32)
@@ -354,7 +354,7 @@ tresult PLUGIN_API SwellProcessor::canProcessSampleSize (int32 symbolicSampleSiz
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API SwellProcessor::setState(IBStream* state)
+tresult PLUGIN_API RendProcessor::setState(IBStream* state)
 {
     IBStreamer streamer(state, kLittleEndian);
     double val = 0.0;
@@ -392,7 +392,7 @@ tresult PLUGIN_API SwellProcessor::setState(IBStream* state)
 }
 
 //------------------------------------------------------------------------
-tresult PLUGIN_API SwellProcessor::getState(IBStream* state)
+tresult PLUGIN_API RendProcessor::getState(IBStream* state)
 {
     IBStreamer streamer(state, kLittleEndian);    // kLittleEndian is for OS agnostic functionality
     streamer.writeDouble(distortionAmountMix);
@@ -411,11 +411,11 @@ tresult PLUGIN_API SwellProcessor::getState(IBStream* state)
  */
 
 // Hard Clip
-float SwellProcessor::clip(float signal, float threshhold) {
+float RendProcessor::clip(float signal, float threshhold) {
 	return std::max(-threshhold, std::min(threshhold,signal)); 
 }
 // bitcrush 
-// float SwellProcessor::bitcrush(float signal, float mix) {
+// float RendProcessor::bitcrush(float signal, float mix) {
 // 	// mixes in bitcrush 0-1[00%]
 // 	int resolution = std::round(2048 * (1-mix * 0.998f)) ;
 // 	// Quantize the signal

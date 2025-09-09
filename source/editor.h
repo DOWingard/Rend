@@ -15,19 +15,19 @@
 
 namespace VOID {
 
-class SwellEditor : public VSTGUI::VST3Editor
+class RendEditor : public VSTGUI::VST3Editor
 {
 public:
-    SwellEditor(Steinberg::Vst::EditController* controller)
+    RendEditor(Steinberg::Vst::EditController* controller)
     : VST3Editor(controller, "view", "editor.uidesc"),
-      delegate_(std::make_unique<SwellEditorDelegate>())
+      delegate_(std::make_unique<RendEditorDelegate>())
     {
-        auto* delegate = new SwellEditorDelegate();
+        auto* delegate = new RendEditorDelegate();
         setDelegate(delegate); 
         setZoomFactor(0.6);
     }
 
-    VSTGUI::IVST3EditorDelegate* SwellEditor::getDelegate() const
+    VSTGUI::IVST3EditorDelegate* RendEditor::getDelegate() const
 {
     return delegate_.get();
 }
@@ -39,7 +39,7 @@ protected:
 
 
 private:
-    std::unique_ptr<SwellEditorDelegate> delegate_;
+    std::unique_ptr<RendEditorDelegate> delegate_;
 };
 
 
