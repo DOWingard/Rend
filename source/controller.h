@@ -7,7 +7,14 @@
 #include "public.sdk/source/vst/vsteditcontroller.h"
 #include "vstgui\lib\controls\icontrollistener.h"
 
+#include "LicenseSpring/Configuration.h"
+#include "LicenseSpring/EncryptString.h"
+#include "LicenseSpring/LicenseManager.h"
+#include "LicenseSpring/Exceptions.h"
+#include "LicenseSpring/LicenseID.h"
+
 #include "editor.h"
+#include "validity.h"
 namespace VOID {
 
 //------------------------------------------------------------------------
@@ -41,7 +48,8 @@ public:
 	Steinberg::Vst::ParamValue  PLUGIN_API getParamNormalized(Steinberg::Vst::ParamID pID) SMTG_OVERRIDE;
 
 	
-
+	void onLicenseActivated();
+	void onLicenseDeactivated();
 
  	//---Interface---------
 	DEFINE_INTERFACES
@@ -55,13 +63,17 @@ protected:
 private:
 
 
+LicenseManager::ptr_t licenseManager = nullptr;
+License::ptr_t license = nullptr;
+LicenseID licenseId;
 
-double distortionAmountMix = 0.0; 
-double bypassValue         = 0.0; 
-double driveAmountMix      = 0.0;
-double extraParamAmountMix = 0.0;
-double switchstate         = 0.0;
-double forceMono           = 0.0; // handle mono switch ,theres probably an easier way to do this
+float isLicenseValid      = 0.0f;
+float distortionAmountMix = 0.0; 
+float bypassValue         = 0.0; 
+float driveAmountMix      = 0.0;
+float extraParamAmountMix = 0.0;
+float switchstate         = 0.0;
+float forceMono           = 0.0; // handle mono switch ,theres probably an easier way to do this
 
 
 

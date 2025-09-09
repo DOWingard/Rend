@@ -3,6 +3,8 @@
 //------------------------------------------------------------------------
 #pragma once
 
+#include "validity.h"
+
 #include "LicenseSpring/Configuration.h"
 #include "LicenseSpring/EncryptString.h"
 #include "LicenseSpring/LicenseManager.h"
@@ -25,12 +27,12 @@ class LicenseOverlayView : public CViewContainer, public IControlListener
 {
 public:
     using ActivationCallback = std::function<void()>;
+    float isLicenseValid = 0.0f;
 
     LicenseOverlayView(const CRect& size)
         : CViewContainer(size)
     {
         setTransparency(false);
-        setupUI();
         setupLicenseSpring();
     }
 
@@ -43,8 +45,8 @@ public:
     {
         if (pControl == submitButton)
         {
-            // std::string key = licenseInput->getText().data();
-            // activateWithKey(key);
+            std::string key = licenseInput->getText().data();
+            activateWithKey(key);
         }
     }
 
@@ -88,69 +90,93 @@ public:
 
     void setupLicenseSpring()
     {
-        std::string appName = "Rend";
-        std::string appVersion = "0.1.0.0";
 
-        
-        //options.collectNetworkInfo(true);
+        if ( GlobalLicenseState.isLicenseUnlocked.load() <= 0.5)
+        {
+            setupUI();
+            updateMessage("Please enter your license key.");
+            onLicenseActivated();
+        }
+    }
+    void notifyLicenseStateChanged(float newValue) {
+        isLicenseValid = newValue;
+        GlobalLicenseState.isLicenseUnlocked.store(newValue);
 
-        // auto config = Configuration::Create(
-        //     //EncryptStr("a2337e2f-a073-43c1-9605-7bd364a1277c"),   // API Key
-        //     EncryptStr("a2337e2f-a073-43c1-9605-7bd364a1xxxx"),   // API Key
-        //     EncryptStr("mOdY5mU0PKsRm-MZd1aNLHd5IrVKJhUz2inFN0y-6R4"), // Shared Key
-        //     EncryptStr("42069"), // Product code
-        //     appName, appVersion, options
-        // );
-
-        // licenseManager = LicenseManager::create(config);
-
-        // try {
-        //     licenseManager->getProductDetails();
-        // } catch (...) {
-        //     updateMessage("Failed to fetch product details.");
-        // }
-
-        // try {
-        //     license = licenseManager->getCurrentLicense();
-        //     if (license && license->isActive() && !license->isTrial()) {
-        //         updateMessage("License already active.");
-        //         if (onActivated) onActivated();
-        //     }
-        // } catch (...) {
-        //     updateMessage("No existing license found.");
-        // }
     }
 
-    // void activateWithKey(const std::string& key)
-    // {
-    //     try {
-    //         licenseId = LicenseID::fromKey(key);
-    //         license = licenseManager->activateLicense(licenseId);
+    void activateWithKey(const std::string& key)
+    {
+        try {
 
-    //         if (license && license->isActive()) {
-    //             updateMessage("License activated successfully.");
-    //             if (onActivated) onActivated();
-    //         } else {
-    //             updateMessage("Activation failed. Invalid license state.");
-    //         }
-    //     } catch (LicenseNotFoundException) {
-    //         updateMessage("License not found. Please check your key.");
-    //     } catch (LicenseNoAvailableActivationsException) {
-    //         updateMessage("No activations available. Deactivate another device.");
-    //     } catch (LicenseStateException) {
-    //         updateMessage("License invalid or expired.");
-    //     } catch (...) {
-    //         updateMessage("Unknown error during activation.");
-    //     }
-    // }
+            std::string appName = "Rend";
+            std::string appVersion = "1.0.0.0";
+
+            ExtendedOptions options;
+            options.collectNetworkInfo(true);
+
+            auto config = Configuration::Create(
+                EncryptStr("a2337e2f-a073-43c1-9605-7bd364a1277c"),
+                EncryptStr("mOdY5mU0PKsRm-MZd1aNLHd5IrVKJhUz2inFN0y-6R4"),
+                EncryptStr("42069"),
+                appName, appVersion, options
+            );
+
+		    licenseManager = LicenseManager::create(config);
+
+            licenseId = LicenseID::fromKey(key);
+
+            license = licenseManager->activateLicense(licenseId);
+
+            if (license && license->isActive()) {
+                updateMessage("License activated successfully.");
+                notifyLicenseStateChanged(1.0f);
+                proceedAfterActivation();
+            } else {
+                updateMessage("Activation failed. Invalid license state.");
+                notifyLicenseStateChanged(0.0f);
+            }
+        }
+        catch (LicenseNotFoundException&) {
+            updateMessage("License not found. Please check your key.");
+            notifyLicenseStateChanged(0.0f);
+        }
+        catch (LicenseNoAvailableActivationsException&) {
+            updateMessage("No activations available. Deactivate another device.");
+            notifyLicenseStateChanged(0.0f);
+        }
+        catch (LicenseStateException&) {
+            updateMessage("License invalid or expired.");
+            notifyLicenseStateChanged(0.0f);
+        }
+        catch (...) {
+            updateMessage("Unknown error during activation.");
+            notifyLicenseStateChanged(0.0f);
+        }
+    }
 
     void updateMessage(const std::string& msg)
     {
         if (messageLabel)
             messageLabel->setText(msg.c_str());
     }
+    
+    void proceedAfterActivation()
+    {
+        if (auto parent = dynamic_cast<CViewContainer*>(getParentView()))
+            parent->removeView(this); 
+    }
 
 private:
+
+    void onLicenseActivated() {
+        GlobalLicenseState.isLicenseUnlocked.store(1.0f);
+    }
+
+    void onLicenseDeactivated() {
+        GlobalLicenseState.isLicenseUnlocked.store(0.0f);
+    }
+
+
     CTextEdit* licenseInput = nullptr;
     CTextButton* submitButton = nullptr;
     CTextLabel* messageLabel = nullptr;
@@ -161,6 +187,6 @@ private:
     LicenseManager::ptr_t licenseManager = nullptr;
     License::ptr_t license = nullptr;
 
-    //ExtendedOptions options;
-    //LicenseID licenseId;
+    ExtendedOptions options;
+    LicenseID licenseId;
 };

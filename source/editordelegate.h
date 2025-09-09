@@ -25,13 +25,13 @@ protected:
     VSTGUI::VST3Editor* editor = nullptr;
     VSTGUI::ParameterChangeListener* paramChangeListener = nullptr;
     LicenseOverlayView* licenseOverlay = nullptr;
-    //LicenseSpring::LicenseManager::ptr_t licenseManager;
+
     
 public:
     
-	int switchstate = 0; 
-    // VSTGUI::CBitmap* backgroundBitmap = nullptr;
-	// VSTGUI::ParameterChangeListener* paramListener = nullptr;
+    float isLicenseValid = 0.0f;
+	float switchstate    = 0.0f; 
+
 
 	// For example, if your switch parameter is named "SwitchParam"
 	Steinberg::Vst::ParamID switchParamID = 13;
@@ -92,27 +92,19 @@ void didOpen(VSTGUI::VST3Editor* editor) override
         mainContainer->setBackground(bitmap2);
     }
     
+    isLicenseValid = GlobalLicenseState.isLicenseUnlocked.load();
     
-
-    CRect overlaySize = mainContainer->getViewSize();
-    licenseOverlay = new LicenseOverlayView(overlaySize);
-    //licenseOverlay->setOnActivatedCallback([=] { onLicenseActivated(); });
-    mainContainer->addView(licenseOverlay);
-    
+    if (isLicenseValid <= 0.5) 
+    {
+        CRect overlaySize = mainContainer->getViewSize();
+        licenseOverlay = new LicenseOverlayView(overlaySize);
+        mainContainer->addView(licenseOverlay);
+    }
     mainContainer->invalid();
-    frame->setZoom(0.5);
+    frame->setZoom(0.6);
 
 
 }
-
-
-// void onLicenseActivated()
-// {
-//     if (editor && editor->getFrame() && licenseOverlay) {
-//         editor->getFrame()->removeView(licenseOverlay.get());
-//         licenseOverlay.reset();
-//     }
-// }
 
 void willClose(VSTGUI::VST3Editor* editor) override
 {
@@ -130,13 +122,12 @@ void valueChanged(VSTGUI::CControl* pControl) override {
 			if (switchstate <= 0.5) {
 				myContainer->setBackground(bitmap1);
 				myContainer->invalid();
-                editor->getFrame()->setZoom(0.5);
+                editor->getFrame()->setZoom(0.6);
 			} else if (switchstate > 0.5) {
 				myContainer->setBackground(bitmap2);
 				myContainer->invalid();
-                editor->getFrame()->setZoom(0.5);
+                editor->getFrame()->setZoom(0.6);
                     }
-            //changeBackgroundImage(switchstate);
 	
 		}
 }

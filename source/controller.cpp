@@ -28,6 +28,52 @@ tresult PLUGIN_API SwellController::initialize (FUnknown* context)
 		return result;
 	}
 
+		// License Check ------------------------- !
+
+	isLicenseValid = GlobalLicenseState.isLicenseUnlocked.load();
+
+	if (isLicenseValid <= 0.5f) {
+
+		std::string appName = "Rend";
+		std::string appVersion = "1.0.0.0";
+
+		ExtendedOptions options;
+		options.collectNetworkInfo(true);
+
+		auto config = Configuration::Create(
+			EncryptStr("a2337e2f-a073-43c1-9605-7bd364a1277c"),
+			EncryptStr("mOdY5mU0PKsRm-MZd1aNLHd5IrVKJhUz2inFN0y-6R4"),
+			EncryptStr("42069"),
+			appName, appVersion, options
+		);
+
+		licenseManager = LicenseManager::create(config);
+
+
+		
+		try {
+			
+			license = licenseManager->getCurrentLicense();
+
+			if (license && license->isActive() && !license->isTrial()) {
+
+				isLicenseValid = 1.0f; 
+				onLicenseActivated();
+			}																	// forced resets
+			else if (license && !license->isActive() && !license->isTrial()) {
+
+				isLicenseValid = 0.0f;
+				onLicenseDeactivated(); 
+			} else if (license && license->isTrial()){
+			// 	/*
+			// 	 *   TO DO:  impliment trial logic
+			// 	 */
+			}
+		} catch (...) {
+			// No valid license found — fall through to show UI
+		}
+
+	}
 	// PARAMETERS ---------------------------- !
 
 	    /*
@@ -183,8 +229,9 @@ IPlugView* PLUGIN_API SwellController::createView(FIDString name)
        // "view" is the template name in your .uidesc
        // "editor.uidesc" should be your actual UI description file name
 
-
+		
         auto* view = new SwellEditor(this);
+		
 
         return view;
     }
@@ -300,6 +347,12 @@ Steinberg::Vst::ParamValue PLUGIN_API SwellController::getParamNormalized(Steinb
     }
 }
 
+void SwellController::onLicenseActivated() {
+	GlobalLicenseState.isLicenseUnlocked.store(1.0f);
+}
 
+void SwellController::onLicenseDeactivated() {
+	GlobalLicenseState.isLicenseUnlocked.store(0.0f);
+}
 
 } // namespace VOID

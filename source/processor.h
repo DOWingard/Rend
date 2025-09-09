@@ -8,6 +8,7 @@
 
 #include "DspFilters/RBJ.h"      // filters
 #include "compression.h"
+#include "validity.h"
 
 #include <cmath>
 #include <optional>
@@ -105,13 +106,14 @@ protected:
 
 private:
 	static constexpr float inv_pi = 0.31830988618379067154f;
-	double distortionAmountMix    = 0.0; 
-	double bypassValue            = 0.0; 
-	double driveAmountMix         = 0.0;
-	double extraParamAmountMix    = 0.0;
-	double switchstate            = 1.0;
+	float distortionAmountMix     = 0.0; 
+	float bypassValue             = 0.0; 
+	float driveAmountMix          = 0.0;
+	float extraParamAmountMix     = 0.0;
+	float switchstate             = 0.0;
 	float noiseAmount             = 0.0001f;
 	float forceMono               = 0.0f;     // handle mono switch ,theres probably an easier way to do this
+	float isLicenseValid          = 0.0f;
 
 
 	float mix;

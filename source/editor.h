@@ -24,7 +24,7 @@ public:
     {
         auto* delegate = new SwellEditorDelegate();
         setDelegate(delegate); 
-        setZoomFactor(0.5);
+        setZoomFactor(0.6);
     }
 
     VSTGUI::IVST3EditorDelegate* SwellEditor::getDelegate() const

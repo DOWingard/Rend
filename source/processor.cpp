@@ -44,12 +44,6 @@ tresult PLUGIN_API SwellProcessor::initialize (FUnknown* context)
     addAudioInput  (STR16("Stereo In"),  Steinberg::Vst::SpeakerArr::kStereo);
     addAudioOutput (STR16("Stereo Out"), Steinberg::Vst::SpeakerArr::kStereo);
 
-
-
-	
-
-
-
     return kResultOk;
 }
 
@@ -156,6 +150,9 @@ tresult PLUGIN_API SwellProcessor::setActive (TBool state)
 //------------------------------------------------------------------------
 tresult PLUGIN_API SwellProcessor::process(Vst::ProcessData& data) 
 {
+	
+	isLicenseValid = GlobalLicenseState.isLicenseUnlocked.load();    // secure to check at runtime
+
 	// Handle parameter changes
 	if (data.inputParameterChanges)
 	{
@@ -244,47 +241,52 @@ if (data.numSamples > 0)
 				
                 for (int32 s = 0; s < data.numSamples; s++)
                 { 
-					if (bypass >= 0.5f) { out[s] = in[s]; } else {
-					/*
-					 *	-------- Main Process Logic ----------------
-					 */
 
-					float signal = (1 - extra) * in[s] + extra * filtered[s]; // add dry and filtered signal together
-					
-					if (switchstate <= 0.5) {
-					/* normal mode */
+					if (isLicenseValid <= 0.5) {out[s] = in[s];} else 
+					{
+						if (bypass >= 0.5f) { out[s] = in[s]; } 
+						else {
+						/*
+						*	-------- Main Process Logic ----------------
+						*/
 
-                    	float normSignal = (1.0f) * (signal * (1.0f - mix) + mix *  ( std::sqrt(mix)* std::tanh( signal * (5.0f + drive * 8.0f )) +
-									  			(1.0f-std::sqrt(mix)) * (2.0f * SwellProcessor::inv_pi)  * std::atan((5.0f + drive * 8.0f ))) ); //  ( sqrt.mix * tanh + (1-sqrt.mix) * atan)
+						float signal = (1 - extra) * in[s] + extra * filtered[s]; // add dry and filtered signal together
 						
-						float uncompressed = normSignal - extra * SwellProcessor::clip(0.5f * normSignal * normSignal * normSignal,std::abs(1-normSignal) );
-						if (compressor.has_value()) {
-							out[s] = (1-extra * 0.5f) * uncompressed + 0.5f * extra * makeupGain *  compressor->process(uncompressed);
-						} else {
-							out[s] = uncompressed; 
+						if (switchstate <= 0.5) {
+						/* normal mode */
+
+							float normSignal = (1.0f) * (signal * (1.0f - mix) + mix *  ( std::sqrt(mix)* std::tanh( signal * (5.0f + drive * 8.0f )) +
+													(1.0f-std::sqrt(mix)) * (2.0f * SwellProcessor::inv_pi)  * std::atan((5.0f + drive * 8.0f ))) ); //  ( sqrt.mix * tanh + (1-sqrt.mix) * atan)
+							
+							float uncompressed = normSignal - extra * SwellProcessor::clip(0.5f * normSignal * normSignal * normSignal,std::abs(1-normSignal) );
+							if (compressor.has_value()) {
+								out[s] = (1-extra * 0.5f) * uncompressed + 0.5f * extra * makeupGain *  compressor->process(uncompressed);
+							} else {
+								out[s] = uncompressed; 
+							}
+							
+							//out[s]=uncompressed;
+						
+						} else if (switchstate > 0.5) {
+						/* BROKEN mode */
+
+							float tastefulInclusion =  (1.0f) * (signal * (1.0f - mix) + mix *  ( std::sqrt(mix)* std::tanh( signal * (5.0f + drive * 8.0f )) +
+													(1.0f-std::sqrt(mix)) * (2.0f * SwellProcessor::inv_pi)  * std::atan((5.0f + drive * 8.0f ))) ); //  ( sqrt.mix * tanh + (1-sqrt.mix) * atan)
+
+							float normSignal =    SwellProcessor::clip( ((1 + 2.0f * mix  + 10 * drive) * signal * 0.85f + tastefulInclusion * 0.15f)+ extra*noiseAmount * ((rand() / (float)RAND_MAX) * 2.0f - 1.0f), 1 - 0.99 * drive);
+							float uncompressed = SwellProcessor::clip(normSignal - extra * (0.5f * normSignal * normSignal * normSignal  + 0.1f * filtered[s]),  1.0f - 0.99f * drive );
+
+							if (compressor.has_value()) {
+								out[s] = (1.0f - 0.3f * extra) * uncompressed + 0.7f * extra * makeupGain * compressor->process(uncompressed);
+							} else {
+								out[s] = uncompressed; 
+							}
+							//out[s]=uncompressed;
+							
+						}
 						}
 						
-						//out[s]=uncompressed;
-					
-					} else if (switchstate > 0.5) {
-					/* BROKEN mode */
-
-						float tastefulInclusion =  (1.0f) * (signal * (1.0f - mix) + mix *  ( std::sqrt(mix)* std::tanh( signal * (5.0f + drive * 8.0f )) +
-									  			(1.0f-std::sqrt(mix)) * (2.0f * SwellProcessor::inv_pi)  * std::atan((5.0f + drive * 8.0f ))) ); //  ( sqrt.mix * tanh + (1-sqrt.mix) * atan)
-
-						float normSignal =    SwellProcessor::clip( ((1 + 2.0f * mix  + 10 * drive) * signal * 0.85f + tastefulInclusion * 0.15f)+ extra*noiseAmount * ((rand() / (float)RAND_MAX) * 2.0f - 1.0f), 1 - 0.99 * drive);
-						float uncompressed = SwellProcessor::clip(normSignal - extra * (0.5f * normSignal * normSignal * normSignal  + 0.1f * filtered[s]),  1.0f - 0.99f * drive );
-
-						if (compressor.has_value()) {
-							out[s] = (1.0f - 0.3f * extra) * uncompressed + 0.7f * extra * makeupGain * compressor->process(uncompressed);
-						} else {
-							out[s] = uncompressed; 
-						}
-						//out[s]=uncompressed;
-						
-					}
-					}
-					
+					}	
 
                 }
             } // end of channel loop
