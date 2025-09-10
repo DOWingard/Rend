@@ -17,9 +17,15 @@ class RendEditorDelegate : public  VSTGUI::VST3EditorDelegate, public VSTGUI::IC
 {
 
 protected:
-    VSTGUI::CBitmap* bitmap1 = createBitmapFromPath("C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Rend\\resource\\shell\\shell1.png");
-    VSTGUI::CBitmap* bitmap2 = createBitmapFromPath("C:\\Users\\Derek Wingard\\Desktop\\Work\\Plugins\\Rend\\resource\\shell\\shell2.png");
-    VSTGUI::CBitmap* bitmap3 = createBitmapFromPath("C:/Users/Derek Wingard/Downloads/image1.png");
+    VSTGUI::CBitmap* bitmap1 = nullptr;//createBitmapFromPath("shell1.png");
+    VSTGUI::CBitmap* bitmap2 = nullptr;//createBitmapFromPath("shell2.png");
+    //VSTGUI::CBitmap* bitmap3 = createBitmapFromPath("resource\\shell\\licenseShell.png");
+
+    VSTGUI::CBitmap* sheer     = nullptr;
+    VSTGUI::CBitmap* swell     = nullptr;
+    VSTGUI::CBitmap* mangle    = nullptr;
+    VSTGUI::CBitmap* msSwitch  = nullptr;
+    VSTGUI::CBitmap* redButton = nullptr;
    
     
     VSTGUI::VST3Editor* editor = nullptr;
@@ -28,6 +34,20 @@ protected:
 
     
 public:
+
+
+    RendEditorDelegate() 
+    {
+        bitmap1   = new VSTGUI::CBitmap("shell/shell1.png");
+        bitmap2   = new VSTGUI::CBitmap("shell/shell2.png");
+        // sheer     = new VSTGUI::CBitmap("Sheer_210.png");
+        // swell     = new VSTGUI::CBitmap("Swell_280.png");
+        // mangle    = new VSTGUI::CBitmap("Mangle!_210.png");
+        // msSwitch  = new VSTGUI::CBitmap("monoswitch_60x162 .png");
+        // redButton = new VSTGUI::CBitmap("bigredswitch_200x219.5 .png");
+    }
+
+
     
     float isLicenseValid = 0.0f;
 	float switchstate    = 0.0f; 

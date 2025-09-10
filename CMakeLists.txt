@@ -160,3 +160,11 @@ elseif(SMTG_WIN)
         endforeach()
     endif()
 endif()
+
+# === Copy Resource Folder to VST3 Resources Folder After Build ===
+add_custom_command(TARGET Rend POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_CURRENT_SOURCE_DIR}/resource"
+        "$<TARGET_FILE_DIR:Rend>/../Resources"
+    COMMENT "Copying resource files to VST3 bundle Resources directory"
+)
