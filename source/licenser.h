@@ -128,28 +128,28 @@ public:
             license = licenseManager->activateLicense(licenseId);
 
             if (license && license->isActive()) {
-                updateMessage("License activated successfully.");
+            updateMessage("Please enter your license key.");
                 notifyLicenseStateChanged(1.0f);
                 proceedAfterActivation();
             } else {
-                updateMessage("Activation failed. Invalid license state.");
+            updateMessage("Please enter your license key.");
                 notifyLicenseStateChanged(0.0f);
             }
         }
         catch (LicenseNotFoundException&) {
-            updateMessage("License not found. Please check your key.");
+            updateMessage("Please enter your license key.");
             notifyLicenseStateChanged(0.0f);
         }
         catch (LicenseNoAvailableActivationsException&) {
-            updateMessage("No activations available. Deactivate another device.");
+            updateMessage("Please enter your license key.");
             notifyLicenseStateChanged(0.0f);
         }
         catch (LicenseStateException&) {
-            updateMessage("License invalid or expired.");
+            updateMessage("Please enter your license key.");
             notifyLicenseStateChanged(0.0f);
         }
         catch (...) {
-            updateMessage("Unknown error during activation.");
+            updateMessage("Please enter your license key.");
             notifyLicenseStateChanged(0.0f);
         }
     }
