@@ -1,4 +1,7 @@
-# VOID REND Final Draft
+# VOID REND Final Logic Draft (UI might change)
+
+![Rend normal](resource/shell/rend1.png)
+![Rend broken](resource/shell/rend2.png)
 
 3 knobs, 2 switches, full penetration
 
