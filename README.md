@@ -6,7 +6,7 @@ https://www.youtube.com/watch?v=ojqvdSxlrrc
 ![Rend normal](resource/rend1.png)
 ![Rend broken](resource/rend2.png)
 
-**All elements build and rendered by me in Blender.**
+**All elements built and rendered by me in Blender.**
 
 
 3 knobs, 2 switches
