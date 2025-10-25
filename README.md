@@ -11,6 +11,8 @@ https://www.youtube.com/watch?v=ojqvdSxlrrc
 
 3 knobs, 2 switches
 
+_Licenspring Authentification_
+
 Working final draft of plugin
 
 Added unnsmoothed compression with makeup gain to mangle so it brings out highs better
