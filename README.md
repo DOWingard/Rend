@@ -3,7 +3,10 @@
 ![Rend normal](resource/rend1.png)
 ![Rend broken](resource/rend2.png)
 
-3 knobs, 2 switches, full penetration
+All elements build and rendered by me in Blender.
+
+
+3 knobs, 2 switches
 
 Working final draft of final plugin
 
