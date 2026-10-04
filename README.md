@@ -1,6 +1,5 @@
-# VOID REND Final Logic Draft (UI might change)
-My amazing ad:
-https://www.youtube.com/watch?v=ojqvdSxlrrc
+# VOID REND 
+
 ## Launched privately to friends
 
 ![Rend normal](resource/rend1.png)
