@@ -1,7 +1,5 @@
 # VOID REND 
 
-## Launched privately to friends
-
 ![Rend normal](resource/rend1.png)
 ![Rend broken](resource/rend2.png)
 
